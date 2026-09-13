@@ -1,6 +1,6 @@
 # Make migration plan
 
-Status: **complete 12-blueprint intake and static audit; runtime validation pending; no migration authorized or implemented**. Owner completeness confirmed 2026-09-13. All 81 modules, routes, filters, input/output mappings, model instructions and supplied schemas reviewed.
+Status: **complete 12-blueprint intake and static audit; V004 artifact/revision validation completed with explicit residual gaps; no migration authorized or implemented**. Owner completeness confirmed 2026-09-13. All 81 modules, routes, filters, input/output mappings, model instructions and supplied schemas reviewed.
 
 [Audit index](make/README.md) · [Scenario map](SCENARIO_MAP.md) · [State machine](STATE_MACHINE.md) · [Data model](DATA_MODEL.md) · [Import manifest](../legacy/make-blueprints/IMPORT_STATUS.json)
 
@@ -13,7 +13,7 @@ READ → VERIFY → PLAN → DOCUMENT. Make exports define existing configuratio
 | Business logic | Evidence-led discovery, truthful hook/evaluation, primary-source research, claim qualifiers, separate Fact Guard, correction/guardrail propagation, longform + two short drafts, source/AI provenance, timestamp-based voice, per-shot visual intent, analytics observations |
 | Stable boundary contracts | Existing external IDs and column positions; Make handoff schemaVersion string 1.0; character timing units/order; shot/file association; RenderJob/Result 1.0; Project 1/subtitles; existing separate Production V2 adapter |
 | Make-specific mechanics to replace later | Data Store polling, sheet row numbers/header mapping, nested iterators/aggregators, stringified structures, account/folder constants, nontransactional appends, direct file-link parsing, flat Drive queue copying |
-| Unclear or risky behavior to validate first | External state promotions, missing Shot 1, fixed V004 routing, row update semantics, incomplete evidence persistence, prompt/schema contradictions, partial failures/replays, asset-version selection, sync/idempotency, analytics grain/units/reference casing |
+| Unclear or risky behavior to validate first | External state promotions, historical Shot1 producer/intent (actual shot present), fixed V004 routing, row update semantics, incomplete evidence persistence, prompt/schema contradictions, partial failures/replays, asset-version selection, sync/idempotency, analytics grain/units/reference casing |
 
 Preserve valid behavior and intentional special cases. Bugs and contradictions must receive explicit decisions and regression fixtures; they are not silently copied or deleted. Proposed target module names below are logical boundaries, not new services or a finalized deployment topology.
 
@@ -37,7 +37,7 @@ A = AUDITED_NOT_MIGRATED; V = VERIFIED_EXTERNAL_NOT_MIGRATED; G = GAP_NOT_IMPLEM
 | Timestamped Short 1 voice | 04 | providers.voice + production.audio | A | High | T07 | Preserve late-voice Assets Ready behavior and alignment |
 | Short shot planning | 05 | production.visual-planning | A | High | T08 | Fixed ~55s/V004 assumptions vs actual voice duration |
 | AI asset generation | 05 | production.assets + image/video capabilities | A | High | T08 | ai_video currently yields PNG; deterministic IDs not enforced |
-| Initial hero shot | No Shot 1 producer in 05 | production.initial-shot responsibility | G | High | T13 | Existing renderer V004 assumptions must remain isolated |
+| Initial hero shot | Current05 excludes Shot1; historic asset exists | production.initial-shot responsibility | G | High | T13 | Runtime absence disproved; historical producer/intent still unverified |
 | Official-source retrieval | 05B | production.official-assets | A | Critical | T09 | Preserve authenticity, explicit rights and attribution |
 | Asset QA / Assets Ready | No producer in set | qa.asset-readiness | G | Critical | T13,T14 | Pending QA exists; final-shot completion is insufficient |
 | Asset selection and staging | 06 | rendering.asset-staging adapter | A | High | T10 | Story-only join, limit 20, version collision and sync |
@@ -80,7 +80,7 @@ No Make run, provider action, renderer run or product test is implied by this re
 
 ## Highest-priority risks / unresolved decisions
 
-1. **Incomplete state ownership:** the complete set has no selected/research-ready/assets-ready producer, missing initial shot and no renderer result consumer. External responsibilities must be established from real runs.
+1. **Incomplete state ownership:** the complete set has no selected/research-ready/assets-ready producer, unexplained historical initial-shot producer and no renderer result consumer. External responsibilities must be established from real runs.
 2. **Evidence loss and contradictory instructions:** 02 input uses old status values but instructions/schema use new ones; evidence arrays and blocker IDs are not fully stored. 03 does receive AJ/AK guardrails, which must stay authoritative.
 3. **V004 specificity:** fixed Story ID, topic-specific visual instructions, Shot 1 exclusion and fixed duration assumptions prevent general V005 continuity.
 4. **Side-effect replay:** Sheets append, paid provider calls, Drive uploads and status changes are separate. No exported explicit onerror routes or durable claim/attempt policy exists. maxErrors=3 is not three safe retries.
@@ -94,4 +94,20 @@ Freeze fixtures and explicit boundary decisions first. Then, only with implement
 
 REPLACED requires implementation revision, passing regression evidence, observed parity, operator acceptance and a rollback plan. Rollback must reconcile in-flight provider/publish requests and retain confirmed external IDs; never replay publication blindly. Do not switch off, edit or delete Make functionality in this phase.
 
-**One recommended next step:** validate the documented state/asset/render/analytics boundaries against representative existing Make execution histories and external handoff evidence, then record explicit decisions before any migration.
+**One recommended next step:** close the remaining targeted runtime evidence gaps using the four representative executions and activation overview specified in [runtime validation](LEGACY_RUNTIME_VALIDATION.md), then record unresolved decisions before implementation authorization.
+
+## Runtime validation delta — no migration status promoted
+
+[runtime validation](LEGACY_RUNTIME_VALIDATION.md) records **11 VERIFIED risks, 1 disproved hypothesis, 6 UNVERIFIED hypotheses** (18 explicit counting units). VERIFIED code risks are distinguished from observed incidents. No A/V/G row means migrated or parity-tested.
+
+| Existing tests / risks | Evidence obtained | Still required before replacement |
+| --- | --- | --- |
+| T04/T05 research and evidence | VERIFIED historic Needs Review, pass without retained V004 Sources; structured persistence gaps | Actual02/02B bundles, running version and status authorship; no causal deadlock asserted |
+| T07 voice | VERIFIED old/new file links under same ID; later AF timing; nine current files hashed | Timeout/provider usage history and immutable audio version policy |
+| T08/T13 Shot1 | VERIFIED actual Shot1 present in Asset/4handoffs/4projects; missing-render hypothesis disproved | Explain current n>1 filter, old AE absence and historical producer |
+| T09 official assets | VERIFIED file metadata, Pending QA, duplicate extensions/rights serialization | Rights approval and failure/retry behavior; no download replay performed |
+| T10/T14 rendering | VERIFIED 4pure parser checks, asset matching, equal handoff/assets, reproduced base key, output metadata and stale Sheet queue state | Concurrency/partial-sync/reuse faults not injected; result ownership and candidate hash needed |
+| T11/T12 analytics | VERIFIED duplicate IG tail and mixed YouTube dimensions; table empty | Latest existing10 run and activation overview; Data/data runtime not guessed |
+| T15 release | VERIFIED no final-video QA/judge/release implementation/evidence in inspected scope | Future six-gate implementation only after authorization; current renders not release candidates |
+
+All 34 hardcoding catalogue entries are classified in [LEGACY_HARDCODINGS](LEGACY_HARDCODINGS.md), including harmless fixtures and stable boundary constants. Intentional V004 behavior must be preserved in a scoped compatibility profile; defects and accidental global assumptions must not silently become V005 behavior.

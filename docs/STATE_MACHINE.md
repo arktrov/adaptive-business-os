@@ -1,8 +1,27 @@
 # State machines
 
-The first section is **observed Make configuration** from the complete 12-export set. The later target design remains unimplemented. Exact status spelling/case is significant; do not collapse workflow, evidence, asset QA and release into one enum.
+The **CURRENT LEGACY STATE MACHINE** below separates VERIFIED artifact snapshots from VERIFIED current configuration. Historical execution attribution remains INFERRED/UNVERIFIED. The **TARGET APP STATE MACHINE** is a proposal, not implemented. Exact spelling/case matters; Story, evidence, Production, Asset QA and release remain separate. See [runtime validation](LEGACY_RUNTIME_VALIDATION.md).
 
-## Observed legacy transitions
+## CURRENT LEGACY STATE MACHINE
+
+### VERIFIED V004 runtime snapshots
+
+These are retained observations, not proof of direct transitions or their writer:
+
+| Date / revision | Story H / factual AD | Production C / AG | Asset evidence |
+| --- | --- | --- | --- |
+| Aug10 rev444; Aug13 rev460 | Idea / blank, row20 | No target row | No target rows |
+| Aug21 rev568/570 | Needs Review / blank, row20 | No target row | No target rows |
+| Aug29 rev591 | Voice Ready / pass, row8 | Voice Ready / blank | Earlier voice file, AE/AF empty |
+| Aug29 rev600 | Voice Ready / pass | Visual Assets Pending QA | Eight visuals including Shot1; official2/3/7 need source; QA Pending |
+| Sep2 rev605 | Voice Ready / pass | Assets Ready | All visual files present, QA still Pending; AE/AF empty |
+| Sep5 rev630 | Voice Ready / pass | Assets Ready | New voice link under same ID; AE/AF populated |
+| Sep13 current | Voice Ready / pass | Render Queued / Queued | Eight visual QA Pending, voice QA unset |
+| Sep13 result artifacts | No returned Story update | No returned Production update | Four external completed/SUCCEEDED renders |
+
+VERIFIED: actual state diverges from render results; Needs Review existed historically. UNVERIFIED: actors of external promotions, exact intervening statuses and original scenario versions. No current exporter writes Needs Review under its declared output enum. Snapshot gaps must not be filled with invented successful transitions.
+
+### VERIFIED current configured transitions; historical runs not implied
 
 | Entity / field | Required current value / event | Writer → next value | Notes |
 | --- | --- | --- | --- |
@@ -39,11 +58,11 @@ Story R Fact Status describes evidence (research verified/mostly_verified/partia
 
 Production AI/AJ/AK (technical QA, story QA, human approval), Asset U QA Status and final-video release are separate concepts. Copying existing fields during an update does not establish a QA implementation. 06 reads only Production Assets Ready and Asset File Link, not those QA fields.
 
-The complete set has no return transition from On Hold/Rejected, Source Retrieval Failed or Render Queued, no producer of Shot 1, and no publish lifecycle. External actions must be discovered from execution evidence. No undocumented implicit transition is assumed.
+The complete set has no return transition from On Hold/Rejected, Source Retrieval Failed or Render Queued, no producer of Shot 1 in the current exported visual routes, and no publish lifecycle. Actual V004 Shot 1 exists in Assets, handoffs and all four compiled projects; its historical producer and exclusion intent remain UNVERIFIED. External actions must be discovered from execution evidence. No undocumented implicit transition is assumed.
 
 Polling/appends and provider side effects are not atomic with state writes. There is no in-progress row claim or enforced asset/production idempotency, and no explicit onerror handler in any of the 81 modules. Scenario maxErrors=3 and sequential=false do not supply a durable retry state machine.
 
-## Target design — foundation proposal, not implemented
+## TARGET APP STATE MACHINE — proposal, not implemented
 
 ## Content and variant progression
 
@@ -84,3 +103,22 @@ Any asset, script, timeline, video, relevant packaging or policy change revokes 
 ## External queue mapping
 
 incoming -> queued; processing -> running; completed/SUCCEEDED -> RENDERED; failed/FAILED -> failed attempt. Legacy QA_PASS or APPROVED strings are not sufficient target release evidence. Keep legacy result contract unchanged and add target state outside it.
+
+## Target ownership and canonical research — proposed, not runtime evidence
+
+Exactly one orchestration state coordinator writes workflow status for each aggregate using aggregate version + event deduplication. Capability components emit results/events with input revision and attempt ID; they never directly write competing Story/Production states. A single logical writer may have multiple fenced instances, but never uncontrolled writers.
+
+| Aggregate / field | Sole authorized target writer | Accepted event/command; guard |
+| --- | --- | --- |
+| Content selection/research state | Orchestration state coordinator | Owner selection command, evaluation/research results; expected state and current input revision |
+| Factual decision record | Fact Guard decision recorder (append-only) | Immutable review result with evidence revision; cannot mutate workflow or release |
+| Production/variant workflow state | Orchestration state coordinator | Script/asset/voice/render/QA completion events, guarded dependency plan |
+| Asset revision and QA records | Asset registry / corresponding QA evaluator respectively | Append immutable artifact or gate result; no direct Production=Assets Ready |
+| Render attempt state | Orchestration state coordinator | Legacy result ingestion event; dedup result/job ID, verify candidate identity; SUCCEEDED only maps RENDERED |
+| Release authority | Release policy coordinator | Latest candidate hash, six PASS gates, fresh independent judge APPROVED, policy and optional approval; no provider may grant release |
+| Publication lifecycle | Publication coordinator | Authorized release + channel claim; post ID or reconciliation outcome; no other component writes PUBLISHED |
+| Analytics observation | Analytics observation owner per account/metric/checkpoint | Immutable measured value with grain/window/unit; cannot change production/release states |
+
+Canonical research proposal: EVALUATED → RESEARCH_READY (explicit admission) → RESEARCHING (claimed attempt) → RESEARCH_COMPLETE / ON_HOLD / REJECTED. A retry remains an attempt under RESEARCHING, not a return value Research Ready. RESEARCH_COMPLETE permits FACT_GUARD_PENDING; factual pass with complete evidence permits scripting. Hold/reject exits require an explicit traced revision/admission command. Legacy Needs Review maps to an unresolved review reason pending reconciliation, not automatically to Research Complete or Rejected.
+
+Legacy direct multi-scenario sheet writes remain unchanged. These ownership rules are target design constraints; no coordinator, database or workflow was built.

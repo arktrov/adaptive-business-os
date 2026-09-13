@@ -4,6 +4,12 @@ Audit date: 2026-09-13. **12 original exports; complete set explicitly confirmed
 
 This map supersedes the earlier System Map inventory wherever it described unverified Make behavior. It establishes configured behavior, not current activation, schedule frequency or execution success. The supplied complete set does not include run histories or all external operational steps.
 
+## Runtime overlay — VERIFIED artifacts, attribution limited
+
+V004 traversed retained snapshots Idea → Needs Review → Voice Ready → Visual Assets Pending QA → Assets Ready → Render Queued, with gaps between snapshots. These arrows show chronological observations, not direct transitions. The complete dated trace and field-level handoffs are in [runtime validation](LEGACY_RUNTIME_VALIDATION.md). Four completed render attempts on Sep13 are VERIFIED; all contain eight visual shots including Shot1 and the same nine input assets. Production still says Queued after success. No Make result consumer is supplied.
+
+Shot1 absence from the actual render is disproved. Its creation predates the later AI image batch by about 11 minutes; a resume-specific exclusion is INFERRED, its intent UNVERIFIED. Current 05/05B V004 predicates remain VERIFIED configuration. Active schedules and individual historical scenario attribution remain UNVERIFIED.
+
 ## Configured flow and external boundaries
 
 ```mermaid
@@ -57,7 +63,7 @@ All first actions are non-instant in exported metadata. No frequency is inferred
 
 ## Shared resources
 
-Aliases below replace real IDs; exact operational references remain in ignored originals. IDs were compared locally, without calling providers.
+Aliases below replace real IDs; exact operational references remain in ignored originals. IDs were compared in original exports and verified against bounded read-only Drive/Sheets evidence; no generation or publishing provider was called.
 
 | Resource alias | Users | Role |
 | --- | --- | --- |
@@ -76,12 +82,16 @@ Column contracts are in [DATA_MODEL](DATA_MODEL.md) and the [full exported dicti
 
 ## What ARKTROV currently has evidence for
 
-The configuration is an ARKTROV-specific, Sheets-driven editorial and Short 1 production chain. Prompts research and fact-check before scripting; 03 creates a longform package, but voice, visual and handoff modules consume Short 1. 05/05B restrict visuals to V004 and omit Shot 1. Rendering is delegated to the existing Drive-synchronized external Remotion project. Prior foundation evidence includes a successful V004 V4 render; it does not establish full-video QA or a complete automated production run.
+The configuration is an ARKTROV-specific, Sheets-driven editorial and Short 1 production chain. Prompts research and fact-check before scripting; 03 creates a longform package, but voice, visual and handoff modules consume Short 1. 05/05B restrict visuals to V004; current 05 creation routes omit Shot1, although the historical V004 artifacts include it. Rendering is delegated to the existing Drive-synchronized external Remotion project. Prior foundation evidence includes a successful V004 V4 render; it does not establish full-video QA or a complete automated production run.
 
 Analytics is a separate read/append branch for already existing YouTube/Instagram content. The IG tails in 10 and 10B are semantically identical; whether both are active remains unverified. No publisher or per-publication analytics checkpoint owner appears in the complete set.
 
 ## Boundaries missing from the complete set
 
-No scenario produces Selected for Check, Research Ready or Assets Ready. No scenario supplies the skipped initial visual, independently approves retrieved/generated assets, consumes renderer results into Sheets, performs final-video QA/repair/judge/release, or publishes. Longform rendering, Short 2 assets, multi-platform packaging, measured cost attribution, tenant configuration and learning are also outside this implementation.
+No scenario produces Selected for Check, Research Ready or Assets Ready. No supplied current scenario explains the already-existing initial visual, independently approves retrieved/generated assets, consumes renderer results into Sheets, performs final-video QA/repair/judge/release, or publishes. Longform rendering, Short 2 assets, multi-platform packaging, measured cost attribution, tenant configuration and learning are also outside this implementation.
 
 These are **coverage gaps**, not silently discarded functions and not a request for more blueprint files after completeness confirmation. Establish the current external actor and evidence for each boundary before proposing replacement.
+
+## Runtime coverage and remaining evidence
+
+VERIFIED: Sources has 47 other-story rows and no V004 rows; Analytics, Content Calendar and Automation Control contain headers only in captured ranges/full ID sentinels. Visual Gate has no populated target review/result. Current D-AUDIO/D-VISUAL names resembling slash paths are actual sibling folder names. No live schema or folder was changed. UNVERIFIED schedule/activation and four representative run gaps are listed precisely in [runtime validation](LEGACY_RUNTIME_VALIDATION.md); no blanket execution export is needed.

@@ -32,7 +32,7 @@ All sheet modules reference the same spreadsheet after normalizing picker paths 
 | Production AG:AZ | Compile/project/QA/approval/video URL; channel copy/disclosure/publish status; idempotency/job/error fields. Most are merely copied by 06, not generated |
 | Asset A:V | Identity/story/scene/type/prompt/tool/file/rights/status/cost/notes/provider job/idempotency/hash/duration/dimensions/AI/public URL/source/QA/error |
 | JSON-in-cell | 03 scene_plan_json is a string containing an array. 05 AE stores raw_result JSON; 04 AF stores alignment JSON; 06 reparses AF but forwards AE as a string |
-| Array-in-cell | 02B AJ/AK map arrays directly. Runtime serialization and 03 interpretation need fixtures; do not assume canonical JSON |
+| Array-in-cell | 02B AJ/AK map arrays directly. VERIFIED V004 AJ/AK are comma/NBSP text, not canonical JSON arrays; exact downstream interpretation remains UNVERIFIED |
 | Additional URLs | 00B joins with capital I; 02 uses a different quoted join expression, preserved in its exact mapping appendix. Normalize only through an explicit versioned adapter |
 | Times | Voice alignment seconds; asset duration rounded integer ms; shot plan integer seconds; target Project/subtitle timelines integer ms |
 | Read/write behavior | Sheet reads use formatted text and varied header spans; most writes USER_ENTERED, AE shot JSON RAW. Numeric/date/formula coercion and unmapped-column preservation require validation |
@@ -47,7 +47,7 @@ All sheet modules reference the same spreadsheet after normalizing picker paths 
 | 02B review | Safer hook, result/status/notes and correction/guardrail arrays | blocking_claim_ids discarded; no immutable decision/evidence revision |
 | 03 package | All 21 package fields and two shorts | Structured inner scene schema only prompt-validated; no production revision key |
 | 04 audio | File link, timing JSON, timing-derived duration, review-needed status | Actual cost/usage, content hash, audio decode/timing quality, explicit Asset QA U |
-| 05 assets | Shot plan JSON, prompt, motion/timing/text/caution Notes, AI flag/idempotency label | Real hash/dimensions/usage and enforced uniqueness; no initial-shot generation |
+| 05 assets | Shot plan JSON, prompt, motion/timing/text/caution Notes, AI flag/idempotency label | Real hash/dimensions/usage and enforced uniqueness; no initial-shot generation in current routes; historical Shot1 exists |
 | 05B retrieval | File/public/source links, rights text and Source ID | Publisher and attribution_required not separate columns; rights/license/attribution concatenated without separators; source page only in Notes on success |
 | 06 handoff | Asset metadata plus script/plan/timing/output | No full asset hash/version predicate; only first 20 matching Story assets; no result-to-row update |
 
@@ -113,3 +113,22 @@ Gate results reference the candidate's full video hash and input revision. New c
 Story Pipeline -> Content/Research; Production Pipeline -> ProductionVariant/Run; Sources -> SourceEvidence/Claim; Asset Library -> AssetRevision; Content Calendar -> Publication; Platform Analytics -> MetricObservation; Automation Control -> Job/ProviderCall; Costs -> CostEntry; Settings -> ProfileRevision; Visual Gate -> scoped policy and evidence.
 
 Keep original external IDs and sheet column mappings in the adapter. Status strings are heterogeneous; the observed transitions above and in STATE_MACHINE.md must be mapped explicitly. Never rename/move existing columns to fit the target.
+
+## VERIFIED runtime data contracts and gaps — 2026-09-13
+
+Evidence and exact coordinates/revision dates: [runtime validation](LEGACY_RUNTIME_VALIDATION.md). No schema was changed.
+
+| Observed data | Runtime conclusion / target protection |
+| --- | --- |
+| Raw V004 Story ID contains space after ARK-; Production contains another space after PROD- | VERIFIED identity contract; preserve raw ID and separate normalized worker path ID |
+| Story moved row20→8; Production row5; Assets reordered | VERIFIED row numbers are mutable locators, not identity or fixed V004 selection |
+| Story AD=pass; AJ/AK retained, M research fragment incomplete; no target Sources in inspected revisions | VERIFIED review result exists without replayable evidence package. Store immutable complete research/review bundles and claim-source provenance in target |
+| Production AE/AF empty at Voice Ready/Pending QA/Assets Ready in August/Sep2, populated by Sep5 | VERIFIED current blueprint cannot by itself explain history; preserve versioned snapshots rather than infer identical historical code |
+| Same AUD…SHORT1-V1 points to old August file and new Sep5 file | VERIFIED logical ID is not an immutable revision; current hash/usage absent. Future AssetRevision binds bytes and provider request |
+| Official files end jpg.jpg/png.png; rights strings concatenated without separators | VERIFIED serialization defects; preserve old names in adapter and introduce typed rights/source records later |
+| Handoff schemaVersion string1.0, visualPlanJson string, voiceTiming object, nine assets | VERIFIED all four handoff hashes and asset hashes match; eight shots, voice duration53,920ms, visual plan55s, compiled last shot ends53,920ms |
+| Four results SUCCEEDED but Production C/AG Queued | VERIFIED result contract is not reconciled into business state; result ingestion must be idempotent and only establish RENDERED |
+| Base submittedAt Unix epoch | VERIFIED helper default, not real submission timestamp; startedAt/finishedAt are actual retained execution timestamps |
+| Platform Analytics empty; two different YouTube connection refs; S-MASTER timezone America/Los_Angeles | VERIFIED configuration/absence only; account equivalence, Make timezone and runtime metric availability UNVERIFIED |
+
+Proposed mandatory evidence records: full research/review JSON, input/output hashes, schema/prompt/provider versions, attempt/response ID, immutable source snapshot and rights, claim links/confidence/qualifiers/blockers, exact script/plan/timing/audio revisions, asset SHA-256, decision actor, UTC observed/received times, raw legacy status plus producing version. Analytics additionally requires entity grain, period start/end, observation time, timezone, raw units and unavailable reason. These are requirements, not an installed database.

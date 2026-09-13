@@ -41,3 +41,9 @@ No full render, composition browser inspection, live queue execution, production
 - Documentation/manifest/link/hash/module checks and Git diff/ignore review are delivery checks. No paid/live provider action, Make execution, migration or app workflow was performed.
 
 Future test IDs T01–T16 in [MAKE_MIGRATION](MAKE_MIGRATION.md) are acceptance specifications, **not passing test claims**. Prior 14 renderer tests above were not rerun for a documentation-only audit and do not establish new-system parity.
+
+## V004 runtime validation supplement — 2026-09-13
+
+[runtime validation](LEGACY_RUNTIME_VALIDATION.md) supersedes static-only hypotheses with dated workbook revisions, current Sheets/Drive evidence, four queue jobs and exact evidence levels. Actual Shot1 absence is disproved; historic producer/intent remains UNVERIFIED. Full inspected hardcoding inventory: [LEGACY_HARDCODINGS](LEGACY_HARDCODINGS.md). No external renderer/Make source or operational data was edited.
+
+Executed in this block: read-only parseMakeHandoff, mapMakeAssetsToShots and parseProjectData on all four captured jobs; base idempotency-key reproduction; equality of all four manifest byte hashes and nine asset hash/name pairs; read-only V4 ffprobe metadata. All passed. No compile, worker, queue replay, provider request, media generation or fault injection was run. Prior foundation tests remain prior evidence, not a new full test-suite run. Existing foundation checker validates repository links and original blueprint hashes/module identities.

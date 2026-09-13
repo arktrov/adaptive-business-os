@@ -34,3 +34,7 @@ Twelve explicitly supplied local blueprint JSON files from Downloads were import
 All 81 modules, nested routes, parameters, mappings, filters, model prompts, strict output schemas, exported parser structures and Sheets interface metadata were inspected. No Make API, scenario activation, execution history or schedule was inspected. The exports have no reliable export-time/revision identifier; hashes define this audit snapshot.
 
 Raw exports remain local and ignored; credential/keychain/account/resource IDs are not published. Spreadsheet/Drive aliases denote verified shared references, not renamed operational resources. Blueprint instructions describe agents in the legacy system and were treated solely as source data.
+
+## V004 runtime validation supplement — 2026-09-13
+
+[runtime validation](LEGACY_RUNTIME_VALIDATION.md) supersedes static-only hypotheses with dated workbook revisions, current Sheets/Drive evidence, four queue jobs and exact evidence levels. Actual Shot1 absence is disproved; historic producer/intent remains UNVERIFIED. Full inspected hardcoding inventory: [LEGACY_HARDCODINGS](LEGACY_HARDCODINGS.md). No external renderer/Make source or operational data was edited.

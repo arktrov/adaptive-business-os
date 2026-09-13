@@ -62,3 +62,7 @@ The runtime validator permits some values/extra fields that the JSON Schema forb
 - `rerender-v004-v4.cmd` includes a narrow duration check and checks for reused output. It is a manual operational script, not the autonomous quality system.
 
 No source was modified and no production queue worker or render was executed.
+
+## V004 runtime validation supplement — 2026-09-13
+
+[runtime validation](LEGACY_RUNTIME_VALIDATION.md) supersedes static-only hypotheses with dated workbook revisions, current Sheets/Drive evidence, four queue jobs and exact evidence levels. Actual Shot1 absence is disproved; historic producer/intent remains UNVERIFIED. Full inspected hardcoding inventory: [LEGACY_HARDCODINGS](LEGACY_HARDCODINGS.md). No external renderer/Make source or operational data was edited.

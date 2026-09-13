@@ -30,3 +30,23 @@ Unresolved: workflow/database products; provider models and limits; production n
 | MAKE-09 | Runtime evidence validation precedes migration design finalization; no V005 E2E, providers or new workflows in this block | Binding owner scope |
 
 Open decisions include research prompt status reconciliation, retained evidence structure, empty-bundle/row-update semantics, source rights/URL representation, actual ai_video capability, asset readiness ownership and analytics definitions. They must be resolved visibly, with parity tests; this audit does not silently fix or discard current functions.
+
+## Runtime validation decisions — 2026-09-13
+
+These are documentation/target decisions; no legacy behavior changed. Evidence: [runtime validation](LEGACY_RUNTIME_VALIDATION.md).
+
+| ID | Decision | Evidence / status |
+| --- | --- | --- |
+| RUNTIME-01 | Current code/export describes configuration; retained revision/result describes observed state; never claim historic execution from code alone | Binding audit convention; VERIFIED/INFERRED/UNVERIFIED applied |
+| RUNTIME-02 | Withdraw actual missing-Shot1 hypothesis; retain current filter/producer ownership problem | VERIFIED Shot1 in all four compiled projects; intent UNVERIFIED |
+| RUNTIME-03 | Preserve raw Needs Review; target RESEARCH_READY→RESEARCHING→RESEARCH_COMPLETE/ON_HOLD/REJECTED requires explicit writer and evidence | VERIFIED old value/current conflict; target proposal, not retroactive rewrite |
+| RUNTIME-04 | One state coordinator per workflow aggregate; capability results cannot directly compete on workflow status | Proposed target ownership in STATE_MACHINE; no service built |
+| RUNTIME-05 | Treat Fact Guard pass as an existing decision with incomplete replay evidence, not a reproducible review package | VERIFIED absent target Sources and partial notes; require full immutable research/review provenance later |
+| RUNTIME-06 | Preserve all four renders as distinct attempts; do not label deliberate V2–V4 keys accidental duplicates | VERIFIED same inputs/different keys; caller intent inferred from scripts |
+| RUNTIME-07 | Successful renderer result establishes only RENDERED; pending Asset QA and no final review cannot authorize release | VERIFIED scope gaps, binding owner release invariant retained |
+| RUNTIME-08 | Same Asset ID is not a content revision; old/new voice links require immutable version/hash policy | VERIFIED historical link replacement; duplicate provider billing UNVERIFIED |
+| RUNTIME-09 | Keep10/10B unchanged; later consolidate IG under one owner only after activation/account/window evidence | VERIFIED duplicated code; overlap/runtime observations UNVERIFIED |
+| RUNTIME-10 | Classify every inspected hardcoding before changing it; scope V004 treatments and preserve test fixtures/contracts | VERIFIED catalogue, target disposition only |
+| RUNTIME-11 | Request L1–L4 plus one activation overview; do not demand all logs or execute scenarios to manufacture evidence | Accepted work-mode constraint; residual evidence limited |
+
+Remaining unresolved: exact historical02/02B/05 versions and actors, Assets Ready approval criteria/author, any actual unintended duplicate incident, YouTube Data/data result and authenticated account identity, all active schedules, and release policy choices already listed. None is silently resolved by a successful render.
