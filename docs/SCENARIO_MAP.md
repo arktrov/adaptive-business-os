@@ -1,34 +1,87 @@
-# Scenario map
+# Current Make scenario map
 
-Evidence: Master Database System Map, external renderer docs and code. **This is an inventory, not a verified Make blueprint map.** No blueprints supplied.
+Audit date: 2026-09-13. **12 original exports; complete set explicitly confirmed by owner; 81 modules fully statically reviewed.** [Scenario audits](make/README.md) contain each module, route, prompt policy, output schema and Sheets mapping. [Import manifest](../legacy/make-blueprints/IMPORT_STATUS.json) records exact filenames and SHA-256 identities.
 
-| Component named by source | Trigger/input per source | Output / dependency | Sheets per source |
+This map supersedes the earlier System Map inventory wherever it described unverified Make behavior. It establishes configured behavior, not current activation, schedule frequency or execution success. The supplied complete set does not include run histories or all external operational steps.
+
+## Configured flow and external boundaries
+
+```mermaid
+flowchart TD
+  A["00A Discovery submit"] --> J["DiscoveryJobs: pending response_id"]
+  J --> B["00B Poll + append Story: Idea"]
+  B -. "external selection: not in the 12" .-> C["Selected for Check"]
+  C --> D["01 Evaluate → Evaluated"]
+  D -. "external promotion: not in the 12" .-> E["Research Ready"]
+  E --> F["02 Research → Sources + Research Complete"]
+  F --> G["02B Fact Guard"]
+  G -->|"Approved AND pass"| H["03 Longform + 2 short scripts"]
+  F -->|"On Hold / Rejected"| STOP["Hold / reject"]
+  G -->|"On Hold / Rejected"| STOP
+  H --> I["04 Short 1 voice + timing"]
+  I --> K["05 V004-only visual plan; shots greater than 1"]
+  K --> L["AI image Assets"]
+  K --> M["Source Required"]
+  M --> N["05B V004-only official retrieval"]
+  L -. "external QA / Assets Ready" .-> O["06 Copy assets + flat manifest"]
+  N -. "external QA / Assets Ready" .-> O
+  O --> P["Drive incoming → external Remotion worker"]
+  P --> Q["result.json / completed or failed"]
+  Q -. "no supplied writeback, release or publishing scenario" .-> R["External publishing"]
+  R -. "no publication join" .-> S["10 YouTube channel + Instagram"]
+  R -. "no publication join" .-> T["10B Instagram"]
+  S --> U["Platform Analytics"]
+  T --> U
+```
+
+Dotted transitions identify required or conceptual external boundaries, not evidence that a specific person or service performs them. Render-result → publishing is not an authorized or implemented automatic path.
+
+## Complete scenario inventory
+
+| Scenario | Entry selection / first action | Configured result | Main handoff |
 | --- | --- | --- | --- |
-| 00A Idea Discovery Submit | manual/scheduled | async submission -> 00B | Story Pipeline |
-| 00B Idea Discovery Results | async result | collected ideas -> 01 | Story Pipeline |
-| 01 Story Evaluator | Status=Idea | evaluated / Research Ready -> 02 | Story Pipeline |
-| 02 Research Agent | approved/evaluated story | sources -> Fact Guard | Story Pipeline, Sources |
-| Fact Guard | research ready | PASS -> 03 | Sources, Story Pipeline |
-| 03 Script & Production Package | Fact Guard PASS | script/package -> 04 and visual plan | Production Pipeline |
-| 04 Voice Production | approved script | voice and timing | Production Pipeline, Asset Library |
-| Visual / Asset Production | plan and voice | ready assets -> compiler | Production Pipeline, Asset Library |
-| Timeline Compiler | assets + timing | Project JSON -> renderer | Production Pipeline |
-| Scenario 06 Render Handoff | documented ASSETS_READY / current Make handoff | local Drive queue -> worker result | Exact scenario mappings unverified |
-| Remotion Render | compiled JSON | rendered output -> QA | Production Pipeline |
-| QA + Human Approval | rendered MP4 | approved candidate -> publisher | Production Pipeline |
-| Publisher | approved render | platform posts | Content Calendar |
-| 10 Platform Analytics | published content | observations | Platform Analytics |
-| 10B Instagram Analytics | published IG content | observations | Platform Analytics |
+| [00A – Idea Discovery Submit](make/00A.md) | Model call with web search, background=true | Pending discovery job | Data Store response ID |
+| [00B – Idea Discovery Results](make/00B.md) | Pending jobs, limit 10 | Story Idea; job state | Story Pipeline |
+| [01 – Story Evaluator](make/01.md) | Selected for Check, limit 1 | Evaluated, scores + narrative | External Research Ready transition |
+| [02 – Research Agent](make/02.md) | Research Ready, limit 1 | Claim/source rows + Research Complete/On Hold/Rejected | Sources + Story |
+| [02B – Fact Guard](make/02B.md) | Research Complete; associated Sources | pass/hold/reject + Approved/On Hold/Rejected | Corrections/guardrails to 03 |
+| [03 – Script & Production Package](make/03.md) | Approved AND pass, limit 1 | Longform package + 2 shorts; Script Drafted | Production Pipeline |
+| [04 – Voice Production](make/04.md) | Script Drafted or Assets Ready, Short 1 script present, timing absent | Voice + alignment; Voice Ready or preserved Assets Ready | Audio Asset + AF timing |
+| [05 – Short Visual Production](make/05.md) | Voice Ready, fixed V004, script + scene plan present | AE shot plan; images/source requests for shots >1 | Asset Library; Pending QA |
+| [05B – Official Visual Retrieval](make/05B.md) | Source Required, file absent, fixed V004 | Retrieved–Needs Review or failure/Blocked | Official Asset + provenance |
+| [06 – Render Handoff](make/06.md) | Assets Ready, limit 1 | Render Queued, flat assets + manifest | External queue worker |
+| [10 – Platform Analytics](make/10.md) | YouTube channel query then first IG media | Channel and media observations | Platform Analytics |
+| [10B – Instagram Analytics](make/10B.md) | First IG media | Same IG observation logic as 10 | Platform Analytics |
 
-Workbook labels KEEP/UPGRADE/ADD are historical planning labels, not proof that a capability is deployed. Runway is mentioned there; local production records also name ElevenLabs and OpenAI image generation. API endpoints, active provider models, scheduling details and error handlers remain unverified until exports.
+All first actions are non-instant in exported metadata. No frequency is inferred from names such as Daily Export or from the historical workbook.
 
-## Relationships and storage
+## Shared resources
 
-Discovery submit/result pair -> evaluation -> research -> Fact Guard -> script -> voice + visual assets -> compiler -> renderer -> QA/approval -> publishing -> analytics.
-Local render queue uses incoming/processing/completed/failed. Current adapter also supports flat Make manifests with synchronized asset files. Root metadata confirms four queue folders and completed V004 variants.
+Aliases below replace real IDs; exact operational references remain in ignored originals. IDs were compared locally, without calling providers.
 
-Stable row IDs and exact column positions matter to Make. Read existing data without moving or renaming columns. The workbook contains Story Pipeline, Production Pipeline, Content Calendar, Sources, Asset Library, Platform Analytics, Costs, Build Log, Settings, Visual Gate, Automation Control, System Map, Story Archive and Dashboard.
+| Resource alias | Users | Role |
+| --- | --- | --- |
+| S-MASTER / Master Database | Every scenario except 00A | Same spreadsheet identity, expressed either as ID or picker path |
+| Story Pipeline | 00B, 01, 02, 02B, 03, 04 | Story identity, selection/research/factual/narrative status |
+| Sources | 02, 02B | Claim-to-source evidence rows |
+| Production Pipeline | 03, 04, 05, 06 | Scripts, JSON plans/timings and production state |
+| Asset Library | 04, 05, 05B, 06 | Voice/image/source files, rights, AI flag, QA metadata |
+| Platform Analytics | 10, 10B | Mixed channel and media observations |
+| DiscoveryJobs / Make Data Store | 00A, 00B | Same async response record store |
+| D-AUDIO / logical ShortsAudio destination | 04 | MP3 assets |
+| D-VISUAL / logical VisualsShorts destination | 05, 05B | Same image/official file destination |
+| D-QUEUE-INCOMING | 06 + external worker | Same flat manifest and asset intake boundary |
 
-## Missing blueprint evidence
+Column contracts are in [DATA_MODEL](DATA_MODEL.md) and the [full exported dictionary](make/COLUMN_DICTIONARY.md). Other workbook tabs (Content Calendar, Costs, Build Log, Settings, Visual Gate, Automation Control, System Map, Story Archive, Dashboard) have **no direct module read/write** in these 12 exports. Their existence is not proof of an implemented capability.
 
-For every inventory entry: actual trigger/filter, complete inputs/outputs, API/provider config, error routes/status transitions, exact Sheets/Drive mappings, special cases and dependencies must be verified from the export. Scenario 06 documentation does not substitute for the full blueprint. A render handoff JSON is production data, not a Make blueprint.
+## What ARKTROV currently has evidence for
+
+The configuration is an ARKTROV-specific, Sheets-driven editorial and Short 1 production chain. Prompts research and fact-check before scripting; 03 creates a longform package, but voice, visual and handoff modules consume Short 1. 05/05B restrict visuals to V004 and omit Shot 1. Rendering is delegated to the existing Drive-synchronized external Remotion project. Prior foundation evidence includes a successful V004 V4 render; it does not establish full-video QA or a complete automated production run.
+
+Analytics is a separate read/append branch for already existing YouTube/Instagram content. The IG tails in 10 and 10B are semantically identical; whether both are active remains unverified. No publisher or per-publication analytics checkpoint owner appears in the complete set.
+
+## Boundaries missing from the complete set
+
+No scenario produces Selected for Check, Research Ready or Assets Ready. No scenario supplies the skipped initial visual, independently approves retrieved/generated assets, consumes renderer results into Sheets, performs final-video QA/repair/judge/release, or publishes. Longform rendering, Short 2 assets, multi-platform packaging, measured cost attribution, tenant configuration and learning are also outside this implementation.
+
+These are **coverage gaps**, not silently discarded functions and not a request for more blueprint files after completeness confirmation. Establish the current external actor and evidence for each boundary before proposing replacement.

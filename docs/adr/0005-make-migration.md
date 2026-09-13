@@ -4,7 +4,7 @@ Date: 2026-09-13. Status: Binding.
 
 ## Context
 
-Blueprints are not supplied. Workbook and handoff documentation are partial evidence.
+Original foundation context: blueprints were not yet supplied. Update 2026-09-13: the owner confirmed the complete 12-export set; all 81 modules are statically audited. Workbook and handoff documentation remain supporting evidence; runtime boundary validation is still pending.
 
 ## Decision
 

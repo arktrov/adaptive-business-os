@@ -1,9 +1,316 @@
 {
   "schemaVersion": 1,
-  "status": "AWAITING_BLUEPRINTS",
-  "receivedCount": 0,
-  "completeSetConfirmed": false,
-  "scenarios": [],
-  "relationships": [],
-  "migrationAuthorized": false
+  "status": "COMPLETE_SET_STATIC_AUDIT_DONE_RUNTIME_VALIDATION_PENDING",
+  "receivedCount": 12,
+  "completeSetConfirmed": true,
+  "completeSetConfirmation": {
+    "source": "Explicit owner confirmation in this conversation",
+    "date": "2026-09-13",
+    "statement": "Ja, der Satz ist vollständig."
+  },
+  "auditDate": "2026-09-13",
+  "migrationAuthorized": false,
+  "rawFilesPolicy": "Original bytes retained locally and Git-ignored. Public audit uses resource aliases; no operational credentials.",
+  "totalModules": 81,
+  "scenarios": [
+    {
+      "id": "00A",
+      "name": "00A – Idea Discovery Submit",
+      "file": "00A – Idea Discovery Submit.blueprint.json",
+      "sha256": "65ffebbad58499a4f767aae3bae2d7cd97665e96b9227b1d54acbdf8a49334d6",
+      "bytes": 179152,
+      "moduleCount": 2,
+      "moduleIds": [
+        2,
+        8
+      ],
+      "auditDocument": "docs/make/00A.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "00B",
+      "name": "00B – Idea Discovery Results",
+      "file": "00B – Idea Discovery Results.blueprint.json",
+      "sha256": "7b029037e1df3c0e2a9a1a97e86f8b31299c96e9a8f7c3289b65fd46cd3f3b16",
+      "bytes": 71545,
+      "moduleCount": 11,
+      "moduleIds": [
+        2,
+        3,
+        4,
+        5,
+        8,
+        9,
+        10,
+        11,
+        6,
+        7,
+        12
+      ],
+      "auditDocument": "docs/make/00B.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "01",
+      "name": "01 – Story Evaluator",
+      "file": "01 – Story Evaluator.blueprint(1).json",
+      "sha256": "2989d14752840c9b127dc557fe909932fe6857d891d9ac83b5644717cd023528",
+      "bytes": 186589,
+      "moduleCount": 3,
+      "moduleIds": [
+        9,
+        3,
+        8
+      ],
+      "auditDocument": "docs/make/01.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "02",
+      "name": "02 – Research Agent",
+      "file": "02 – Research Agent.blueprint(1).json",
+      "sha256": "40a5b72ac62634b79f129632d336459210e72db8f21454894e2230aa8ac5b182",
+      "bytes": 232604,
+      "moduleCount": 8,
+      "moduleIds": [
+        9,
+        7,
+        13,
+        10,
+        12,
+        11,
+        14,
+        8
+      ],
+      "auditDocument": "docs/make/02.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "02B",
+      "name": "02B – Fact Guard",
+      "file": "02B – Fact Guard.blueprint.json",
+      "sha256": "f6ba7fa503ea2b765ec75a4a7e6c768f2df3dad102b27dc67032587e0fb1fdf2",
+      "bytes": 223935,
+      "moduleCount": 5,
+      "moduleIds": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "auditDocument": "docs/make/02B.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "03",
+      "name": "03 – Script & Production Package",
+      "file": "03 – Script & Production Package.blueprint.json",
+      "sha256": "17f05709146d07c935c610902cb520d8f7d395aa48fd28f510d86f5b7a3ba989",
+      "bytes": 206159,
+      "moduleCount": 4,
+      "moduleIds": [
+        9,
+        7,
+        10,
+        11
+      ],
+      "auditDocument": "docs/make/03.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "04",
+      "name": "04 – Voice Production",
+      "file": "04 – Voice Production.blueprint.json",
+      "sha256": "87490341b6e67003b7a7c23715b13a11c135f4a45d9e84a562452f7b6079d2ab",
+      "bytes": 105904,
+      "moduleCount": 8,
+      "moduleIds": [
+        2,
+        10,
+        19,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "auditDocument": "docs/make/04.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "05",
+      "name": "05 – Short Visual Production",
+      "file": "05 – Short Visual Production.blueprint.json",
+      "sha256": "8962fc3f5affd2b2d7f86ce7736eae8f89dfdfaae329749152013386f3c03a47",
+      "bytes": 263837,
+      "moduleCount": 12,
+      "moduleIds": [
+        2,
+        3,
+        16,
+        5,
+        4,
+        7,
+        10,
+        12,
+        13,
+        15,
+        11,
+        14
+      ],
+      "auditDocument": "docs/make/05.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "05B",
+      "name": "05B – Official Visual Retrieval",
+      "file": "05B – Official Visual Retrieval.blueprint.json",
+      "sha256": "a908359927bf5aeab3fb6f2c24f9f525baa989d1390dcde83f3154da03f22561",
+      "bytes": 227767,
+      "moduleCount": 8,
+      "moduleIds": [
+        2,
+        6,
+        10,
+        7,
+        8,
+        11,
+        12,
+        9
+      ],
+      "auditDocument": "docs/make/05B.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "06",
+      "name": "06 – Render Handoff",
+      "file": "06 – Render Handoff.blueprint.json",
+      "sha256": "b3e6f89df0961486bd816397143e5240e5280d382da0c0cdbcd62418ea108e6c",
+      "bytes": 96131,
+      "moduleCount": 9,
+      "moduleIds": [
+        2,
+        3,
+        5,
+        15,
+        6,
+        8,
+        10,
+        11,
+        12
+      ],
+      "auditDocument": "docs/make/06.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "10",
+      "name": "10 – Platform Analytics",
+      "file": "10 – Platform Analytics.blueprint.json",
+      "sha256": "ca0cabad56199ff341fbe342f2fe93af3bb980a4d80b36428209f67291b774c1",
+      "bytes": 51479,
+      "moduleCount": 7,
+      "moduleIds": [
+        4,
+        9,
+        5,
+        10,
+        11,
+        13,
+        14
+      ],
+      "auditDocument": "docs/make/10.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    },
+    {
+      "id": "10B",
+      "name": "10B – Instagram Analytics",
+      "file": "10B – Instagram Analytics.blueprint.json",
+      "sha256": "07883111950e070c990549da0f0fb0a46a5cab2327e6fc57ba3cd5c2914ee3dc",
+      "bytes": 21169,
+      "moduleCount": 4,
+      "moduleIds": [
+        10,
+        11,
+        13,
+        14
+      ],
+      "auditDocument": "docs/make/10B.md",
+      "analysisStatus": "STATIC_FULL_FLOW_REVIEWED"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "00A",
+      "to": "00B",
+      "contract": "DiscoveryJobs response_id; pending",
+      "status": "CONFIGURED"
+    },
+    {
+      "from": "00B",
+      "to": "01",
+      "contract": "Idea → Selected for Check",
+      "status": "EXTERNAL_TRANSITION_REQUIRED"
+    },
+    {
+      "from": "01",
+      "to": "02",
+      "contract": "Evaluated → Research Ready",
+      "status": "EXTERNAL_TRANSITION_REQUIRED"
+    },
+    {
+      "from": "02",
+      "to": "02B",
+      "contract": "Research Complete + Sources by Story ID",
+      "status": "CONFIGURED"
+    },
+    {
+      "from": "02B",
+      "to": "03",
+      "contract": "Approved AND pass + AJ/AK guardrails",
+      "status": "CONFIGURED"
+    },
+    {
+      "from": "03",
+      "to": "04",
+      "contract": "Script Drafted + Short 1 script + missing timing",
+      "status": "CONFIGURED"
+    },
+    {
+      "from": "04",
+      "to": "05",
+      "contract": "Voice Ready; fixed V004 only",
+      "status": "CONFIGURED_RESTRICTED"
+    },
+    {
+      "from": "05",
+      "to": "05B",
+      "contract": "Source Required + missing file; fixed V004 only",
+      "status": "CONFIGURED_RESTRICTED"
+    },
+    {
+      "from": "05/05B",
+      "to": "06",
+      "contract": "Visual Assets Pending QA → Assets Ready",
+      "status": "EXTERNAL_TRANSITION_REQUIRED"
+    },
+    {
+      "from": "06",
+      "to": "external-renderer",
+      "contract": "flat incoming manifest and copied assets",
+      "status": "CONFIGURED_EXTERNAL_BOUNDARY"
+    },
+    {
+      "from": "external-publishing",
+      "to": "10/10B",
+      "contract": "existing channel/media; no publication join",
+      "status": "EXTERNAL_UNCORRELATED"
+    },
+    {
+      "from": "10",
+      "to": "10B",
+      "contract": "identical Instagram tail; potential overlap",
+      "status": "DUPLICATE_LOGIC"
+    }
+  ]
 }

@@ -15,7 +15,7 @@ Tests ran with a separate scratch current directory, so compiler test staging/cl
 
 ## Foundation checks
 
-`node scripts/check-foundation.mjs` validates required docs, relative Markdown links, blueprint manifest and no raw intake in the foundation set. Git whitespace and staged-file review run before the foundation commit. The source inventory records SHA-256 values because the renderer has no Git history.
+`node scripts/check-foundation.mjs` validates required docs, relative Markdown links, blueprint manifest, declared local raw-file hashes/module identities and Git-ignore protection (raw exports may be absent on a clean clone). Git whitespace and staged-file review run before the foundation commit. The source inventory records SHA-256 values because the renderer has no Git history.
 
 No full render, composition browser inspection, live queue execution, production provider call, publication, analytics ingestion or new application E2E was performed. These remain future acceptance gates, not implicit successes.
 
@@ -29,3 +29,15 @@ No full render, composition browser inspection, live queue execution, production
 - Publishing: stale release, duplicate submit, timeout after accepted upload, provider reconciliation, partial channel success.
 - Analytics: missing vs zero, metric units/denominators, observation age and checkpoint deduplication.
 - Learning: multiple-production evidence, holdout comparison, hard rules, scope isolation and rollback.
+
+## Complete Make static audit — 2026-09-13
+
+- Exactly the 12 owner-named files were imported; each original parseable JSON file is byte-identical to its Downloads source by SHA-256 and byte count.
+- Complete-set confirmation recorded explicitly; 81 modules and all nested router paths enumerated, no explicit onerror handlers found. All provided model prompts and output schemas reviewed, including the contradictory research input/instructions.
+- Module mapping appendices preserve field expressions and filters; schema appendices preserve configured JSON constraints. Logical resource aliases replace private IDs; no credential values are published.
+- Normalized spreadsheet identity is shared across all Sheets modules. 00A/00B share one Data Store; 05/05B share one visual destination; 06 assets/manifest share one incoming destination.
+- Scenario 10 Instagram modules 10/11/13/14 exactly match 10B in module type, parameters, mapper and filter (excluding visual-editor layout).
+- Static mismatch verified: scenario 10 references 9.Data while its HTTP output interface declares data. Runtime effect is unverified.
+- Documentation/manifest/link/hash/module checks and Git diff/ignore review are delivery checks. No paid/live provider action, Make execution, migration or app workflow was performed.
+
+Future test IDs T01–T16 in [MAKE_MIGRATION](MAKE_MIGRATION.md) are acceptance specifications, **not passing test claims**. Prior 14 renderer tests above were not rerun for a documentation-only audit and do not establish new-system parity.

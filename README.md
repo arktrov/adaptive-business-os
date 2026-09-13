@@ -4,6 +4,8 @@ Phase 0 foundation. Reusable business automation, first validated with ARKTROV, 
 
 **No production application is implemented in this repository yet.** Existing rendering remains in the external `arktrov-remotion` project. No Make scenario has been replaced.
 
+The complete 12-blueprint Make set is imported locally and statically audited (81 modules); [scenario audits](docs/make/README.md) and the migration matrix document the current behavior and remaining runtime questions.
+
 Start with [Master state](docs/MASTER_STATE.md), [architecture](docs/ARCHITECTURE.md), [renderer audit](docs/EXISTING_SYSTEM.md) and [roadmap](docs/ROADMAP.md).
 
 ## Foundation documents

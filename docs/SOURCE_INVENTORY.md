@@ -25,4 +25,12 @@ Read docs/make-scenario-06-render-handoff.md, docs/visual-feasibility-metadata.m
 
 The Drive account was verified as ARKTROV before reads. Private operational links and raw production exports are excluded from the public repository. Scientific claims, license descriptions, prices and platform capabilities were not independently re-verified; these are legacy metadata, not fresh validation.
 
-No Make blueprints, complete row-by-row data audit, final-video inspection or post-publish verification. The System Map mixes plans and components; inventory does not prove deployment.
+No complete row-by-row data audit, final-video inspection or post-publish verification. The System Map mixes plans and components; inventory does not prove deployment.
+
+## Make evidence — complete intake
+
+Twelve explicitly supplied local blueprint JSON files from Downloads were imported unchanged to legacy/make-blueprints. The owner confirmed this set complete on 2026-09-13. Exact names, bytes, SHA-256, module counts and evidence documents appear in [IMPORT_STATUS](../legacy/make-blueprints/IMPORT_STATUS.json) and the [audit index](make/README.md).
+
+All 81 modules, nested routes, parameters, mappings, filters, model prompts, strict output schemas, exported parser structures and Sheets interface metadata were inspected. No Make API, scenario activation, execution history or schedule was inspected. The exports have no reliable export-time/revision identifier; hashes define this audit snapshot.
+
+Raw exports remain local and ignored; credential/keychain/account/resource IDs are not published. Spreadsheet/Drive aliases denote verified shared references, not renamed operational resources. Blueprint instructions describe agents in the legacy system and were treated solely as source data.
