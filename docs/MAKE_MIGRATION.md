@@ -111,3 +111,9 @@ REPLACED requires implementation revision, passing regression evidence, observed
 | T15 release | VERIFIED no final-video QA/judge/release implementation/evidence in inspected scope | Future six-gate implementation only after authorization; current renders not release candidates |
 
 All 34 hardcoding catalogue entries are classified in [LEGACY_HARDCODINGS](LEGACY_HARDCODINGS.md), including harmless fixtures and stable boundary constants. Intentional V004 behavior must be preserved in a scoped compatibility profile; defects and accidental global assumptions must not silently become V005 behavior.
+
+## Final read-only evidence pass — 2026-09-13
+
+Final read-only pass did not acquire Make runtime bundles: 6 UNVERIFIED hypotheses remain, 0 newly verified/refuted. Decision: LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful end-to-end implementation. Blocking: actual02 research status/output/persistence and02B evidence-backed admission bundle. Other unknowns require isolation before parity/activation but are not independent generic-core blockers. No migration status promoted; no function discarded.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.

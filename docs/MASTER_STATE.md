@@ -40,3 +40,9 @@ See [risks and baseline](EXISTING_SYSTEM.md), [migration](MAKE_MIGRATION.md) and
 VERIFIED scope: 12blueprints/81modules, eight retained workbook revisions, current bounded Sheets records, Drive asset metadata, four completed jobs with identical handoff bytes/nine input hashes, pure handoff/project parsing and read-only V4 ffprobe metadata. No new render or provider action. Research Needs Review existed historically; cause is UNVERIFIED. Story remains Voice Ready and Production Render Queued despite four SUCCEEDED results. Actual visual QA remains Pending, final-video release is unestablished.
 
 Risk register: **11 VERIFIED risks / 1 VERIFIED refutation / 6 UNVERIFIED**, with code-vs-incident scope explicit. [Runtime report](LEGACY_RUNTIME_VALIDATION.md) and [all hardcodings](LEGACY_HARDCODINGS.md) are the current evidence authority over earlier static hypotheses. Exactly four representative existing Make runs plus one activation/schedule overview are requested, not all logs. No migration, service, database, V005, QA system or publishing implementation authorized or started.
+
+## Final read-only evidence pass — 2026-09-13
+
+Final read-only reconciliation: access to Make history was not available (VERIFIED login page, no Make connector). No production data or code changed. 6→6 UNVERIFIED; 0 new verified/refuted hypotheses. Decision: LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful end-to-end app implementation. Only actual02 research status/output/persistence and02B factual admission evidence are designated blocking. Implementation remains unauthorized. The exact requested packet and all twelve UNKNOWN scheduling rows are documented in the evidence record.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.

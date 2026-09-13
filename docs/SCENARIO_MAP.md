@@ -95,3 +95,9 @@ These are **coverage gaps**, not silently discarded functions and not a request 
 ## Runtime coverage and remaining evidence
 
 VERIFIED: Sources has 47 other-story rows and no V004 rows; Analytics, Content Calendar and Automation Control contain headers only in captured ranges/full ID sentinels. Visual Gate has no populated target review/result. Current D-AUDIO/D-VISUAL names resembling slash paths are actual sibling folder names. No live schema or folder was changed. UNVERIFIED schedule/activation and four representative run gaps are listed precisely in [runtime validation](LEGACY_RUNTIME_VALIDATION.md); no blanket execution export is needed.
+
+## Final read-only evidence pass — 2026-09-13
+
+The final twelve-row activation/schedule map explicitly lists UNKNOWN for active status, schedule type, interval/trigger, execution mode, last Make run and present productive relevance. VERIFIED browser access stopped at login; no account-side evidence read. Exported polling modules and renderer completion times must not be substituted for active Make schedules.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.

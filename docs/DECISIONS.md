@@ -50,3 +50,9 @@ These are documentation/target decisions; no legacy behavior changed. Evidence: 
 | RUNTIME-11 | Request L1–L4 plus one activation overview; do not demand all logs or execute scenarios to manufacture evidence | Accepted work-mode constraint; residual evidence limited |
 
 Remaining unresolved: exact historical02/02B/05 versions and actors, Assets Ready approval criteria/author, any actual unintended duplicate incident, YouTube Data/data result and authenticated account identity, all active schedules, and release policy choices already listed. None is silently resolved by a successful render.
+
+## Final read-only evidence pass — 2026-09-13
+
+FINAL-READ-01: Keep R13–R18 UNVERIFIED; an inaccessible authenticated UI is not evidence of absent executions. FINAL-READ-02: Do not infer Needs Review cause, Shot1 intent, metric values or activation. FINAL-READ-03: Reconfirmed code causes (missing completion writeback, constant voice revision label, no QA PASS writer) are prior VERIFIED findings, not new closures. FINAL-READ-04: LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful end-to-end implementation; L1/L2 are the only designated blocking evidence. L3/L4/activation and historic duplicate uncertainty stay nonblocking for generic design only with explicit isolation; no parity/switch-over claim. No implementation authorization granted.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.

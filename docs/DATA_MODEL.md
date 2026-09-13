@@ -132,3 +132,9 @@ Evidence and exact coordinates/revision dates: [runtime validation](LEGACY_RUNTI
 | Platform Analytics empty; two different YouTube connection refs; S-MASTER timezone America/Los_Angeles | VERIFIED configuration/absence only; account equivalence, Make timezone and runtime metric availability UNVERIFIED |
 
 Proposed mandatory evidence records: full research/review JSON, input/output hashes, schema/prompt/provider versions, attempt/response ID, immutable source snapshot and rights, claim links/confidence/qualifiers/blockers, exact script/plan/timing/audio revisions, asset SHA-256, decision actor, UTC observed/received times, raw legacy status plus producing version. Analytics additionally requires entity grain, period start/end, observation time, timezone, raw units and unavailable reason. These are requirements, not an installed database.
+
+## Final read-only evidence pass — 2026-09-13
+
+VERIFIED mechanism reconfirmed:04 uses fixed AUD-{ProductionID}-SHORT1-V1 without immutable revision, so a new upload may reuse the logical ID; historical cause/retry remains UNVERIFIED. VERIFIED05/05B write QA Pending,06 forwards it, renderer does not update Sheets. Mandatory immutable research/review evidence requirements remain; exact legacy input/output/persistence parity awaits L1/L2.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.

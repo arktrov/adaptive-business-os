@@ -122,3 +122,9 @@ Exactly one orchestration state coordinator writes workflow status for each aggr
 Canonical research proposal: EVALUATED → RESEARCH_READY (explicit admission) → RESEARCHING (claimed attempt) → RESEARCH_COMPLETE / ON_HOLD / REJECTED. A retry remains an attempt under RESEARCHING, not a return value Research Ready. RESEARCH_COMPLETE permits FACT_GUARD_PENDING; factual pass with complete evidence permits scripting. Hold/reject exits require an explicit traced revision/admission command. Legacy Needs Review maps to an unresolved review reason pending reconciliation, not automatically to Research Complete or Rejected.
 
 Legacy direct multi-scenario sheet writes remain unchanged. These ownership rules are target design constraints; no coordinator, database or workflow was built.
+
+## Final read-only evidence pass — 2026-09-13
+
+VERIFIED current configuration is unchanged: Research Ready → Research Complete/On Hold/Rejected; Fact Guard → pass/Approved, hold/On Hold, reject/Rejected. UNVERIFIED actual historical Needs Review writer and pass input/output remain unresolved. No historical flow is promoted to final truth and no target state is installed. VERIFIED missing result consumer leaves Production Queued; neither renderer completion nor06 grants Asset QA PASS.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.

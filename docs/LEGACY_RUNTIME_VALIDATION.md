@@ -185,3 +185,9 @@ Most artifact questions are resolved without logs. Request only these **four rep
 Separately request one **read-only activation/schedule overview for all 12 scenarios**, including timezone and last run; this is configuration evidence, not 12 logs. It resolves R18 and identifies whether 10B overlap needs any further investigation. No separate 10B bundle is requested now because its static tail is identical. If L3 does not exist or predates retention, record its absence; do not demand all August logs. Repeat/timeout incidents R15 may remain UNVERIFIED if no retained representative failure exists; do not induce one.
 
 **Exactly one recommended next step:** close these targeted evidence gaps in one read-only reconciliation pass using L1–L4 and the activation overview, then record unresolved items explicitly before implementation authorization.
+
+## Final read-only evidence pass — 2026-09-13
+
+Final access check: VERIFIED no Make connector and browser shows the unauthenticated Make login page. No L1–L4 run or active schedule was readable. Previous UNVERIFIED=6; current=6; newly verified=0; newly disproved=0. Earlier code/artifact findings remain valid, not newly counted. The final evidence packet specifies exact views, twelve UNKNOWN scheduling rows and blocking versus nonblocking evidence.
+
+See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.
