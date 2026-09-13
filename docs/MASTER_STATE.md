@@ -11,7 +11,7 @@ Date: 2026-09-13. Phase: **0 — foundation; implementation not authorized**.
 - Master Database: 14 sheet tabs inventoried; headers, Settings, System Map and selected production/asset records inspected. V004-focused validation additionally read bounded current tables with full ID sentinels and eight retained workbook revisions; this is not a claim of complete historical event coverage.
 - Drive Render Queue has incoming, processing, completed, failed. V004 V4 job, result and handoff inspected: SUCCEEDED render result, eight visual shots, nine assets, 53.92s voice timing, 55s initial visual plan. Asset QA is Pending/null. No publish approval follows from that success.
 - Existing tests: 14/14 pass; TypeScript check passes; V002 and V003 project runtime validation passes.
-- Make blueprints received: **12**, original bytes imported locally and SHA-256 recorded. Owner explicitly confirmed the set complete on 2026-09-13. All **81 modules**, routes, filters, mappings, prompts and exported schemas statically audited. No scenario executed or modified. V004 runtime artifacts and retained revisions were subsequently validated; live schedule/activation and exact historical Make-run attribution remain UNVERIFIED.
+- GitHub account: `arktrov`; repository: `arktrov/adaptive-business-os`. Foundation complete. Make blueprints received: **12**, original bytes imported locally and SHA-256 recorded. Owner explicitly confirmed the set complete on 2026-09-13. All **81 modules**, routes, filters, mappings, prompts and exported schemas statically audited. **34 hardcodings** catalogued. Stable boundaries are RenderJob/Result 1.0, Project JSON v1, Production 2.0-final and SubtitleTiming v1; Make remains the legacy/reference system. No scenario executed or modified. V004 runtime artifacts and retained revisions were subsequently validated; live schedule/activation and exact historical Make-run attribution remain UNVERIFIED.
 
 ## Deliverable boundary
 
@@ -43,7 +43,7 @@ Risk register: **11 VERIFIED risks / 1 VERIFIED refutation / 6 UNVERIFIED**, wit
 
 ## Final read-only evidence pass — 2026-09-13
 
-Final read-only reconciliation: access to Make history was not available (VERIFIED login page, no Make connector). No production data or code changed. 6→6 UNVERIFIED; 0 new verified/refuted hypotheses. Decision: LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful end-to-end app implementation. Only actual02 research status/output/persistence and02B factual admission evidence are designated blocking. Implementation remains unauthorized. The exact requested packet and all twelve UNKNOWN scheduling rows are documented in the evidence record.
+Final read-only reconciliation: authenticated Make history tables were readable in-browser (VERIFIED); selected detail bundles remained blocked by a persistent loading view. No production data or code changed. 6→6 UNVERIFIED; 0 new verified/refuted hypotheses. Decision: LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful end-to-end app implementation. Only actual02 research status/output/persistence and02B factual admission evidence are designated blocking. Implementation remains unauthorized. The exact requested packet and all twelve UNKNOWN scheduling rows are documented in the evidence record.
 
 See [exact requested artifacts and sufficiency decision](LEGACY_RUNTIME_EVIDENCE.md). VERIFIED/INFERRED/UNVERIFIED remain scoped to code versus historical execution.
 
@@ -64,3 +64,5 @@ All visible history rows identify activity as manual by Emre Saglam; this is not
 
 The editor visibly reported **Inactive** for 02B and 10. The organization dashboard reported **Active scenarios 0/2**. The twelve-scenario list showed the complete named set, but did not expose per-row schedule/activation fields. The twelve-row activation map therefore remains UNKNOWN except for these two directly observed inactive states; schedule type, interval, timezone and last execution remain UNVERIFIED.
 
+
+No migration or large app implementation has started; V005 remains unauthorized.
