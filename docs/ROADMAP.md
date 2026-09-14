@@ -17,3 +17,6 @@ All phases after 0 require owner authorization. Completion means evidence, not j
 V005 acceptance requires explicit production setup, credentials, budget and approval policy; Phase 0 does not authorize a production run. Publishing checkpoints are per available platform metrics, with proposed 1h, 6h, 24h, 72h and 7d timers. Phase 7 is an actual onboarding later, not a guessed business profile now.
 
 Testing progression: unit tests for core/planner/state/gates/rules; integration for tenant repositories and leases; contract tests for adapters; E2E with stub providers before a real authorized production test. Keep Make rollback until every replacement is validated.
+
+## Phase 1 hardening checkpoint — 2026-09-14
+PostgreSQL is the canonical production persistence target with versioned migration db/migrations/001_control_plane.sql; JSON remains development/test adapter. State transitions enforce expected state version and immutable artifact constraints. Job detail/history is exposed by the local API/UI. REVIEW_REQUIRED: run PostgreSQL integration tests against a provisioned database and select the concrete TypeScript driver before production deployment.

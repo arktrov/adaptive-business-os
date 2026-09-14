@@ -74,3 +74,6 @@ LLM, research, image, video, voice, full-video QA, publishing and analytics port
 Control Plane Core is implemented on `codex/phase-1-control-plane`. It uses a tenant-scoped durable JSON persistence adapter for the local bootstrap (replaceable by a database adapter later), a centralized audited state machine, idempotent job creation, immutable artifact/evidence reference slots, and provider-independent boundaries. The UI exposes Businesses, Content Jobs, creation with SHORT/LONG/BOTH, and job history. No Make or external provider calls are made.
 
 Phase 1 boundaries: Provider capabilities are interfaces only. Local JSON persistence is bootstrap-only and requires REVIEW_REQUIRED database replacement for concurrent multi-user production.
+
+## Phase 1 hardening checkpoint — 2026-09-14
+PostgreSQL is the canonical production persistence target with versioned migration db/migrations/001_control_plane.sql; JSON remains development/test adapter. State transitions enforce expected state version and immutable artifact constraints. Job detail/history is exposed by the local API/UI. REVIEW_REQUIRED: run PostgreSQL integration tests against a provisioned database and select the concrete TypeScript driver before production deployment.

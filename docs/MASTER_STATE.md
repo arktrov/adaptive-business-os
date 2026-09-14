@@ -79,3 +79,6 @@ Available sources are the imported blueprints, current Google Sheets and Drive a
 The control-plane bootstrap is implemented on codex/phase-1-control-plane with ARKTROV seed data, tenant-scoped jobs, centralized audited transitions, idempotency, durable local persistence, and a minimal browser UI. External renderer remains untouched.
 
 Phase 1 continuation: immutable Artifact/Evidence registries and provider capability boundaries added; no renderer or Make changes. REVIEW_REQUIRED: replace JSON persistence with transactional database before concurrent production use.
+
+## Phase 1 hardening checkpoint — 2026-09-14
+PostgreSQL is the canonical production persistence target with versioned migration db/migrations/001_control_plane.sql; JSON remains development/test adapter. State transitions enforce expected state version and immutable artifact constraints. Job detail/history is exposed by the local API/UI. REVIEW_REQUIRED: run PostgreSQL integration tests against a provisioned database and select the concrete TypeScript driver before production deployment.
