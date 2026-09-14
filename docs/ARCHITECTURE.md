@@ -69,3 +69,6 @@ Job/run/content/business IDs, provider call IDs, input/output hashes, costs, tim
 ## Provider ports
 
 LLM, research, image, video, voice, full-video QA, publishing and analytics ports expose capability metadata, version, submit/poll/cancel where supported, timeout/error classification, cost usage and credential reference. The adapter must report unsupported features rather than silently downgrade. Gemini is the named initial full-video QA candidate from the source specification; full-video/audio support and limits must be verified before implementation. No live provider was called in Phase 0.
+## Phase 1 implementation
+
+Control Plane Core is implemented on `codex/phase-1-control-plane`. It uses a tenant-scoped durable JSON persistence adapter for the local bootstrap (replaceable by a database adapter later), a centralized audited state machine, idempotent job creation, immutable artifact/evidence reference slots, and provider-independent boundaries. The UI exposes Businesses, Content Jobs, creation with SHORT/LONG/BOTH, and job history. No Make or external provider calls are made.

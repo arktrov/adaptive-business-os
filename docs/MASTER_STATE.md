@@ -74,3 +74,6 @@ Make now reports **“Log detail doesn't exist”** for the historical Scenario 
 Available sources are the imported blueprints, current Google Sheets and Drive artifacts, and current contracts. Missing historical bundles must never be reconstructed, guessed, or invented. The new app must persist durable execution evidence itself: inputs, outputs, agent decisions, claims, sources, evidence, Fact Guard results, corrections, guardrails, QA/repair decisions, provider request/response metadata, state transitions, timestamps, versions, hashes, publish results, and analytics snapshots.
 
 **LEGACY UNDERSTANDING SUFFICIENT FOR APP IMPLEMENTATION.** Known historical gaps exist but do not block implementation. No Phase-1 implementation is started by this documentation change.
+
+## Phase 1 implementation checkpoint
+The control-plane bootstrap is implemented on codex/phase-1-control-plane with ARKTROV seed data, tenant-scoped jobs, centralized audited transitions, idempotency, durable local persistence, and a minimal browser UI. External renderer remains untouched.
