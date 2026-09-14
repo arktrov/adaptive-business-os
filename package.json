@@ -1,7 +1,14 @@
 {
-  "name":"adaptive-business-os",
-  "version":"0.1.0",
-  "private":true,
-  "type":"module",
-  "scripts":{"start":"node src/server/index.js","test":"node --test","lint":"node --check src/server/index.js && node --check src/domain/core.js"}
+  "name": "adaptive-business-os",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server/index.js",
+    "test": "node --test",
+    "lint": "node --check src/server/index.js && node --check src/domain/core.js"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
 }
