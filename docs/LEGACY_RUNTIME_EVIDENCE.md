@@ -92,3 +92,12 @@ All visible history rows identify activity as manual by Emre Saglam; this is not
 
 The editor visibly reported **Inactive** for 02B and 10. The organization dashboard reported **Active scenarios 0/2**. The twelve-scenario list showed the complete named set, but did not expose per-row schedule/activation fields. The twelve-row activation map therefore remains UNKNOWN except for these two directly observed inactive states; schedule type, interval, timezone and last execution remain UNVERIFIED.
 
+
+## Make API read-only pass — 2026-09-14
+
+- **API access:** VERIFIED. Local token used only in memory; scope configured as `scenarios:read`. GET `/api/v2/scenarios?teamId=2189886` returned 12 scenarios.
+- **Scenario 02:** VERIFIED execution metadata for the relevant successful run `1c810e86c93145a2b322f2eb34b27afe` at `2026-08-21T16:25:49.608Z` (111 operations, 120518 bytes, status 1). `GET /logs/{executionId}` returns only compact `scenarioLog`; `GET /executions/{executionId}` returns only status. Story ID, research JSON, claims, sources, evidence and Sheet writes remain UNVERIFIED.
+- **Scenario 02B:** VERIFIED successful runs `a7a675160d8441af9eb249ae306d0d27` at `2026-08-29T20:04:55.040Z` and `7a2b1f85d76a498cb661a94844f18c3d` at `2026-08-29T20:19:00.683Z`; both status 1, 5 operations. Errors are VERIFIED: RateLimitError at 19:37:52Z and BundleValidationError at 19:43:36Z. Fact Guard inputs/outputs, PASS/HOLD/REJECT, corrections, guardrails and final Sheet write remain UNVERIFIED.
+- **API CAN ACCESS:** scenario list, execution IDs, timestamps, status, operation/transfer metadata, top-level error metadata.
+- **API CANNOT ACCESS (with current read scope/endpoints):** historical module bundles, module inputs/outputs, provider payloads, and persisted Sheet/Drive values.
+- **Sufficiency:** LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful app implementation; the two targeted blocker bundles remain required.
