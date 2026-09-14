@@ -101,3 +101,11 @@ The editor visibly reported **Inactive** for 02B and 10. The organization dashbo
 - **API CAN ACCESS:** scenario list, execution IDs, timestamps, status, operation/transfer metadata, top-level error metadata.
 - **API CANNOT ACCESS (with current read scope/endpoints):** historical module bundles, module inputs/outputs, provider payloads, and persisted Sheet/Drive values.
 - **Sufficiency:** LEGACY UNDERSTANDING NOT YET SUFFICIENT for faithful app implementation; the two targeted blocker bundles remain required.
+
+## Closure decision — 2026-09-14 (HISTORICAL_EVIDENCE_UNAVAILABLE)
+
+Make now reports **“Log detail doesn't exist”** for the historical Scenario 02 and 02B executions. The retained run metadata remains known, but the historical Research and Fact Guard module bundles are permanently unavailable because they are outside Make's execution-log retention. This is **HISTORICAL_EVIDENCE_UNAVAILABLE**, not an implementation blocker.
+
+Available sources are the imported blueprints, current Google Sheets and Drive artifacts, and current contracts. Missing historical bundles must never be reconstructed, guessed, or invented. The new app must persist durable execution evidence itself: inputs, outputs, agent decisions, claims, sources, evidence, Fact Guard results, corrections, guardrails, QA/repair decisions, provider request/response metadata, state transitions, timestamps, versions, hashes, publish results, and analytics snapshots.
+
+**LEGACY UNDERSTANDING SUFFICIENT FOR APP IMPLEMENTATION.** Known historical gaps exist but do not block implementation. No Phase-1 implementation is started by this documentation change.
