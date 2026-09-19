@@ -1,8 +1,8 @@
 # Adaptive Business OS
 
-Phase 0 foundation. Reusable business automation, first validated with ARKTROV, then with a separately onboarded ZHEM business.
+Phase 1 local control plane. Reusable business automation, first validated with ARKTROV, then with a separately onboarded ZHEM business.
 
-**No production application is implemented in this repository yet.** Existing rendering remains in the external `arktrov-remotion` project. No Make scenario has been replaced.
+**Phase 1 local acceptance is complete.** See [runbook](docs/PHASE1_RUNBOOK.md) and [test matrix](docs/TEST_MATRIX.md). Existing rendering remains in the external `arktrov-remotion` project. No Make scenario has been replaced.
 
 The complete 12-blueprint Make set is imported locally and statically audited (81 modules); [scenario audits](docs/make/README.md) and the migration matrix document the current behavior and remaining runtime questions.
 

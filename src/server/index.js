@@ -1,4 +1,72 @@
-import http from 'node:http'; import {readFile,writeFile} from 'node:fs/promises'; import {Store} from '../domain/core.js'; import {PostgresStore} from '../persistence-postgres.js';
-const usePg=Boolean(process.env.DATABASE_URL); const dbUrl=new URL('../../data/control-plane.json',import.meta.url); let store;
-if(usePg){store=new PostgresStore(process.env.DATABASE_URL);await store.pool.query("INSERT INTO businesses(id,tenant_id,name,brand) VALUES('arktrov','arktrov','ARKTROV',$1) ON CONFLICT (id) DO NOTHING",[{language:'de',allowed_formats:['SHORT','LONG','BOTH'],quality_policy_reference:'docs/QUALITY_GATES.md',publishing_policy_reference:'docs/ARCHITECTURE.md',analytics_policy_reference:'docs/LEARNING_SYSTEM.md',learning_policy_reference:'docs/LEARNING_SYSTEM.md'}])}else{try{store=new Store(JSON.parse(await readFile(dbUrl,'utf8')))}catch{store=new Store()};if(!store.business('arktrov')){store.createBusiness({id:'arktrov',tenant_id:'arktrov',name:'ARKTROV',brand:{language:'de',allowed_formats:['SHORT','LONG','BOTH']}});await writeFile(dbUrl,JSON.stringify(store.data,null,2))}}
-const json=(res,x,s=200)=>{res.writeHead(s,{'content-type':'application/json'});res.end(JSON.stringify(x))};const server=http.createServer(async(req,res)=>{try{if(req.url==='/api/businesses'){if(usePg){const x=await store.pool.query('SELECT * FROM businesses ORDER BY id');return json(res,x.rows)}return json(res,store.data.businesses)}if(req.url==='/api/jobs'&&req.method==='GET'){if(usePg){const x=await store.pool.query('SELECT * FROM content_jobs ORDER BY created_at DESC');return json(res,x.rows)}return json(res,store.data.jobs)}if(req.url==='/api/jobs'&&req.method==='POST'){let b='';for await(const c of req)b+=c;const input=JSON.parse(b);const j=usePg?await store.createJob(input):store.createJob(input);if(!usePg)await writeFile(dbUrl,JSON.stringify(store.data,null,2));return json(res,j,201)}if(req.url.startsWith('/api/jobs/')&&req.method==='GET'){const id=req.url.split('/')[3];if(usePg){const d=await store.getJob(id,req.headers['x-business-id']||'arktrov');return d?json(res,d):json(res,{error:'NOT_FOUND'},404)}const j=store.data.jobs.find(x=>x.id===id);return j?json(res,{job:j,transitions:store.data.transitions.filter(t=>t.job_id===id),evidence:[],artifacts:[]}):json(res,{error:'NOT_FOUND'},404)}res.writeHead(200,{'content-type':'text/html'});res.end(await readFile(new URL('../../public/index.html',import.meta.url)))}catch(e){json(res,{error:e.message},400)}});server.listen(process.env.PORT||3000,()=>console.log(`Adaptive Business OS listening on ${process.env.PORT||3000} (${usePg?'postgres':'json'})`));
+import http from 'node:http';
+import {fileURLToPath} from 'node:url';
+import {readFile,writeFile,mkdir,rename} from 'node:fs/promises';
+import {Store} from '../domain/core.js';
+import {PostgresStore} from '../persistence-postgres.js';
+
+const businessId=process.env.BUSINESS_ID||'arktrov'; // local operator context; never trust a browser-supplied tenant.
+const usePg=Boolean(process.env.DATABASE_URL);
+const file=new URL('../../data/control-plane.json',import.meta.url);
+let store;
+if(usePg)store=new PostgresStore(process.env.DATABASE_URL);
+else {
+ let seed={};try{seed=JSON.parse(await readFile(file,'utf8'))}catch(e){if(e.code!=='ENOENT')throw e}
+ store=new Store(seed);
+}
+const seed={id:'arktrov',tenant_id:'arktrov',name:'ARKTROV',brand:{allowed_formats:['SHORT','LONG','BOTH']}};
+if(usePg)await store.seed(seed);
+else if(!store.business(seed.id))store.createBusiness(seed);
+async function save(){if(!usePg){await mkdir(new URL('../../data/',import.meta.url),{recursive:true});await writeFile(fileURLToPath(file)+'.tmp',JSON.stringify(store.data));await rename(fileURLToPath(file)+'.tmp',file)}}
+async function detail(id){
+ if(usePg)return store.getJob(id,businessId);
+ const j=store.data.jobs.find(x=>x.id===id&&x.business_id===businessId);if(!j)return null;
+ const h=store.data.transitions.filter(x=>x.job_id===id);
+ return {job:j,stateHistory:h,transitions:h,evidence:store.data.evidence.filter(x=>x.content_job_id===id&&x.business_id===businessId),artifacts:store.data.artifacts.filter(x=>x.content_job_id===id&&x.business_id===businessId),quality:{technical:null,multimodal:null,finalJudge:null,releaseGate:null},publish:{target:null,status:null,result:null}};
+}
+async function body(req){let b='';for await(const c of req){b+=c;if(b.length>1048576)throw Error('BODY_TOO_LARGE')}return JSON.parse(b||'{}')}
+const send=(res,x,status=200)=>{res.writeHead(status,{'content-type':'application/json'});res.end(JSON.stringify(x))};
+const server=http.createServer(async(req,res)=>{
+ const started=Date.now();let operation='read';
+ try {
+ const url=new URL(req.url,'http://localhost');
+ if(url.pathname.startsWith('/api/')&&req.headers['x-business-id']&&req.headers['x-business-id']!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
+ if(req.method==='GET'&&url.pathname==='/api/businesses')return send(res,usePg?await store.businesses(businessId):store.data.businesses.filter(b=>b.id===businessId));
+ if(req.method==='GET'&&url.pathname==='/api/jobs')return send(res,usePg?await store.jobs(businessId):store.data.jobs.filter(j=>j.business_id===businessId));
+ if(req.method==='POST'&&url.pathname==='/api/jobs'){
+  operation='createJob';const i=await body(req);
+  if(i.business_id&&i.business_id!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
+  if(!['SHORT','LONG','BOTH'].includes(i.format)||!i.idempotency_key)throw Error('INVALID_JOB');
+  const j=await store.createJob({...i,business_id:businessId});await save();return send(res,j,201);
+ }
+ const match=url.pathname.match(/^\/api\/jobs\/([a-f0-9-]+)(?:\/(evidence|artifacts|transitions))?$/);
+ if(match){
+  const [,id,kind]=match;const d=await detail(id);if(!d)return send(res,{error:'NOT_FOUND'},404);
+  if(req.method==='GET'&&!kind)return send(res,d);
+  if(req.method==='POST'&&kind){
+   operation=kind;const i=await body(req);
+   if(i.business_id&&i.business_id!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
+   const input={...i,business_id:businessId,content_job_id:id};
+   let result;
+   if(kind==='transitions'){
+    if(process.env.ENABLE_DEV_TRANSITIONS!=='1')return send(res,{error:'TRANSITIONS_DISABLED'},403);
+    result=usePg?await store.transition(id,i.expected_state_version,i.to_state,{...i,business_id:businessId}):store.transition(id,d.job.current_state,i.to_state,{...i,business_id:businessId});
+   }else if(usePg)result=kind==='evidence'?await store.addEvidence(input):await store.addArtifact(input);
+   else {
+    result=kind==='evidence'?store.addEvidence({...input,job_id:id,type:i.evidence_type,payload_ref:i.reference}):store.addArtifact({...input,storage_ref:i.storage_reference});
+    Object.assign(result,input);
+   }
+   await save();return send(res,result,201);
+  }
+  return send(res,{error:'METHOD_NOT_ALLOWED'},405);
+ }
+ if(req.method==='GET'&&['/','/app.js'].includes(url.pathname)){
+  res.writeHead(200,{'content-type':url.pathname==='/app.js'?'text/javascript':'text/html','X-Content-Type-Options':'nosniff'});
+  return res.end(await readFile(new URL('../../public/'+(url.pathname==='/'?'index.html':'app.js'),import.meta.url)));
+ }
+ send(res,{error:'NOT_FOUND'},404);
+ }catch(e){send(res,{error:e.code==='23505'?'DUPLICATE_VERSION':e.message},['23505','23514'].includes(e.code)||e.message==='STALE_STATE_VERSION'?409:400)}
+ finally{console.log(JSON.stringify({business_id:businessId,operation,duration:Date.now()-started,status:res.statusCode}))}
+});
+server.listen(Number(process.env.PORT||3000),'127.0.0.1',()=>console.log(JSON.stringify({event:'ready',adapter:usePg?'postgres':'json',port:server.address().port})));
+async function stop(){server.close(async()=>{if(usePg)await store.close();process.exit(0)})}
+process.on('SIGTERM',stop);process.on('SIGINT',stop);

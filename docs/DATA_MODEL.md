@@ -1,5 +1,17 @@
 # Data model
 
+## Current Phase 1 acceptance — 2026-09-19
+
+**PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
+This section supersedes earlier Phase-0/FAIL and incomplete implementation notes below; those remain dated history.
+Evidence/Artifact PostgreSQL writes, tenant-scoped detail API, real UI display and append-only DB protection are implemented.
+Both clean-database acceptance runs passed 29/29 tests, covering 24/24 requirements; the real app restart retains all evidence and artifact fields.
+PostgreSQL remains canonical, with the existing pg adapter; JSON remains development fallback.
+See [test matrix](TEST_MATRIX.md) and [local commands and acceptance scope](PHASE1_RUNBOOK.md).
+No Phase 2 is authorized or started.
+
+
+
 **Legacy audit first; target logical design below remains unimplemented.** Source: complete 12-blueprint set and prior workbook/renderer evidence. The [column dictionary](make/COLUMN_DICTIONARY.md) retains all meaningful exported field labels, and [scenario appendices](make/README.md) retain exact read predicates/write expressions. No live schema was altered.
 
 ## Shared legacy entities
