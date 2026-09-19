@@ -38,3 +38,16 @@ Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 e
 
 ## Phase 1 final closeout — 2026-09-14
 DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.
+
+## Frozen Phase 1 technical debt — 2026-09-20
+
+These are accepted nonblocking review findings, not work authorized by the freeze:
+
+| ID | Severity | Debt | Required follow-up |
+| --- | --- | --- | --- |
+| TD-01 | MEDIUM | JSON adapter concurrency and failed-save memory consistency | Keep JSON development-only; review before concurrent use. PostgreSQL remains canonical. |
+| TD-02 | MEDIUM | Migration recognition adopts a manual baseline without a full fingerprint | Validate schema/checksum recognition before adopting another existing environment. |
+| TD-03 | MEDIUM | Same idempotency key with changed relevant inputs returns the old job | MUST review before any real external provider call in Phase 2. Define input/version hash and reject changed-input key reuse so an old output cannot be reused incorrectly. |
+| TD-04 | LOW | Incomplete diagnostic correlation and raw error output | Improve sanitized diagnostics before external deployment. |
+
+No debt implementation is part of merge/freeze. See PR_REVIEW.md for the original findings.

@@ -1,11 +1,19 @@
 # Master state
 
+## Phase 1 freeze — 2026-09-20
+
+**PHASE 1 = COMPLETE. PHASE 2 = NOT STARTED.**
+Baseline tag: `v0.1.0-control-plane`, to reference the verified merge commit of PR #1.
+Completed: Control Plane Core, PostgreSQL Persistence, central State Machine, Audit Trail, Tenant Isolation, Idempotency, Evidence Persistence, Immutable Artifacts, Job Detail UI, Restart Persistence, Release Bypass Protection and Network Exposure Protection.
+Acceptance: 24/24 requirements and 31/31 post-review tests. Renderer unchanged (31 reference hashes).
+Four nonblocking review findings are tracked as TD-01 through TD-04 in ROADMAP.md; no fixes are authorized by this freeze.
+No Research, Fact Guard, provider integration, V005 execution, Make/renderer changes or publishing is started.
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
 This section supersedes earlier Phase-0/FAIL and incomplete implementation notes below; those remain dated history.
 Evidence/Artifact PostgreSQL writes, tenant-scoped detail API, real UI display and append-only DB protection are implemented.
-Both clean-database acceptance runs passed 29/29 tests, covering 24/24 requirements; the real app restart retains all evidence and artifact fields.
+Both post-review clean-database acceptance runs passed 31/31 tests, covering 24/24 requirements; the real app restart retains all evidence and artifact fields.
 PostgreSQL remains canonical, with the existing pg adapter; JSON remains development fallback.
 See [test matrix](TEST_MATRIX.md) and [local commands and acceptance scope](PHASE1_RUNBOOK.md).
 No Phase 2 is authorized or started.
