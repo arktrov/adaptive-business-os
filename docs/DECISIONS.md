@@ -1,5 +1,16 @@
 # Decisions
 
+## Phase 2A decisions — 2026-09-20
+
+- P2A-01 ACCEPTED: owner explicitly selects zero-credential, zero-external-call deterministic adapters for this acceptance. Synthetic results are labelled and prohibited on real-content API jobs. Live provider verification remains separate.
+- P2A-02 ACCEPTED: retain existing JavaScript/pg modular architecture. Add provider-neutral service/validation and repository ports, not a framework rewrite. ARKTROV source priorities live only in versioned configuration.
+- P2A-03 ACCEPTED: immutable starts and terminal outcomes, full canonical snapshots/hashes and normalized claim/source links. A single state helper couples evidence and audit in one transaction. Composite foreign keys preserve the Phase-1 business security boundary.
+- P2A-04 ACCEPTED: canonical request hash includes content, business/job, operation, prompt/policy/workflow and adapter configuration. Same key with changed input is a conflict. Explicit retry creates a new audited attempt; per-job DB ownership plus state-version fencing prevents duplicate success and late commits. Interrupted external requests must be reconciled by any later real adapter before retry; never assume external exactly-once behavior.
+- P2A-05 ACCEPTED: latest complete research revision feeds Fact Guard; canonical PASS/REVIEW_REQUIRED/REJECT map centrally. REVIEW_REQUIRED/REJECTED remain blocked pending future explicit revision admission. No downstream production is implemented.
+- P2A-07 VERIFIED: full local acceptance passes twice (76/76), TD-03 RESOLVED. Live adapter is not connected and is not a requirement of this gate. V005 remains initial without invented topic/evidence.
+- P2A-06 ACCEPTED: no V005 topic invention, no Make replay or reconstructed historical bundles. Source/claim qualifiers, evidence, blockers, safe hook and corrections survive in complete canonical results. Renderer contracts remain unchanged.
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**

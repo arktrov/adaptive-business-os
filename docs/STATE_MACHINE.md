@@ -1,5 +1,14 @@
 # State machines
 
+## Phase 2A implemented progression — 2026-09-20
+
+RESEARCH_PENDING -> RESEARCH_RUNNING -> RESEARCH_COMPLETE -> FACT_GUARD_PENDING -> FACT_GUARD_RUNNING -> FACT_GUARD_PASSED.
+
+Research REVIEW_REQUIRED/REJECTED and Fact Guard REVIEW_REQUIRED/REJECT map to REVIEW_REQUIRED/REJECTED. Provider/parsing/persistence failure maps FAILED. An explicit retry can re-admit the failed operation to its own pending state; no implicit retries or review overrides occur. A durable interrupted start is first failed with an INTERRUPTED audit during explicit recovery.
+
+Only PostgresStore.transitionInTransaction writes state. RUNNING requires a persisted uncompleted attempt; successful completion requires matching run identity, expected state version and persisted successful output in the same transaction. Claims/sources/links and audit roll back on persistence failure. Phase-2 states are refused by JSON. Research complete admits only Fact Guard; factual pass still grants no release or publication. Existing release protections remain intact.
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**

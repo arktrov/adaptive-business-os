@@ -14,6 +14,7 @@ async function detail(id){
  table('#history',d.stateHistory.map(t=>({...t,actor:t.actor_id||t.actor_type,timestamp:t.occurred_at||t.timestamp})),[['From','from_state'],['To','to_state'],['Actor','actor'],['Reason','reason'],['Run','run_id'],['Timestamp','timestamp']]);
  table('#evidence',d.evidence,[['Type','evidence_type'],['Source','source'],['Reference','reference'],['Created At','created_at']]);
  table('#artifacts',d.artifacts,[['Logical Name','logical_name'],['Artifact ID','artifact_id'],['Version','version'],['Content Hash','content_hash'],['Storage Reference','storage_reference'],['Created At','created_at']]);
+ renderRuns('#research',d.research??[]);renderRuns('#fact-guard',d.factGuard??[]);
  $('#quality').textContent=Object.entries(d.quality).map(([k,v])=>k+': '+(v??'Nicht ausgeführt')).join(' · ');
  $('#publish').textContent=Object.entries(d.publish).map(([k,v])=>k+': '+(v??'Nicht vorhanden')).join(' · ');
 }
@@ -25,3 +26,14 @@ async function load(){
 function showError(e){$('#error').textContent=e.message}
 $('#form').onsubmit=async e=>{e.preventDefault();try{const d=Object.fromEntries(new FormData(e.target));d.idempotency_key=crypto.randomUUID();const j=await api('/api/jobs',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(d)});await load();await detail(j.id)}catch(e){showError(e)}};
 load().catch(showError);
+
+function renderRuns(target,runs){
+ const root=$(target);root.replaceChildren();
+ if(!runs.length){root.textContent='Nicht ausgeführt';return}
+ for(const run of runs){
+  const section=document.createElement('section'),title=document.createElement('h4'),pre=document.createElement('pre');
+  title.textContent=run.status+' · '+(run.metadata?.synthetic===true?'SYNTHETISCHE TESTDATEN – kein echter Research-/Fact-Guard-Nachweis':run.metadata?.synthetic===false?'Provider-Ergebnis':'Keine erfolgreiche Provider-Evidenz');
+  pre.textContent=JSON.stringify({run_id:run.run_id,attempt:run.attempt,provider:run.provider,model:run.model,prompt_version:run.prompt_version,policy_version:run.policy_version,started_at:run.started_at,completed_at:run.completed_at,status:run.status,error_category:run.error_category,canonical_input_hash:run.canonical_input_hash,output_hash:run.output_hash,result:run.output},null,2);
+  section.append(title,pre);root.append(section);
+ }
+}

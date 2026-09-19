@@ -1,5 +1,10 @@
 # Master state
 
+## Current Phase 2A checkpoint — 2026-09-20
+
+Owner authorized only Research -> Persistent Evidence -> Fact Guard with deterministic local adapters. This supersedes dated NOT STARTED entries below. Phase 1 remains COMPLETE at v0.1.0-control-plane. PHASE 2A ACCEPTANCE = PASS. LIVE PROVIDER = NOT YET CONNECTED. READY_FOR_PROVIDER_INTEGRATION = YES. Two clean PostgreSQL acceptance runs each passed 76/76 tests: 31 Phase-1 regressions plus 45 Phase-2A cases; 24/24 + 25/25 requirements mapped. Lint/build, secret scan, 12 Make originals and 31 renderer hashes pass. Migration 003 is applied to the local development DB; ARKTROV Video 005 is SHORT / IDEA_CREATED with zero research and Fact Guard runs. No credentials or external calls are involved. V005 has no confirmed topic; keep it initial and separate from synthetic fixtures. See [Research contract](RESEARCH_CONTRACT.md), [Fact Guard contract](FACT_GUARD_CONTRACT.md) and [runbook](PHASE2A_RUNBOOK.md).
+
+
 ## Phase 1 freeze — 2026-09-20
 
 **PHASE 1 = COMPLETE. PHASE 2 = NOT STARTED.**

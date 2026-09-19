@@ -1,5 +1,12 @@
 # Data model
 
+## Phase 2A implemented model — 2026-09-20
+
+Migration 003 adds research_definitions, research_operations, research_attempts, research_outcomes, research_claims, research_sources and research_claim_evidence. Operation contains canonical input hash and full request snapshot; attempts append starts; outcomes append immutable result/hash/metadata/error/timestamps. Unique business/job/operation/key and one successful outcome per operation enforce idempotency. Every relation uses business/job/run scope; Fact Guard input references a persisted same-job outcome. Definition ID/version hashes reject unversioned changes.
+
+All new tables reject updates and deletes. Structured canonical results retain qualifiers, source dates/rights, uncertainties, contradictions, evidence excerpts, corrections, guardrails and claim decisions. See [Research](RESEARCH_CONTRACT.md) and [Fact Guard](FACT_GUARD_CONTRACT.md). Business tenant ownership follows the verified Phase-1 businesses relation; no tenant model redesign is introduced.
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**

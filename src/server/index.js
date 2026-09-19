@@ -1,3 +1,7 @@
+import {ResearchRepository} from '../research-postgres.js';
+import {ResearchService} from '../application/research-service.js';
+import {LocalResearchProvider,LocalFactGuardProvider} from '../providers/local.js';
+import {researchPrompt,factGuardPrompt,genericPolicy,arktrovPolicy} from '../config/research.js';
 import http from 'node:http';
 import {fileURLToPath} from 'node:url';
 import {readFile,writeFile,mkdir,rename} from 'node:fs/promises';
@@ -16,6 +20,7 @@ else {
 const seed={id:'arktrov',tenant_id:'arktrov',name:'ARKTROV',brand:{allowed_formats:['SHORT','LONG','BOTH']}};
 if(usePg)await store.seed(seed);
 else if(!store.business(seed.id))store.createBusiness(seed);
+const researchService=usePg?new ResearchService({repository:new ResearchRepository(store),researchProvider:new LocalResearchProvider(process.env.LOCAL_RESEARCH_MODE||'success'),factGuardProvider:new LocalFactGuardProvider(process.env.LOCAL_FACT_GUARD_MODE||'PASS'),prompts:{research:researchPrompt,fact_guard:factGuardPrompt},policy:businessId==='arktrov'?arktrovPolicy:genericPolicy}):null;
 async function save(){if(!usePg){await mkdir(new URL('../../data/',import.meta.url),{recursive:true});await writeFile(fileURLToPath(file)+'.tmp',JSON.stringify(store.data));await rename(fileURLToPath(file)+'.tmp',file)}}
 async function detail(id){
  if(usePg)return store.getJob(id,businessId);
@@ -43,16 +48,24 @@ const server=http.createServer(async(req,res)=>{
   if(!['SHORT','LONG','BOTH'].includes(i.format)||!i.idempotency_key)throw Error('INVALID_JOB');
   const j=await store.createJob({...i,business_id:businessId});await save();return send(res,j,201);
  }
- const match=url.pathname.match(/^\/api\/jobs\/([a-f0-9-]+)(?:\/(evidence|artifacts|transitions))?$/);
+ const match=url.pathname.match(/^\/api\/jobs\/([a-f0-9-]+)(?:\/(evidence|artifacts|transitions|research|fact-guard|pipeline))?$/);
  if(match){
   const [,id,kind]=match;const d=await detail(id);if(!d)return send(res,{error:'NOT_FOUND'},404);
   if(req.method==='GET'&&!kind)return send(res,d);
+  if(req.method==='GET'&&['research','fact-guard'].includes(kind))return send(res,kind==='research'?(d.research??[]):(d.factGuard??[]));
   if(req.method==='POST'&&kind){
    operation=kind;const i=await body(req);
    if(i.business_id&&i.business_id!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
    const input={...i,business_id:businessId,content_job_id:id};
    let result;
-   if(kind==='transitions'){
+   if(['research','fact-guard','pipeline'].includes(kind)){
+    if(!researchService)return send(res,{error:'POSTGRES_REQUIRED'},409);
+    if(process.env.ENABLE_LOCAL_RESEARCH!=='1')return send(res,{error:'LOCAL_RESEARCH_DISABLED'},403);
+    if(!d.job.content_item_id?.startsWith('synthetic:'))return send(res,{error:'SYNTHETIC_JOB_REQUIRED'},409);
+    const command={business_id:businessId,content_job_id:id,operation:kind==='research'?'research':'fact_guard',idempotency_key:i.idempotency_key,input:i.input,retry:i.retry===true};
+    if(typeof i.idempotency_key!=='string'||!i.idempotency_key.trim())throw Error('INVALID_OPERATION');
+    result=kind==='pipeline'?await researchService.runPipeline(command):await researchService.run(command);
+   }else if(kind==='transitions'){
     if(process.env.ENABLE_DEV_TRANSITIONS!=='1')return send(res,{error:'TRANSITIONS_DISABLED'},403);
     result=usePg?await store.transition(id,i.expected_state_version,i.to_state,{...i,business_id:businessId}):store.transition(id,d.job.current_state,i.to_state,{...i,business_id:businessId});
    }else if(usePg)result=kind==='evidence'?await store.addEvidence(input):await store.addArtifact(input);
@@ -69,7 +82,7 @@ const server=http.createServer(async(req,res)=>{
   return res.end(await readFile(new URL('../../public/'+(url.pathname==='/'?'index.html':'app.js'),import.meta.url)));
  }
  send(res,{error:'NOT_FOUND'},404);
- }catch(e){send(res,{error:e.code==='23505'?'DUPLICATE_VERSION':e.message},['23505','23514'].includes(e.code)||e.message==='STALE_STATE_VERSION'?409:400)}
+ }catch(e){send(res,{error:e.code==='23505'?'DUPLICATE_VERSION':e.message},['23505','23514'].includes(e.code)||['STALE_STATE_VERSION','IDEMPOTENCY_CONFLICT','VERSION_CONTENT_CONFLICT','EXPLICIT_RETRY_REQUIRED','INTERRUPTED_RETRY_REQUIRED','OPERATION_IN_PROGRESS'].includes(e.message)?409:400)}
  finally{console.log(JSON.stringify({business_id:businessId,operation,duration:Date.now()-started,status:res.statusCode}))}
 });
 server.listen(Number(process.env.PORT||3000),'127.0.0.1',()=>console.log(JSON.stringify({event:'ready',adapter:usePg?'postgres':'json',port:server.address().port})));

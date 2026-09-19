@@ -1,5 +1,12 @@
 # Roadmap
 
+## Phase 2A scope — 2026-09-20
+
+Research, persistent evidence and Fact Guard are implemented with local deterministic adapters; final repeated acceptance is PASS (76/76 twice). Live provider integration, V005 topic selection and one controlled external Research run remain a separate next block. Script/media/render/publishing/analytics/learning remain out of scope. See [runbook](PHASE2A_RUNBOOK.md).
+
+TD-03 implementation: canonical input conflict checks now cover both job adapters and the PostgreSQL operation repository; RESOLVED after both complete 76/76 acceptance runs. TD-01, TD-02 and TD-04 remain open; no broad refactor was undertaken. A future live adapter must reconcile ambiguous external submission outcomes before retries.
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
@@ -47,7 +54,7 @@ These are accepted nonblocking review findings, not work authorized by the freez
 | --- | --- | --- | --- |
 | TD-01 | MEDIUM | JSON adapter concurrency and failed-save memory consistency | Keep JSON development-only; review before concurrent use. PostgreSQL remains canonical. |
 | TD-02 | MEDIUM | Migration recognition adopts a manual baseline without a full fingerprint | Validate schema/checksum recognition before adopting another existing environment. |
-| TD-03 | MEDIUM | Same idempotency key with changed relevant inputs returns the old job | MUST review before any real external provider call in Phase 2. Define input/version hash and reject changed-input key reuse so an old output cannot be reused incorrectly. |
+| TD-03 | MEDIUM — RESOLVED in Phase 2A | Changed-input job and operation key reuse is rejected; canonical hashes include relevant versions/configuration | Verified by P2A03, job conflict, prompt/policy/model conflict and concurrent duplicate tests. Preserve these checks when adding a live adapter. |
 | TD-04 | LOW | Incomplete diagnostic correlation and raw error output | Improve sanitized diagnostics before external deployment. |
 
 No debt implementation is part of merge/freeze. See PR_REVIEW.md for the original findings.
