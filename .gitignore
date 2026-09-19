@@ -22,3 +22,9 @@ legacy/make-blueprints/*
 !legacy/make-blueprints/reviewed/
 legacy/make-blueprints/reviewed/*
 !legacy/make-blueprints/reviewed/README.md
+
+data/control-plane.json
+
+docker-compose.override.yml
+.env.local
+data/control-plane.json

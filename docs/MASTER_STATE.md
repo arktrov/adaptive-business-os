@@ -1,5 +1,25 @@
 # Master state
 
+## Phase 1 freeze — 2026-09-20
+
+**PHASE 1 = COMPLETE. PHASE 2 = NOT STARTED.**
+Baseline tag: `v0.1.0-control-plane`, to reference the verified merge commit of PR #1.
+Completed: Control Plane Core, PostgreSQL Persistence, central State Machine, Audit Trail, Tenant Isolation, Idempotency, Evidence Persistence, Immutable Artifacts, Job Detail UI, Restart Persistence, Release Bypass Protection and Network Exposure Protection.
+Acceptance: 24/24 requirements and 31/31 post-review tests. Renderer unchanged (31 reference hashes).
+Four nonblocking review findings are tracked as TD-01 through TD-04 in ROADMAP.md; no fixes are authorized by this freeze.
+No Research, Fact Guard, provider integration, V005 execution, Make/renderer changes or publishing is started.
+## Current Phase 1 acceptance — 2026-09-19
+
+**PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
+This section supersedes earlier Phase-0/FAIL and incomplete implementation notes below; those remain dated history.
+Evidence/Artifact PostgreSQL writes, tenant-scoped detail API, real UI display and append-only DB protection are implemented.
+Both post-review clean-database acceptance runs passed 31/31 tests, covering 24/24 requirements; the real app restart retains all evidence and artifact fields.
+PostgreSQL remains canonical, with the existing pg adapter; JSON remains development fallback.
+See [test matrix](TEST_MATRIX.md) and [local commands and acceptance scope](PHASE1_RUNBOOK.md).
+No Phase 2 is authorized or started.
+
+
+
 Date: 2026-09-13. Phase: **0 — foundation; implementation not authorized**.
 
 ## Verified baseline
@@ -74,3 +94,17 @@ Make now reports **“Log detail doesn't exist”** for the historical Scenario 
 Available sources are the imported blueprints, current Google Sheets and Drive artifacts, and current contracts. Missing historical bundles must never be reconstructed, guessed, or invented. The new app must persist durable execution evidence itself: inputs, outputs, agent decisions, claims, sources, evidence, Fact Guard results, corrections, guardrails, QA/repair decisions, provider request/response metadata, state transitions, timestamps, versions, hashes, publish results, and analytics snapshots.
 
 **LEGACY UNDERSTANDING SUFFICIENT FOR APP IMPLEMENTATION.** Known historical gaps exist but do not block implementation. No Phase-1 implementation is started by this documentation change.
+
+## Phase 1 implementation checkpoint
+The control-plane bootstrap is implemented on codex/phase-1-control-plane with ARKTROV seed data, tenant-scoped jobs, centralized audited transitions, idempotency, durable local persistence, and a minimal browser UI. External renderer remains untouched.
+
+Phase 1 continuation: immutable Artifact/Evidence registries and provider capability boundaries added; no renderer or Make changes. REVIEW_REQUIRED: replace JSON persistence with transactional database before concurrent production use.
+
+## Phase 1 hardening checkpoint — 2026-09-14
+PostgreSQL is the canonical production persistence target with versioned migration db/migrations/001_control_plane.sql; JSON remains development/test adapter. State transitions enforce expected state version and immutable artifact constraints. Job detail/history is exposed by the local API/UI. REVIEW_REQUIRED: run PostgreSQL integration tests against a provisioned database and select the concrete TypeScript driver before production deployment.
+
+## PostgreSQL final acceptance pass — 2026-09-14
+Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 executed successfully; five tables, foreign keys and unique constraints verified. src/persistence-postgres.js provides transactional create/transition/getJob operations with optimistic state versioning and tenant-scoped reads. Integration script verified DB idempotency, audit coupling, concurrency rejection and tenant isolation. The app server still defaults to JSON unless DATABASE_URL wiring is enabled; REVIEW_REQUIRED before production use.
+
+## Phase 1 final closeout — 2026-09-14
+DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.

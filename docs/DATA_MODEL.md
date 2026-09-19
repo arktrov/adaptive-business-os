@@ -1,5 +1,17 @@
 # Data model
 
+## Current Phase 1 acceptance — 2026-09-19
+
+**PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
+This section supersedes earlier Phase-0/FAIL and incomplete implementation notes below; those remain dated history.
+Evidence/Artifact PostgreSQL writes, tenant-scoped detail API, real UI display and append-only DB protection are implemented.
+Both clean-database acceptance runs passed 29/29 tests, covering 24/24 requirements; the real app restart retains all evidence and artifact fields.
+PostgreSQL remains canonical, with the existing pg adapter; JSON remains development fallback.
+See [test matrix](TEST_MATRIX.md) and [local commands and acceptance scope](PHASE1_RUNBOOK.md).
+No Phase 2 is authorized or started.
+
+
+
 **Legacy audit first; target logical design below remains unimplemented.** Source: complete 12-blueprint set and prior workbook/renderer evidence. The [column dictionary](make/COLUMN_DICTIONARY.md) retains all meaningful exported field labels, and [scenario appendices](make/README.md) retain exact read predicates/write expressions. No live schema was altered.
 
 ## Shared legacy entities
@@ -156,3 +168,12 @@ All visible history rows identify activity as manual by Emre Saglam; this is not
 
 The editor visibly reported **Inactive** for 02B and 10. The organization dashboard reported **Active scenarios 0/2**. The twelve-scenario list showed the complete named set, but did not expose per-row schedule/activation fields. The twelve-row activation map therefore remains UNKNOWN except for these two directly observed inactive states; schedule type, interval, timezone and last execution remain UNVERIFIED.
 
+
+## Phase 1 hardening checkpoint — 2026-09-14
+PostgreSQL is the canonical production persistence target with versioned migration db/migrations/001_control_plane.sql; JSON remains development/test adapter. State transitions enforce expected state version and immutable artifact constraints. Job detail/history is exposed by the local API/UI. REVIEW_REQUIRED: run PostgreSQL integration tests against a provisioned database and select the concrete TypeScript driver before production deployment.
+
+## PostgreSQL final acceptance pass — 2026-09-14
+Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 executed successfully; five tables, foreign keys and unique constraints verified. src/persistence-postgres.js provides transactional create/transition/getJob operations with optimistic state versioning and tenant-scoped reads. Integration script verified DB idempotency, audit coupling, concurrency rejection and tenant isolation. The app server still defaults to JSON unless DATABASE_URL wiring is enabled; REVIEW_REQUIRED before production use.
+
+## Phase 1 final closeout — 2026-09-14
+DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.

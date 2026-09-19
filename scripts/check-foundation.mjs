@@ -7,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const required = ['MASTER_STATE','ARCHITECTURE','DECISIONS','ROADMAP','QUALITY_GATES','LEARNING_SYSTEM','BUSINESS_CORE','MAKE_MIGRATION','SCENARIO_MAP','DATA_MODEL','STATE_MACHINE','EXISTING_SYSTEM','SOURCE_INVENTORY','VALIDATION'];
 for (const name of required) assert.ok(readFileSync(resolve(root,'docs',name+'.md'),'utf8').trim().length > 100, name);
-const walk = dir => readdirSync(dir,{withFileTypes:true}).flatMap(e => ['.git','.local'].includes(e.name) ? [] : e.isDirectory() ? walk(resolve(dir,e.name)) : [resolve(dir,e.name)]);
+const walk = dir => readdirSync(dir,{withFileTypes:true}).flatMap(e => ['.git','.local','node_modules'].includes(e.name) ? [] : e.isDirectory() ? walk(resolve(dir,e.name)) : [resolve(dir,e.name)]);
 const files=walk(root);
 for (const file of files.filter(f => f.endsWith('.md'))) {
   const body=readFileSync(file,'utf8').replace(/\x60\x60\x60[\s\S]*?\x60\x60\x60/g,'');
