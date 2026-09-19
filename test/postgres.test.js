@@ -1,6 +1,7 @@
 import test,{before,after} from 'node:test';
 import assert from 'node:assert/strict';
 import pg from 'pg';
+import http from 'node:http';
 import {randomUUID} from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
@@ -90,4 +91,15 @@ test('UI displays persisted evidence and artifacts via real app',async()=>{
   // Browser receives no database connection string or raw HTML execution from data.
   assert.equal(await page.locator('#detail').isVisible(),true);
  }finally{if(browser)await browser.close();await app.stop()}
+});
+
+test('review: cross-origin writes and DNS rebinding rejected',async()=>{
+ const f=await fixture(),app=await start(f.business_id);
+ try{
+  const body={format:'SHORT',idempotency_key:randomUUID()};
+  assert.equal((await request(app,'/api/jobs','POST',body,{origin:'https://evil.example'})).status,403);
+  assert.equal((await request(app,'/api/jobs','POST',body,{'content-type':'text/plain'})).status,415);
+    const rebound=await new Promise((resolve,reject)=>{const req=http.get(app.url+'/api/jobs',{headers:{host:'evil.example'}},res=>{res.resume();resolve(res.statusCode)});req.on('error',reject)});
+  assert.equal(rebound,403);
+ }finally{await app.stop()}
 });

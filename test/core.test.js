@@ -5,3 +5,10 @@ test('state transitions are centralized and audited',()=>{const s=new Store();s.
 test('artifact versions are immutable',()=>{const s=new Store();s.createBusiness({id:'b',name:'B'});const a=s.addArtifact({business_id:'b',logical_name:'voice',content_hash:'h1',storage_ref:'obj'});assert.equal(a.version,1);assert.throws(()=>s.addArtifact({business_id:'b',logical_name:'voice',version:1,content_hash:'h2',storage_ref:'obj2'}),/IMMUTABLE_ARTIFACT_VERSION/);});
 
 test('stale state version rejected',()=>{const s=new Store();s.createBusiness({id:'b',name:'B'});const j=s.createJob({business_id:'b',format:'SHORT'});assert.throws(()=>s.transition(j.id,'IDEA_CREATED','DISCOVERY_COMPLETE',{expected_state_version:99}),/STALE_STATE_VERSION/);});
+
+test('review: release and publishing remain fail closed without gate implementation',()=>{
+ assert.equal(canTransition('NEEDS_REVIEW','RELEASE_APPROVED'),false);
+ assert.equal(canTransition('MULTIMODAL_QA_PENDING','RELEASE_APPROVED'),false);
+ assert.equal(canTransition('RELEASE_APPROVED','PUBLISH_PENDING'),false);
+ assert.equal(canTransition('PUBLISH_PENDING','PUBLISHED'),false);
+});

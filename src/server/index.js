@@ -29,6 +29,11 @@ const server=http.createServer(async(req,res)=>{
  const started=Date.now();let operation='read';
  try {
  const url=new URL(req.url,'http://localhost');
+ if(req.headers.host!==('127.0.0.1:'+server.address().port) && req.headers.host!==('localhost:'+server.address().port))return send(res,{error:'HOST_FORBIDDEN'},403);
+ if(req.method==='POST'){
+  if(req.headers.origin && !['http://127.0.0.1:'+server.address().port,'http://localhost:'+server.address().port].includes(req.headers.origin))return send(res,{error:'ORIGIN_FORBIDDEN'},403);
+  if(!req.headers['content-type']?.startsWith('application/json'))return send(res,{error:'JSON_REQUIRED'},415);
+ }
  if(url.pathname.startsWith('/api/')&&req.headers['x-business-id']&&req.headers['x-business-id']!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
  if(req.method==='GET'&&url.pathname==='/api/businesses')return send(res,usePg?await store.businesses(businessId):store.data.businesses.filter(b=>b.id===businessId));
  if(req.method==='GET'&&url.pathname==='/api/jobs')return send(res,usePg?await store.jobs(businessId):store.data.jobs.filter(j=>j.business_id===businessId));

@@ -33,3 +33,5 @@ Every run creates a unique empty local PostgreSQL database, applies 001 + 002, r
 Additional executable browser case: `UI displays persisted evidence and artifacts via real app` uses installed Edge through Playwright and PostgreSQL-backed HTTP APIs. The four original domain cases remain in `test/core.test.js`.
 
 Raw TAP output is saved locally in `.local/acceptance-run-1.tap` and `.local/acceptance-run-2.tap`. No credentials or business payloads are printed.
+
+PR review adds two security regressions (release fail-closed and cross-origin/Host rejection). Current suite: 31 cases in two files; both review runs PASS; 24/24 mapping unchanged.
