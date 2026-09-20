@@ -31,3 +31,22 @@ Returned metadata contains sanitized request/response IDs, provider/model, durat
 Tests use injected local transports and non-credential sentinels only; never the real OpenAI endpoint. Unit/contract cases check request shape, port compatibility, credential omission/echo rejection, errors/refusals, timeouts, source provenance, schema closure, configuration changes and one-request behavior. Dedicated PostgreSQL cases exercise read-only preparation and adapter output through the actual persistence/idempotency path. Existing Phase-2A tests still cover tenancy, restart, migration, UI and state/evidence atomicity.
 
 Final test results and secret/reference checks are recorded in TEST_MATRIX.md. Live compatibility, credentials and account limits are intentionally untested. Missing credentials keep READY_FOR_SINGLE_V005_LIVE_RESEARCH_RUN = NO until secure setup and separate user authorization.
+
+## Explicit owner-authorized retry
+
+A failed live attempt remains immutable. A separately authorized retry uses ResearchService.run with retry:true and the same operation key and canonical request hash. The provider accepts an explicit authorizedAttempt (default 1), checked before dispatch; this execution permission does not change the research request or model descriptor. It never authorizes automatic retries and still requires the complete dispatch permit and enforces one HTTP call per instance. The local V005 retry launcher additionally pins the prior failed run, exact attempt 2, unchanged confirmed input, and a permanent exclusive launch marker. It is not wired to HTTP/UI. Do not delete its marker to repeat a call.
+
+
+## Offline failure diagnostics
+
+The provider now extracts final assistant output by phase/type, validates the existing strict schema and domain contract, and persists sanitized stage diagnostics and available usage even on post-response failure. Costs stay unknown when not supplied. The request descriptor/schema/prompt pins are unchanged; parser_revision is responses-parser/2. Historical attempt 2 cannot be retrospectively diagnosed or relabeled. See [offline diagnosis](V005_OFFLINE_FAILURE_DIAGNOSIS.md).
+
+
+## Output budget profiles
+
+For the next intended V005 run, select arktrov-deep-research/1.0 via OPENAI_RESEARCH_PROFILE: 16000 output tokens and explicit medium reasoning. Generic defaults and domain remain business-independent. The changed request hash cannot reuse the existing key without a versioned continuation design; no attempt-4 launcher or call has been created. See [budget preparation and admission constraint](V005_TOKEN_BUDGET.md).
+
+
+## Versioned retry admission
+
+The explicit ResearchService revision path now separates logical input from the full execution identity, preserving all hash conflicts and immutable history. V005 has a read-only attempt-4/revision-2 plan for 16000/medium. Do not reuse old attempt-2/3 launchers; no attempt-4 launch occurred here. See [lineage specification](RESEARCH_RETRY_LINEAGE.md).

@@ -48,3 +48,7 @@ GET detail and /research or /fact-guard return only the trusted business's persi
 ARKTROV Video 005 stays an initial SHORT job pending confirmed research input. A synthetic run is not a V005 factual acceptance or publishing gate.
 
 POST /api/jobs/:id/pipeline executes Research then Fact Guard automatically under distinct stage keys derived from the supplied key. It stops on research failure/review/rejection; retries reuse already successful stages. Explicit initial admission is still required. The same synthetic-job and local-only restrictions apply.
+
+## Contract 1.1: distinct evidence relations
+Evidence uniqueness is (claim_id, source_id, support_type, evidence_reference), not merely claim/source. Exact duplicate evidence remains invalid; multiple independent evidence excerpts or support types from one source are preserved. Output shape and provider request schema remain unchanged.
+See [Attempt-6 recovery](V005_ATTEMPT_6_RECOVERY.md).

@@ -1,11 +1,23 @@
-import {hash,jobIdentity} from './domain/research.js';
+import {hash,jobIdentity,validateResearch} from './domain/research.js';
 import {readResearch} from './research-postgres.js';
 import pg from 'pg';
 import {randomUUID} from 'node:crypto';
 import {canTransition} from './domain/core.js';
 export class PostgresStore {
- constructor(connectionString){this.pool=new pg.Pool({connectionString});}
- async close(){await this.pool.end()}
+ #connections=new Set();#closing;
+ constructor(connectionString){
+  this.pool=new pg.Pool({connectionString});
+  this.pool.on('connect',client=>{this.#connections.add(client);client.once('end',()=>this.#connections.delete(client));});
+ }
+ async close(){
+  // pg-pool can resolve end() after removing clients from its list, before their
+  // sockets emit end. Wait for those events before a caller drops a test DB.
+  if(!this.#closing)this.#closing=(async()=>{
+   const ended=[...this.#connections].map(client=>new Promise(resolve=>client.once('end',resolve)));
+   await this.pool.end();await Promise.all(ended);
+  })();
+  return this.#closing;
+ }
  async transaction(fn){
   const c=await this.pool.connect();
   try{await c.query('BEGIN');const result=await fn(c);await c.query('COMMIT');return result}
@@ -39,8 +51,21 @@ export class PostgresStore {
    const j=await this.requireJob(c,jobId,meta.business_id,true);
    if(!Number.isInteger(expectedVersion)||j.state_version!==expectedVersion)throw Error('STALE_STATE_VERSION');
    if(!canTransition(j.current_state,to))throw Error('INVALID_TRANSITION');
+   if(j.current_state==='REVIEW_REQUIRED'&&to==='FACT_GUARD_PENDING'){
+    const e=(await c.query("SELECT * FROM evidence_records WHERE id=$1 AND business_id=$2 AND job_id=$3 AND type='human_fact_guard_decision'",[meta.human_decision_id??null,meta.business_id,jobId])).rows[0];
+    const last=(await c.query('SELECT run_id FROM job_state_transitions WHERE job_id=$1 ORDER BY sequence DESC LIMIT 1',[jobId])).rows[0];
+    if(!e||hash(e.payload)!==e.content_hash||!(e.payload.fact_guard_run_id===last?.run_id||(await c.query("SELECT 1 FROM research_attempts a JOIN research_operations p ON p.id=a.operation_id JOIN research_outcomes o ON o.run_id=a.run_id WHERE a.run_id=$1 AND a.business_id=$2 AND a.content_job_id=$3 AND o.status='SUCCEEDED' AND o.output->>'decision'='REVIEW_REQUIRED' AND p.request->'input'->'human_fact_guard_decision'->>'evidence_id'=$4",[last?.run_id,meta.business_id,jobId,e.id])).rowCount===1)||e.payload.publication_hold!==true)throw Error('HUMAN_DECISION_NOT_VERIFIED');
+   }
    const guarded=['RESEARCH_RUNNING','FACT_GUARD_RUNNING','RESEARCH_COMPLETE','FACT_GUARD_PASSED','REVIEW_REQUIRED','REJECTED'];
-   if(guarded.includes(to)){
+   if(guarded.includes(to)&&meta.processing_revision_id){
+    if(to!=='RESEARCH_COMPLETE'||j.current_state!=='RESEARCH_PENDING')throw Error('PERSISTED_EVIDENCE_REQUIRED');
+    const p=(await c.query('SELECT * FROM research_processing_revisions WHERE id=$1 AND business_id=$2 AND content_job_id=$3',[meta.processing_revision_id,meta.business_id,jobId])).rows[0];
+    const last=(await c.query('SELECT run_id,metadata FROM job_state_transitions WHERE job_id=$1 ORDER BY sequence DESC LIMIT 1',[jobId])).rows[0];
+    const latest=(await c.query('SELECT run_id FROM research_attempt_lineage WHERE business_id=$1 AND content_job_id=$2 ORDER BY attempt_number DESC LIMIT 1',[meta.business_id,jobId])).rows[0];
+    if(!p||p.original_run_id!==meta.run_id||latest?.run_id!==p.original_run_id||last?.metadata?.processing_revision_id!==p.id||last?.run_id!==p.original_run_id||p.output.research_status!=='COMPLETE'||hash(p.output)!==p.output_hash)throw Error('PERSISTED_EVIDENCE_REQUIRED');
+    validateResearch(p.output);
+    for(const [table,key] of [['recovered_research_claims','claims'],['recovered_research_sources','sources'],['recovered_research_evidence','evidence']]){const n=Number((await c.query('SELECT count(*) n FROM '+table+' WHERE business_id=$1 AND content_job_id=$2 AND processing_id=$3',[meta.business_id,jobId,p.id])).rows[0].n);if(n!==p.output[key].length)throw Error('PERSISTED_EVIDENCE_REQUIRED')}
+   }else if(guarded.includes(to)){
     const proof=meta.run_id?(await c.query(`SELECT p.operation,a.run_id,o.status,o.output FROM research_attempts a JOIN research_operations p ON p.id=a.operation_id LEFT JOIN research_outcomes o ON o.run_id=a.run_id WHERE a.run_id=$1 AND a.business_id=$2 AND a.content_job_id=$3`,[meta.run_id,meta.business_id,jobId])).rows[0]:null;
     if(!proof)throw Error('PERSISTED_EVIDENCE_REQUIRED');
     const isResearch=proof.operation==='research';
@@ -85,7 +110,8 @@ export class PostgresStore {
    const h=await c.query('SELECT * FROM job_state_transitions WHERE job_id=$1 ORDER BY sequence',[id]);
    const e=await c.query('SELECT * FROM evidence_records WHERE job_id=$1 AND business_id=$2 ORDER BY created_at,id',[id,businessId]);
    const a=await c.query('SELECT * FROM artifacts WHERE content_job_id=$1 AND business_id=$2 ORDER BY logical_name,version',[id,businessId]);
-   return {...await readResearch(c,businessId,id),job:r.rows[0],stateHistory:h.rows,transitions:h.rows,evidence:e.rows.map(x=>this.evidenceView(x)),artifacts:a.rows,quality:{technical:null,multimodal:null,finalJudge:null,releaseGate:null},publish:{target:null,status:null,result:null}};
+   const recoveredResearch=(await c.query('SELECT * FROM research_processing_revisions WHERE business_id=$1 AND content_job_id=$2 ORDER BY created_at,id',[businessId,id])).rows;
+   return {...await readResearch(c,businessId,id),recoveredResearch,job:r.rows[0],stateHistory:h.rows,transitions:h.rows,evidence:e.rows.map(x=>this.evidenceView(x)),artifacts:a.rows,quality:{technical:null,multimodal:null,finalJudge:null,releaseGate:null},publish:{target:null,status:null,result:null}};
   });
  }
 }

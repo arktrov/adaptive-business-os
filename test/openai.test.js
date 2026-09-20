@@ -19,7 +19,7 @@ async function fixture(options={}){
  const transport=async(url,init)=>{calls.push({url,init});return new Response(JSON.stringify(envelope),{status:200,headers:{'x-request-id':'req_mock'}})};
  const provider=new OpenAIResearchProvider({credential:()=>sentinel,transport,authorizeDispatch:async(...args)=>permit(...args),...options});
  const request={business_id:'offline-business',content_job_id:'offline-job',operation:'research',input:{topic:'Offline adapter contract',starting_source_references:[{title:'Unverified starting reference',verification_status:'UNVERIFIED_STARTING_REFERENCE'}]},workflow_version:'phase-2a.1',prompt:researchPrompt,policy:genericPolicy,provider:provider.describe()};
- return {provider,request,context:{attempt:1,run_id:'offline-run'},calls,envelope,canonicalResult,permit};
+ return {provider,request,context:{persistProviderResponse:async a=>({evidence_id:'offline-artifact',content_hash:a.content_hash}),attempt:1,run_id:'offline-run'},calls,envelope,canonicalResult,permit};
 }
 test('OAI01 Missing credential disables dispatch with clear error',async()=>{const f=await fixture({credential:()=>''});assert.equal(f.provider.credentialPresent(),false);await assert.rejects(f.provider.execute(f.request,f.context),/OPENAI_API_KEY_MISSING/);assert.equal(f.calls.length,0)});
 test('OAI02 No explicit permit means no HTTP request',async()=>{const f=await fixture({authorizeDispatch:async()=>null});await assert.rejects(f.provider.execute(f.request,f.context),/LIVE_DISPATCH_NOT_AUTHORIZED/);assert.equal(f.calls.length,0)});
@@ -49,3 +49,13 @@ function storedInput(){
 test('OAI21 Read-only preparation pins complete stored input and versions',async()=>{const f=storedInput(),p=await prepareSingleOpenAIResearch({store:f.store,business_id:'business',content_job_id:'job'});assert.equal(p.confirmed_input_hash,hash(f.detail.evidence[0].payload.input));assert.equal(p.canonical_input_hash,hash(p.request));assert.equal(p.policy_version,'1.0');assert.equal(f.detail.job.current_state,'RESEARCH_PENDING');assert.equal(f.detail.research.length,0)});
 test('OAI22 Corrupt saved input or existing live attempt blocks preparation',async()=>{const f=storedInput();f.detail.evidence[0].payload.input.topic='changed';await assert.rejects(prepareSingleOpenAIResearch({store:f.store,business_id:'business',content_job_id:'job'}),/HASH_MISMATCH/);const g=storedInput();g.detail.research=[{provider:'openai'}];await assert.rejects(prepareSingleOpenAIResearch({store:g.store,business_id:'business',content_job_id:'job'}),/ALREADY_EXISTS/)});
 test('OAI23 Missing key or approval cannot start prepared execution',async()=>{const f=storedInput();await assert.rejects(runSinglePreparedResearch({store:f.store,business_id:'business',content_job_id:'job'}),/OPENAI_API_KEY_MISSING|EXPLICIT_LIVE_APPROVAL_REQUIRED/);assert.equal(f.detail.research.length,0)});
+
+test('OAI24 Explicit attempt authorization preserves descriptor and permits only that attempt once',async()=>{
+ const first=await fixture(),retry=await fixture({authorizedAttempt:2});
+ assert.deepEqual(first.provider.describe(),retry.provider.describe());
+ for(const attempt of [1,3])await assert.rejects(retry.provider.execute(retry.request,{...retry.context,attempt}),/LIVE_RETRY_REQUIRES_RECONCILIATION/);
+ await retry.provider.execute(retry.request,{...retry.context,attempt:2});
+ await assert.rejects(retry.provider.execute(retry.request,{...retry.context,attempt:2}),/ALREADY_CONSUMED/);
+ assert.equal(retry.calls.length,1);
+});
+test('OAI25 Explicit retry still requires a dispatch permit',async()=>{const f=await fixture({authorizedAttempt:2,authorizeDispatch:async()=>null});await assert.rejects(f.provider.execute(f.request,{...f.context,attempt:2}),/LIVE_DISPATCH_NOT_AUTHORIZED/);assert.equal(f.calls.length,0)});

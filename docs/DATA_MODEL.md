@@ -184,3 +184,7 @@ Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 e
 
 ## Phase 1 final closeout — 2026-09-14
 DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.
+
+## Processing revisions and evidence identity
+Migration 005 adds research_processing_revisions and recovered_research_claims/sources/evidence with composite tenant/job foreign keys and immutable triggers. No provider attempt is created. Normal research_claim_evidence adds relation_id to permit distinct excerpts/type for the same claim/source.
+See [Attempt-6 recovery](V005_ATTEMPT_6_RECOVERY.md).

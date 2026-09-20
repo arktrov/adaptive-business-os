@@ -122,3 +122,53 @@ DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON developme
 - OPENAI-PREP-03: one Responses HTTP request, required live web search, strict canonical schema, no retries or automatic continuation. Validate consulted-source provenance and fail closed; do not equate model output with verified source truth.
 - OPENAI-PREP-04: keep original intake evidence immutable. Execute only against the pinned workflow/policy/input snapshot; reject input/config changes and previous OpenAI attempts. A failed/ambiguous live attempt requires reconciliation before further authorization.
 - OPENAI-PREP-05: token/tool usage is retained; unavailable cost stays null. No price or account-access assumption. Renderer/Make and Phase 2B remain untouched.
+
+
+## 2026-09-20 — Offline diagnostics and shutdown repair
+
+Keep V005 attempts 1 and 2 immutable FAILED records; lost response details are unavailable, not inferred. Persist safe typed adapter failure diagnostics and usage before parser validation; do not expose raw responses, headers, private reasoning or exception text. Keep the canonical ResearchResult and the request hash unchanged; record parser revision separately. Select final assistant output by type/phase. Close PostgreSQL client sockets before database cleanup; do not mask errors with a blanket handler. No live retry is authorized by this repair. See [diagnosis](V005_OFFLINE_FAILURE_DIAGNOSIS.md).
+
+
+## 2026-09-20 — V005 research budget profile
+
+Use the explicit arktrov-deep-research/1.0 provider profile: 16000 output tokens, medium reasoning, unchanged gpt-5.6-sol and concise complete evidence instructions. Do not change domain/policy/schema or accept incomplete output. Provider config changes must alter the execution hash; same-key conflict protection remains intact. REVIEW_REQUIRED before attempt 4: versioned execution-configuration continuation with a new immutable request revision and preserved attempt lineage. No silent key switch or historical rewrites. See [budget preparation](V005_TOKEN_BUDGET.md).
+
+
+## 2026-09-20 — Explicit versioned research retry lineage
+
+Owner authorized the previously REVIEW_REQUIRED continuation. Adopt one immutable logical Research lineage per tenant/ContentJob, with a separate immutable execution revision per request identity and attempts numbered monotonically across revisions. Keep canonical_input_hash meaning the complete request hash and all same-key conflict checks. Additive migration 004 maps historical rows without rewriting them. New revision requires the latest FAILED predecessor, unchanged canonical business input, explicit retry and audited reason; concurrent duplicates fail stale. No new public endpoint, provider call or Fact Guard. See [lineage design and verified V005 preparation](RESEARCH_RETRY_LINEAGE.md).
+
+## V005 tool budget — 2026-09-20
+Owner-approved offline profile revision 1.1 raises ARKTROV web-tool budget from 4 to 8. Preserve generic default 4 and request/local validation alignment; explicit TOOL_BUDGET_EXCEEDED diagnostics. Historical response emitted five items; provider-side cause remains UNKNOWN, not a reconstructed fact. Attempt 4 remains FAILED. Prepare attempt 5 / execution revision 3 only, with new hash/key and identical business input. See [evidence and decision](V005_WEB_SEARCH_BUDGET.md). No live authorization in this step.
+
+## Correct completed-call budget semantics — 2026-09-20
+Replace raw web-search item count with completed item count for budget enforcement; extra unfinished items are diagnostic only. Keep profile 1.1 / limit 8 and wire request identity unchanged. Persist adapter processing/parser/validator versions separately. Attempt 5 remains immutable FAILED; missing final output and ninth status cannot be reconstructed. See [semantics correction](V005_TOOL_BUDGET_SEMANTICS.md). No live call authorized in this task.
+
+## Durable paid-response recovery — 2026-09-20
+Capture sanitized OpenAI response as immutable tenant/job/run-scoped provider_response evidence before canonical parsing. Separate committed write plus hash-verified readback gates processing. Keep provider-private sanitization behind the adapter and expose generic persistence callback; offline reprocessing is verdict-only and never rewrites history or calls a provider. Preserve profile/request identity. See [recovery contract](PROVIDER_RESPONSE_RECOVERY.md). No live call authorized in this task.
+
+## Evidence identity and paid-response recovery — 2026-09-20
+Canonical relation identity becomes (claim, source, support type, evidence reference); pair-only uniqueness incorrectly rejected distinct supporting/contextual evidence in Attempt 6. Preserve all source statements, no lossy merge. Add immutable offline processing revisions, separate from provider attempts; central completion requires fully persisted recovery proof. Existing Fact Guard selection of recovered results remains a separate explicit follow-up.
+See [Attempt-6 recovery](V005_ATTEMPT_6_RECOVERY.md).
+
+## Offline Fact Guard for recovered V005 research
+
+Use a real deterministic evidence-rules adapter, never the preset LocalFactGuardProvider fixture, for human-approved persisted research. No network or external provider is involved. Keep original failed attempts immutable and link Fact Guard separately to the recovered processing revision. Human approval permits this review only; scientific uncertainty and publication HOLD persist. Detailed quality/brand policy content absent from the input is a review issue, not guessed rules. Processing version: fact-guard-evidence/1.0.
+
+V005 execution result: 8bb5cdec-5d1d-48ed-a3a7-9ddbc1f87f16 / REVIEW_REQUIRED. Rules-only evidence review, not independent source verification. Publication HOLD retained. Local report serialization rejected a view object containing non-JSON values after the committed run; read-only verification of the persisted request/output/metadata succeeded. No repeat invocation was made.
+
+## Human Fact Guard review and source policy binding
+
+Authoritative sources exist: docs/QUALITY_GATES.md (binding canonical target policy), docs/sources/ARKTROV_APP_QUALITY_GATES.md section 9 and canonical ARKTROV overlay (brand), docs/adr/0002-artifact-release.md (exact-artifact release), src/config/research.js (arktrov-research/1.0). Copy exact source content through src/config/content-policies.js; never infer rules from empty business.brand or placeholder version identifiers. Markdown sources have no semantic policy version; pin content-addressed source-sha256 versions, exact source references, whole-file SHA256 and selected text. Existing job arktrov-1.0 / quality-1.0 labels remain historical and are not falsely asserted to identify these newly bound contents.
+
+HumanFactGuardReview records immutable policy snapshots, HumanFactGuardDecision and binding audit atomically in the existing evidence registry. Decisions reference previous run/request/output hashes, recovered research hash, policy hashes and versions. Only BLOCKED / CONTEXT_ONLY are admitted; publication HOLD cannot be cleared. REVIEW_REQUIRED -> FACT_GUARD_PENDING requires matching current-run human evidence through the central state machine. New run uses the normal ResearchService. No historical run is overwritten.
+
+Processing fact-guard-evidence/1.1 supports separate context_only_claims. Accepted exclusions resolve their requested corrections but do not widen factual approvals. The existing conservative PASS contract requires the full research claim set; exclusions/context and persisted uncertainties can therefore retain REVIEW_REQUIRED even with zero unresolved correction entries. No automatic weakening of that contract or assumption that snapshot binding proves final video/brand QA. Publication release stays independently gated. No Phase 2B.
+
+Executed V005 human review: 5fb58779-b3b6-4187-ac74-d233726b1426; new Fact Guard 849a00e1-532c-4472-9f59-b3a607578151 / REVIEW_REQUIRED. Brand content hash d3514bca13766a10bb376b9a044ac616bb92b7405b1c1cb1fbe7ee08bed64aab; quality content hash 705ddfb4182becef43a15a091cf5ac43716ad81bd7e2ac13590e46d88801581c. R1–R9 instructions are reflected in the restricted scope/HOLD/snapshots, leaving zero correction entries. Existing conservative PASS semantics remain a separate restriction. No new research is required or started to rehabilitate excluded claims.
+
+## Explicit owner-approved Fact Guard scope semantics 2.0
+
+Previous REVIEW_REQUIRED predicate was blocked.length || contextOnly.length || corrections.length || research.contradictions.length || research.uncertainties.length. The domain also required approved count equal total research claims and zero blocked. This conflated research universe with production scope. Owner explicitly authorizes replacing that condition with a complete, constrained approved subset. Historical outputs remain immutable. Prior human decisions may bind a subsequent reviewed descendant only if its immutable request references the same decision and remains REVIEW_REQUIRED; same research/policy hashes are verified. No special V005 claim IDs in domain/provider code. Empty factual scope remains REVIEW_REQUIRED, not an invented safe scope; severe rejection retains REJECT. No release-gate changes.
+
+V005 contract-2.0 evaluation: 6957ce6f-8298-4547-81d6-353f519694d1 / PASS. Same 13 approved / 4 blocked / 3 context-only dispositions, scope hash 1c3547db0a3390e2669a817862077c14cbde7c1c3ded6dcea381fbeae1f7e6f4. Persisted outcome, policy/human references and central transition verified on reconnect; both historical Fact Guard runs unchanged. Publication HOLD remains TRUE. No downstream generation or new provider call.
