@@ -58,3 +58,14 @@ These are accepted nonblocking review findings, not work authorized by the freez
 | TD-04 | LOW | Incomplete diagnostic correlation and raw error output | Improve sanitized diagnostics before external deployment. |
 
 No debt implementation is part of merge/freeze. See PR_REVIEW.md for the original findings.
+
+## Phase 2A freeze: accepted nonblocking debt
+
+| ID | Severity | Finding / affected area | Why nonblocking for safe Phase 2B | Future resolution |
+| --- | --- | --- | --- | --- |
+| TD-01 | MEDIUM | JSON adapter concurrency and failed-save consistency; development persistence | Canonical runtime and integration tests use transactional PostgreSQL; JSON is not approved for concurrent production | Keep development-only; implement locking/atomic rollback or retire fallback before concurrent use |
+| TD-02 | MEDIUM | Migration recognition uses filenames and adopts 001 from a table check; migrations | Current PostgreSQL schema and clean/repeat migration tests are verified; no unverified environment adoption is required for Phase 2B | Add migration checksums and full baseline fingerprint before adopting another existing environment |
+| TD-05 | MEDIUM | Job Detail omits recoveredResearch revisions; UI | Recovery and immutable failed attempts remain correctly stored and exposed through the repository/API; scoped downstream input uses verified recovery, not UI labels | Show recovered processing revisions alongside original failed attempts with clear provenance |
+| TD-04 | LOW | Broad HTTP error messages and limited correlation; local API diagnostics | Operator-only loopback deployment; no remote deployment authorized; provider diagnostics remain sanitized | Use allowlisted public error codes and sanitized correlation before wider deployment |
+
+No debt implementation during this freeze. These findings do not relax scope, tenant, evidence or publication gates.

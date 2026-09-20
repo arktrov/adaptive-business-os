@@ -1,3 +1,15 @@
+## Phase 2A baseline completion
+
+PHASE 1 = COMPLETE
+
+PHASE 2A = COMPLETE
+
+PHASE 2B = NOT STARTED
+
+Completed: live OpenAI Research provider path and web research; persistent sanitized provider-response recovery; Research lineage and execution revisions; Claims / Sources / Evidence; recoverable offline reprocessing; Human Research Review; immutable Brand / Quality Policy snapshots; Human Fact Guard Decision; approved / blocked / context-only claim scope; deterministic Fact Guard; persisted downstream factual scope. Publication HOLD is separate from production and release approval; all later QA/release gates remain mandatory.
+
+V005 Research COMPLETE through recovered processing revision ee572a77-fd39-4cb5-bd12-a03478229acd; all six original FAILED attempts remain unchanged. Fact Guard 6957ce6f-8298-4547-81d6-353f519694d1 PASS, job FACT_GUARD_PASSED, scope 13/4/3, publication HOLD TRUE. Owner authorized PR #2 merge preserving history and tag v0.2.0-research-factguard. Open nonblocking findings: TD-01, TD-02, TD-05 MEDIUM and TD-04 LOW, with rationale/follow-up in ROADMAP. No Phase 2B activity.
+
 ## Phase 2A final review / freeze
 
 Review against main complete; 237/237 tests PASS twice after focused review fixes. CRITICAL/HIGH open 0; MEDIUM open 3; LOW open 1 documented in PHASE2A_PR_REVIEW.md. V005 verified read-only, still FACT_GUARD_PASSED / 13 approved / 4 blocked / 3 context-only / HOLD true. No new provider call, no Fact Guard rerun, no Phase 2B. MERGE_READY = YES; PR publication only, no automatic merge.
