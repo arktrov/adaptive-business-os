@@ -1,5 +1,14 @@
 # State machines
 
+## Phase 2A implemented progression — 2026-09-20
+
+RESEARCH_PENDING -> RESEARCH_RUNNING -> RESEARCH_COMPLETE -> FACT_GUARD_PENDING -> FACT_GUARD_RUNNING -> FACT_GUARD_PASSED.
+
+Research REVIEW_REQUIRED/REJECTED and Fact Guard REVIEW_REQUIRED/REJECT map to REVIEW_REQUIRED/REJECTED. Provider/parsing/persistence failure maps FAILED. An explicit retry can re-admit the failed operation to its own pending state; no implicit retries or review overrides occur. A durable interrupted start is first failed with an INTERRUPTED audit during explicit recovery.
+
+Only PostgresStore.transitionInTransaction writes state. RUNNING requires a persisted uncompleted attempt; successful completion requires matching run identity, expected state version and persisted successful output in the same transaction. Claims/sources/links and audit roll back on persistence failure. Phase-2 states are refused by JSON. Research complete admits only Fact Guard; factual pass still grants no release or publication. Existing release protections remain intact.
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
@@ -169,3 +178,11 @@ Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 e
 DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.
 
 PR review correction: Phase 1 rejects RELEASE_APPROVED, PUBLISH_PENDING and PUBLISHED targets centrally until their required gate implementation is authorized. Legacy graph entries do not grant release authority.
+
+## Offline recovered Research completion
+Explicit recovery from the latest FAILED run may atomically persist a separate processing result and use FAILED -> RESEARCH_PENDING -> RESEARCH_COMPLETE. Central guard requires processing_revision_id with valid hash, complete child rows, latest scoped original run and matching pending audit. Historical provider outcome remains FAILED. No transition to Fact Guard is performed.
+See [Attempt-6 recovery](V005_ATTEMPT_6_RECOVERY.md).
+
+Human Fact Guard review: REVIEW_REQUIRED -> FACT_GUARD_PENDING is allowed only with immutable, tenant/job-scoped HumanFactGuardDecision matching the latest reviewed run and preserving publication HOLD. Normal FACT_GUARD_RUNNING completion remains dependent on committed outcome within the same transaction. Rerun creates a new outcome; REVIEW_REQUIRED is retained if the result is REVIEW_REQUIRED. No publication or Script transition is admitted by this change.
+
+Fact Guard scope contract 2.0: FACT_GUARD_PASSED means only factual scope admitted to the next production stage. Publication HOLD stays in immutable scope; publishing/release bypass remains disabled. Historical REVIEW_REQUIRED evaluations can be re-evaluated through the same human-decision lineage without mutating the original decision or runs. A successful scoped outcome and its scope are committed in the normal state transition transaction.

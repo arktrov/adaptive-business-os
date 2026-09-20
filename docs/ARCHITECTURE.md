@@ -1,5 +1,12 @@
 # Target architecture
 
+## Implemented Phase 2A boundary — 2026-09-20
+
+The existing Node modular app is retained. ResearchService consumes injected repository/provider ports; domain validation imports neither pg nor test adapters. ResearchRepository implements the persistence port over PostgresStore and delegates every state write to the central transaction helper. LocalResearchProvider and LocalFactGuardProvider are selected only in the composition root. Replacing them does not change canonical requests, persistence, state or idempotency.
+
+Immutable operation/attempt/outcome tables retain full evidence with composite scope constraints. Advisory ownership is held across invocation, without holding a database transaction; state versions fence late completions. No new worker platform, ORM, paid provider, renderer or service deployment is introduced. JSON cannot execute Phase 2A. Existing loopback operator security remains unchanged; multi-user authentication, database roles/RLS and backups require separate deployment review. See [contract](RESEARCH_CONTRACT.md).
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**

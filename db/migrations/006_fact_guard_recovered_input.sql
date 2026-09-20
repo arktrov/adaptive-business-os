@@ -1,0 +1,3 @@
+ALTER TABLE research_operations ADD COLUMN research_processing_revision_id uuid;
+ALTER TABLE research_operations ADD CONSTRAINT fact_guard_processing_input_fk FOREIGN KEY(business_id,content_job_id,research_processing_revision_id) REFERENCES research_processing_revisions(business_id,content_job_id,id);
+ALTER TABLE research_operations ADD CONSTRAINT fact_guard_processing_kind CHECK(research_processing_revision_id IS NULL OR operation='fact_guard');

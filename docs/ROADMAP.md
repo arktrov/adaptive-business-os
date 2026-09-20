@@ -1,5 +1,12 @@
 # Roadmap
 
+## Phase 2A scope — 2026-09-20
+
+Research, persistent evidence and Fact Guard are implemented with local deterministic adapters; final repeated acceptance is PASS (76/76 twice). Live provider integration, V005 topic selection and one controlled external Research run remain a separate next block. Script/media/render/publishing/analytics/learning remain out of scope. See [runbook](PHASE2A_RUNBOOK.md).
+
+TD-03 implementation: canonical input conflict checks now cover both job adapters and the PostgreSQL operation repository; RESOLVED after both complete 76/76 acceptance runs. TD-01, TD-02 and TD-04 remain open; no broad refactor was undertaken. A future live adapter must reconcile ambiguous external submission outcomes before retries.
+
+
 ## Current Phase 1 acceptance — 2026-09-19
 
 **PHASE 1 ACCEPTANCE = PASS. Phase 1 is complete within the authorized local control-plane scope.**
@@ -47,7 +54,18 @@ These are accepted nonblocking review findings, not work authorized by the freez
 | --- | --- | --- | --- |
 | TD-01 | MEDIUM | JSON adapter concurrency and failed-save memory consistency | Keep JSON development-only; review before concurrent use. PostgreSQL remains canonical. |
 | TD-02 | MEDIUM | Migration recognition adopts a manual baseline without a full fingerprint | Validate schema/checksum recognition before adopting another existing environment. |
-| TD-03 | MEDIUM | Same idempotency key with changed relevant inputs returns the old job | MUST review before any real external provider call in Phase 2. Define input/version hash and reject changed-input key reuse so an old output cannot be reused incorrectly. |
+| TD-03 | MEDIUM — RESOLVED in Phase 2A | Changed-input job and operation key reuse is rejected; canonical hashes include relevant versions/configuration | Verified by P2A03, job conflict, prompt/policy/model conflict and concurrent duplicate tests. Preserve these checks when adding a live adapter. |
 | TD-04 | LOW | Incomplete diagnostic correlation and raw error output | Improve sanitized diagnostics before external deployment. |
 
 No debt implementation is part of merge/freeze. See PR_REVIEW.md for the original findings.
+
+## Phase 2A freeze: accepted nonblocking debt
+
+| ID | Severity | Finding / affected area | Why nonblocking for safe Phase 2B | Future resolution |
+| --- | --- | --- | --- | --- |
+| TD-01 | MEDIUM | JSON adapter concurrency and failed-save consistency; development persistence | Canonical runtime and integration tests use transactional PostgreSQL; JSON is not approved for concurrent production | Keep development-only; implement locking/atomic rollback or retire fallback before concurrent use |
+| TD-02 | MEDIUM | Migration recognition uses filenames and adopts 001 from a table check; migrations | Current PostgreSQL schema and clean/repeat migration tests are verified; no unverified environment adoption is required for Phase 2B | Add migration checksums and full baseline fingerprint before adopting another existing environment |
+| TD-05 | MEDIUM | Job Detail omits recoveredResearch revisions; UI | Recovery and immutable failed attempts remain correctly stored and exposed through the repository/API; scoped downstream input uses verified recovery, not UI labels | Show recovered processing revisions alongside original failed attempts with clear provenance |
+| TD-04 | LOW | Broad HTTP error messages and limited correlation; local API diagnostics | Operator-only loopback deployment; no remote deployment authorized; provider diagnostics remain sanitized | Use allowlisted public error codes and sanitized correlation before wider deployment |
+
+No debt implementation during this freeze. These findings do not relax scope, tenant, evidence or publication gates.
