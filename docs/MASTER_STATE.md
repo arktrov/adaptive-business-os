@@ -1,6 +1,13 @@
 # Master state
 
-## Current Phase 2A checkpoint — 2026-09-20
+## OpenAI connection preparation — 2026-09-20
+
+OpenAI Responses/web-search adapter prepared behind the existing provider port; no OpenAI-specific domain, state, persistence or Fact Guard change. V005 now has an owner-confirmed structured input stored separately as confirmed_research_input and remains RESEARCH_PENDING. No ResearchRun or provider operation was created for V005. Existing Phase-2A PASS is a historical technical gate, not live-provider authorization. Process credential absent at preparation; no secret created or configured. Live execution is disabled pending secure credential setup and a separate exact-input approval. See [connection preparation](OPENAI_RESEARCH_CONNECTION.md).
+
+Verification: 101/101 tests PASS twice (76 existing + 25 OpenAI preparation cases), lint/build and secret check PASS; Make 12/12 and renderer 31/31 unchanged. Actual V005 read-only preflight PASS with no state/evidence mutation and zero provider operations. OPENAI_API_KEY absent; READY_FOR_SINGLE_V005_LIVE_RESEARCH_RUN = NO.
+
+
+## Historical Phase 2A checkpoint — 2026-09-20
 
 Owner authorized only Research -> Persistent Evidence -> Fact Guard with deterministic local adapters. This supersedes dated NOT STARTED entries below. Phase 1 remains COMPLETE at v0.1.0-control-plane. PHASE 2A ACCEPTANCE = PASS. LIVE PROVIDER = NOT YET CONNECTED. READY_FOR_PROVIDER_INTEGRATION = YES. Two clean PostgreSQL acceptance runs each passed 76/76 tests: 31 Phase-1 regressions plus 45 Phase-2A cases; 24/24 + 25/25 requirements mapped. Lint/build, secret scan, 12 Make originals and 31 renderer hashes pass. Migration 003 is applied to the local development DB; ARKTROV Video 005 is SHORT / IDEA_CREATED with zero research and Fact Guard runs. No credentials or external calls are involved. V005 has no confirmed topic; keep it initial and separate from synthetic fixtures. See [Research contract](RESEARCH_CONTRACT.md), [Fact Guard contract](FACT_GUARD_CONTRACT.md) and [runbook](PHASE2A_RUNBOOK.md).
 

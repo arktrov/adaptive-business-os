@@ -114,3 +114,11 @@ Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 e
 
 ## Phase 1 final closeout — 2026-09-14
 DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.
+
+## OpenAI adapter preparation decisions — 2026-09-20
+
+- OPENAI-PREP-01: obey explicit owner scope to implement/test without creating or using a real credential. Process-only credential access; local fixture transports in every test.
+- OPENAI-PREP-02: preserve provider-neutral contracts and existing local HTTP/UI composition. OpenAI is available only through an isolated prepared-connection boundary, with independent dispatch permission and an exact request hash.
+- OPENAI-PREP-03: one Responses HTTP request, required live web search, strict canonical schema, no retries or automatic continuation. Validate consulted-source provenance and fail closed; do not equate model output with verified source truth.
+- OPENAI-PREP-04: keep original intake evidence immutable. Execute only against the pinned workflow/policy/input snapshot; reject input/config changes and previous OpenAI attempts. A failed/ambiguous live attempt requires reconciliation before further authorization.
+- OPENAI-PREP-05: token/tool usage is retained; unavailable cost stays null. No price or account-access assumption. Renderer/Make and Phase 2B remain untouched.
