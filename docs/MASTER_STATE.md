@@ -1,3 +1,21 @@
+## Phase 2B controlled V005 result — 2026-09-21
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B ACCEPTANCE = PASS.
+
+One authorized live OpenAI script call completed (gpt-5.6-sol, HTTP 200, response completed). Execution 68818bfb-5a58-4029-81ab-5ddcd5cfc364 / revision 1. Script d30d428c-df95-447d-8c7f-53eb90c1a5c7; production package 658e30df-3898-43e9-8216-228d02fbcf3c. English SHORT, estimated 57.093 seconds, five segments and five separate uncleared asset requirements. Selected claims C2/C4/C6/C10/C16 with exact mandatory qualifiers. Deterministic Script validation PASS; state PRODUCTION_PACKAGE_READY. Publication HOLD TRUE, release_allowed FALSE, human creative review required.
+
+Independent PostgreSQL readback verified input/output hashes, recoverable response hash, offline reprocessing, regenerated package equality, asset rows and central transition audit. Research, Fact Guard, recovered Research and prior Evidence hashes remain unchanged. No additional provider call during verification. Immutable execution input/drafts carry current script workflow and policy versions; central audit also retains the original ContentJob version labels.
+
+285/285 tests passed twice: all existing 237 plus 48 new. 36/36 Phase-2B requirements mapped. The tested source hash matches the live-run permit. Secret-safe persisted result verified; renderer and Make remain unchanged. READY_FOR_HUMAN_SCRIPT_REVIEW = YES. No image/video/voice generation, rendering or publishing. Commit/push authorized after this controlled result; no merge authorized.
+
+## Historical Phase 2B pre-live checkpoint
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = IN PROGRESS.
+
+Branch codex/phase-2b-script-production from v0.2.0-research-factguard. Generic script/production planning implemented. PHASE 2B TECHNICAL ACCEPTANCE = PASS: 285/285 tests twice (237 existing + 48 new); 36/36 Phase-2B requirements mapped. Native build 58 modules, Secret Check including untracked files PASS; renderer 31/31 and Make 12/12 unchanged. Controlled V005 script result remains pending. V005 remains FACT_GUARD_PASSED / Publication HOLD TRUE until the explicitly authorized controlled Script service run. No live call, script generation for V005, asset generation, voice, renderer, publishing or Make operation has occurred in this step.
+
+Owner chose English, 45–60 seconds. Literal claim/qualifier enforcement is documented in SCRIPT_CONTRACT; unrestricted paraphrase is not automatically approved. Migration 007 applied to local development PostgreSQL; exact Research/Fact Guard/recovery/evidence/job/state history unchanged. Zero V005 script executions. Codex cannot see the session credential. Hash-pinned local one-time starter prepared; no live call executed. Commit/push waits for the controlled result. PHASE 2B overall acceptance is not yet PASS.
+
 ## Phase 2A baseline completion
 
 PHASE 1 = COMPLETE

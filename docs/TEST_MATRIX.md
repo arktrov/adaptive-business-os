@@ -137,3 +137,64 @@ HFG01–HFG10: immutable human decisions and policy hashes; BLOCKED and CONTEXT_
 SCOPE01–SCOPE14 cover all requested scope acceptance cases: PASS with blocked/context; forbidden factual use; enforceable context restrictions; corrections and missing human review; empty scope; HOLD; no release bypass; immutable hash/version; tenant scoping; historical runs; narrowed Script-stage input/qualifier validation; policy snapshot binding. All integration fixtures use isolated PostgreSQL and local provider responses.
 
 Final review regressions REVIEW01–REVIEW03 cover mandatory contextual qualification, normal successful research human/policy binding, and denial of internal evidence types at the local HTTP boundary. Existing 234 tests plus 3 regression tests = 237.
+
+# Phase 2B — real test mapping
+
+All tests below are in test/script-production.test.js. PostgreSQL is real and isolated; HTTP provider transport is stubbed, with external fetch denied in acceptance. Original 237 cases are retained. Result counts are recorded only after runner completion.
+
+| Actual test name | Evidence |
+| --- | --- |
+| P2B01 input only contains admitted Fact Guard scope | Node runner; PostgreSQL where persistence is involved |
+| P2B02 blocked claims rejected despite arbitrary prose | Node runner; PostgreSQL where persistence is involved |
+| P2B03 context cannot become factual and keeps limitation label | Node runner; PostgreSQL where persistence is involved |
+| P2B04 qualifier cannot be dropped or paraphrased | Node runner; PostgreSQL where persistence is involved |
+| P2B05 unsupported factual prose rejected in hook and claim text | Node runner; PostgreSQL where persistence is involved |
+| P2B06 every factual segment has persisted claim traceability | Node runner; PostgreSQL where persistence is involved |
+| P2B07 evidence relation and source references resolve | Node runner; PostgreSQL where persistence is involved |
+| P2B08 brand snapshot is bound and persisted | Node runner; PostgreSQL where persistence is involved |
+| P2B09 quality snapshot is bound and persisted | Node runner; PostgreSQL where persistence is involved |
+| P2B10 production policy version persists on draft and input | Node runner; PostgreSQL where persistence is involved |
+| P2B11 script and package records reject updates and deletes | Node runner; PostgreSQL where persistence is involved |
+| P2B12 explicit revision preserves prior script and increments version | Node runner; PostgreSQL where persistence is involved |
+| P2B13 changed input with same key conflicts before provider | Node runner; PostgreSQL where persistence is involved |
+| P2B14 changed execution requires explicit previous revision | Node runner; PostgreSQL where persistence is involved |
+| P2B15 script service uses provider interface without domain dependency | Node runner; PostgreSQL where persistence is involved |
+| P2B16 paid response committed and read back before downstream parse | Node runner; PostgreSQL where persistence is involved |
+| P2B17 parser failure preserves recoverable body offline without retry | Node runner; PostgreSQL where persistence is involved |
+| P2B18 recoverable artifact excludes secrets and private reasoning | Node runner; PostgreSQL where persistence is involved |
+| P2B19 machine readable package links exact immutable script | Node runner; PostgreSQL where persistence is involved |
+| P2B20 timeline ordered contiguous and uses actual text duration | Node runner; PostgreSQL where persistence is involved |
+| P2B21 out of profile duration prevents package | Node runner; PostgreSQL where persistence is involved |
+| P2B22 visual classifications persist for each segment | Node runner; PostgreSQL where persistence is involved |
+| P2B23 generated imagery cannot masquerade as observed footage | Node runner; PostgreSQL where persistence is involved |
+| P2B24 planned rights remain uncleared and separate from real assets | Node runner; PostgreSQL where persistence is involved |
+| P2B25 audio plan preserves perceptual audibility requirement | Node runner; PostgreSQL where persistence is involved |
+| P2B26 SHORT profile is configuration driven | Node runner; PostgreSQL where persistence is involved |
+| P2B27 LONG profile is configuration driven | Node runner; PostgreSQL where persistence is involved |
+| P2B28 BOTH creates independent scripts and packages atomically | Node runner; PostgreSQL where persistence is involved |
+| P2B29 cross tenant reads writes and foreign keys are denied | Node runner; PostgreSQL where persistence is involved |
+| P2B30 restart retains script package and idempotent cache | Node runner; PostgreSQL where persistence is involved |
+| P2B31 Script API and UI show actual persisted draft | Node runner; PostgreSQL where persistence is involved |
+| P2B32 Production API and UI show persisted timeline audio and rights | Node runner; PostgreSQL where persistence is involved |
+| P2B33 publication HOLD remains true across draft package and audit | Node runner; PostgreSQL where persistence is involved |
+| P2B34 script approval cannot bypass release or central persisted proof | Node runner; PostgreSQL where persistence is involved |
+| P2B35 renderer reference hashes unchanged | Node runner; PostgreSQL where persistence is involved |
+| P2B36 Make originals unchanged by production planning | Node runner; PostgreSQL where persistence is involved |
+| P2B37 concurrent identical command makes one provider invocation | Node runner; PostgreSQL where persistence is involved |
+| P2B38 artifact persistence failure prevents parsing and production completion | Node runner; PostgreSQL where persistence is involved |
+| P2B39 successful offline reprocessing performs zero external calls | Node runner; PostgreSQL where persistence is involved |
+| P2B40 schema-invalid response remains recoverable and cannot retry implicitly | Node runner; PostgreSQL where persistence is involved |
+| P2B41 generic video planning port has no execution authorization | Node runner; PostgreSQL where persistence is involved |
+| P2B42 missing credential stops before state or execution mutation | Node runner; PostgreSQL where persistence is involved |
+| P2B43 output persistence failure rolls back outputs and persists failed gate | Node runner; PostgreSQL where persistence is involved |
+| P2B44 incomplete provider response never completes script | Node runner; PostgreSQL where persistence is involved |
+| P2B45 production policy forbidden phrase stops deterministic gate | Node runner; PostgreSQL where persistence is involved |
+| P2B46 tampered evidence references cannot pass validation | Node runner; PostgreSQL where persistence is involved |
+| P2B47 changed policies profiles and provider conflict through service input | Node runner; PostgreSQL where persistence is involved |
+| P2B48 echoed credential is excluded from response and request metadata | Node runner; stub provider response and real PostgreSQL |
+
+Final Phase-2B technical verification: 285/285 PASS in both full runs; 237 existing + 48 new cases; 24/24 Phase-1, 25/25 Phase-2A and 36/36 Phase-2B mapped requirements. Zero skips/failures. Real isolated PostgreSQL, actual local HTTP/UI, stubbed paid transports. V005 live execution remains pending; these are technical acceptance results only.
+
+## Controlled V005 runtime verification — 2026-09-21
+
+Execution 68818bfb-5a58-4029-81ab-5ddcd5cfc364 completed through the normal ScriptService in one authorized live call. HTTP 200/completed; validated immutable Script and Production Package persisted; state PRODUCTION_PACKAGE_READY. Independent readback and offline reprocessing PASS. Input/output/package/response hashes and five planned-asset rows verified. Research/Fact Guard history unchanged. Publication HOLD TRUE. Human creative review remains required; literal factual validation does not certify creative quality. No further provider or production-stage call. Existing two full 285-test runs remain valid: implementation hash unchanged.

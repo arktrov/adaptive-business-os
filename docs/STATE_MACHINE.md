@@ -186,3 +186,11 @@ See [Attempt-6 recovery](V005_ATTEMPT_6_RECOVERY.md).
 Human Fact Guard review: REVIEW_REQUIRED -> FACT_GUARD_PENDING is allowed only with immutable, tenant/job-scoped HumanFactGuardDecision matching the latest reviewed run and preserving publication HOLD. Normal FACT_GUARD_RUNNING completion remains dependent on committed outcome within the same transaction. Rerun creates a new outcome; REVIEW_REQUIRED is retained if the result is REVIEW_REQUIRED. No publication or Script transition is admitted by this change.
 
 Fact Guard scope contract 2.0: FACT_GUARD_PASSED means only factual scope admitted to the next production stage. Publication HOLD stays in immutable scope; publishing/release bypass remains disabled. Historical REVIEW_REQUIRED evaluations can be re-evaluated through the same human-decision lineage without mutating the original decision or runs. A successful scoped outcome and its scope are committed in the normal state transition transaction.
+
+## Phase 2B central planning states
+
+FACT_GUARD_PASSED -> SCRIPT_PENDING -> SCRIPT_RUNNING -> SCRIPT_APPROVED -> PRODUCTION_PACKAGE_READY.
+
+On failure: SCRIPT_RUNNING -> SCRIPT_REVIEW_REQUIRED. Explicit new revision: SCRIPT_REVIEW_REQUIRED or PRODUCTION_PACKAGE_READY -> SCRIPT_PENDING. Existing legacy packaging-first path remains documented; the new application derives its production package after a validated script. No redundant release state is introduced. SCRIPT_APPROVED is the canonical job counterpart of draft SCRIPT_APPROVED_FOR_PRODUCTION.
+
+Every Phase-2B state requires an exact latest scoped immutable execution proof; successful transitions recompute expected drafts/packages and compare persisted hashes and asset children. Generic JSON adapter cannot enter these guarded states. Publication remains HOLD; RELEASE_APPROVED/PUBLISH_PENDING/PUBLISHED bypasses stay disabled. No direct status writes outside the central state machine.

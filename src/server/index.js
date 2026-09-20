@@ -48,10 +48,11 @@ const server=http.createServer(async(req,res)=>{
   if(!['SHORT','LONG','BOTH'].includes(i.format)||!i.idempotency_key)throw Error('INVALID_JOB');
   const j=await store.createJob({...i,business_id:businessId});await save();return send(res,j,201);
  }
- const match=url.pathname.match(/^\/api\/jobs\/([a-f0-9-]+)(?:\/(evidence|artifacts|transitions|research|fact-guard|pipeline))?$/);
+ const match=url.pathname.match(/^\/api\/jobs\/([a-f0-9-]+)(?:\/(evidence|artifacts|transitions|research|fact-guard|pipeline|scripts|production-packages))?$/);
  if(match){
   const [,id,kind]=match;const d=await detail(id);if(!d)return send(res,{error:'NOT_FOUND'},404);
   if(req.method==='GET'&&!kind)return send(res,d);
+  if(['scripts','production-packages'].includes(kind)){if(req.method!=='GET')return send(res,{error:'METHOD_NOT_ALLOWED'},405);return send(res,kind==='scripts'?(d.scripts??[]):(d.productionPackages??[]));}
   if(req.method==='GET'&&['research','fact-guard'].includes(kind))return send(res,kind==='research'?(d.research??[]):(d.factGuard??[]));
   if(req.method==='POST'&&kind){
    operation=kind;const i=await body(req);

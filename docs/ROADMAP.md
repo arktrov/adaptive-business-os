@@ -69,3 +69,9 @@ No debt implementation is part of merge/freeze. See PR_REVIEW.md for the origina
 | TD-04 | LOW | Broad HTTP error messages and limited correlation; local API diagnostics | Operator-only loopback deployment; no remote deployment authorized; provider diagnostics remain sanitized | Use allowlisted public error codes and sanitized correlation before wider deployment |
 
 No debt implementation during this freeze. These findings do not relax scope, tenant, evidence or publication gates.
+
+## Phase 2B scope and follow-up
+
+Current implementation scope: generic constrained Script generation, deterministic factual gate, immutable Production Package/visual/audio/rights planning and read-only Job Detail. No media generation, rendering, publishing or Phase 2C is authorized.
+
+Nonblocking limitation: closed-world literal realization can be verbose. A future approved phrase/translation catalogue must retain immutable claim/qualifier/policy bindings before allowing automatic paraphrase approval. Do not weaken the current validator to improve copy. Human creative review remains required. Existing TD-01/02/04/05 remain tracked; this phase does not refactor the JSON adapter or migration framework.

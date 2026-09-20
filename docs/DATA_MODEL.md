@@ -188,3 +188,9 @@ DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON developme
 ## Processing revisions and evidence identity
 Migration 005 adds research_processing_revisions and recovered_research_claims/sources/evidence with composite tenant/job foreign keys and immutable triggers. No provider attempt is created. Normal research_claim_evidence adds relation_id to permit distinct excerpts/type for the same claim/source.
 See [Attempt-6 recovery](V005_ATTEMPT_6_RECOVERY.md).
+
+## Phase 2B additive migration 007
+
+script_executions: scoped idempotency key, immutable full canonical input, input/logical hashes, lineage, revision, previous execution and scoped Fact Guard FK. script_response_artifacts: one sanitized recoverable envelope per execution plus hash. script_outcomes: terminal validation/metadata. script_drafts: per-format immutable versioned data/hash, scoped execution FK. production_packages: exact scoped script FK and versioned data/hash. planned_asset_requirements: separate scoped package children; never actual media assets.
+
+Composite tenant/job FKs, positive versions, unique job revisions and format versions, lookup indexes and immutable UPDATE/DELETE triggers cover all six tables. Default restrictive deletes protect history. Successful result/package/asset insertion and state/audit writes share one transaction; response capture commits independently before parsing. Existing research/Fact Guard histories are untouched.
