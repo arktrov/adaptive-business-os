@@ -1,3 +1,4 @@
+import {loadRealizations} from './claim-realizations-postgres.js';
 import {randomUUID} from 'node:crypto';
 import {ResearchRepository} from './research-postgres.js';
 import {scriptStageInput} from './domain/content-scope.js';
@@ -14,7 +15,13 @@ export class ScriptRepository {
   for(const kind of ['brand','quality']){const ref=scoped.scope.policy_snapshot_refs[kind],e=d.evidence.find(e=>e.id===ref.evidence_id&&e.type==='policy_snapshot');if(!e||hash(e.payload)!==e.content_hash||e.content_hash!==ref.evidence_hash)throw Error('POLICY_HASH_MISMATCH');verifyPolicySnapshot(e.payload,b,kind);if(e.payload.version!==ref.version||e.payload.content_hash!==ref.content_hash)throw Error('POLICY_HASH_MISMATCH');policies[kind]=e.payload}
   const research=fg.request.input.research,admitted=[...scoped.scope.approved_claim_ids,...scoped.scope.context_only_claim_ids];
   const evidence_references=Object.fromEntries(admitted.map(id=>[id,research.evidence.filter(e=>e.claim_id===id).map(e=>{if(!research.sources.some(s=>s.source_id===e.source_id))throw Error('BROKEN_EVIDENCE_REFERENCE');return {fact_guard_run_id:fg.run_id,research_output_hash:scoped.scope.research_output_hash,relation_id:evidenceIdentity(e),source_id:e.source_id,support_type:e.support_type}})]));
-  const i={version:'script-production-input/1.0',business_id:b,content_job_id:j,format:d.job.format,...scoped,evidence_references,policy_snapshots:policies,research_reference:{run_id:fg.request.input.research_run_id,processing_revision_id:fg.request.input.research_processing_revision_id??null,output_hash:scoped.scope.research_output_hash},fact_guard_run_id:fg.run_id,publication_hold:true,objective:configuration.objective,audience_profile:configuration.audience_profile,language:configuration.language,target_platforms:configuration.target_platforms,profiles:configuration.profiles,production_policy:configuration.production_policy,workflow_version:configuration.workflow_version,prompt_version:configuration.prompt_version,prompt:configuration.prompt,provider};
+  const i={version:configuration.contract_version??'script-production-input/1.0',business_id:b,content_job_id:j,format:d.job.format,...scoped,evidence_references,policy_snapshots:policies,research_reference:{run_id:fg.request.input.research_run_id,processing_revision_id:fg.request.input.research_processing_revision_id??null,output_hash:scoped.scope.research_output_hash},fact_guard_run_id:fg.run_id,publication_hold:true,objective:configuration.objective,audience_profile:configuration.audience_profile,language:configuration.language,target_platforms:configuration.target_platforms,profiles:configuration.profiles,production_policy:configuration.production_policy,workflow_version:configuration.workflow_version,prompt_version:configuration.prompt_version,prompt:configuration.prompt,provider};
+  if(['script-production-input/2.0','script-production-input/2.1','script-production-input/2.2'].includes(i.version)){
+   const e=d.evidence.find(e=>e.id===command.revision_directive_id&&e.type==='human_script_revision_directive');
+   if(!e||hash(e.payload)!==e.content_hash||e.payload.scope_hash!==i.scope.content_scope_hash||hash(e.payload.policy_snapshot_refs)!==hash(i.scope.policy_snapshot_refs)||e.payload.previous_execution_id!==command.previous_execution_id)throw Error('REVISION_DIRECTIVE_REQUIRED');
+   i.revision_directive={evidence_id:e.id,content_hash:e.content_hash,payload:e.payload};
+  }
+  if(i.version==='script-production-input/2.2'){i.realization_style_profile=configuration.realization_style_profile;i.claim_realizations=await loadRealizations(this.store.pool,b,j)}
   return validateProductionInput(i);
  }
  async begin(command,input){return this.store.transaction(async c=>{
@@ -55,5 +62,8 @@ export async function readScripts(c,b,j){
  const scriptExecutions=(await c.query('SELECT e.id,e.lineage_id,e.revision,e.input_hash,e.logical_input_hash,e.fact_guard_run_id,e.created_at,o.status,o.validation,o.metadata FROM script_executions e LEFT JOIN script_outcomes o ON o.execution_id=e.id WHERE e.business_id=$1 AND e.content_job_id=$2 ORDER BY e.revision',[b,j])).rows;
  const scripts=(await c.query('SELECT data FROM script_drafts WHERE business_id=$1 AND content_job_id=$2 ORDER BY version,format',[b,j])).rows.map(r=>r.data);
  const productionPackages=(await c.query('SELECT data FROM production_packages WHERE business_id=$1 AND content_job_id=$2 ORDER BY version,id',[b,j])).rows.map(r=>r.data);
- return {scriptExecutions,scripts,productionPackages};
+ const scriptProcessingRevisions=(await c.query("SELECT id,payload,content_hash FROM evidence_records WHERE business_id=$1 AND job_id=$2 AND type='script_processing_revision' ORDER BY created_at",[b,j])).rows;
+ const approval=(await c.query("SELECT id,payload,content_hash FROM evidence_records WHERE business_id=$1 AND job_id=$2 AND type='human_production_approval' ORDER BY created_at DESC,id DESC LIMIT 1",[b,j])).rows[0];
+ let selectedProduction=null;if(approval){if(hash(approval.payload)!==approval.content_hash)throw Error('APPROVAL_HASH_MISMATCH');const a=approval.payload,latest=scriptExecutions.at(-1);if(a.execution_id===latest?.id&&latest.status==='SUCCEEDED'&&scripts.some(s=>s.script_id===a.selected_script_id&&s.output_hash===a.script_hash)&&productionPackages.some(p=>p.production_package_id===a.selected_package_id&&p.content_hash===a.package_hash))selectedProduction={approval_id:approval.id,...a}}
+ return {scriptExecutions,scripts,productionPackages,scriptProcessingRevisions,selectedProduction};
 }

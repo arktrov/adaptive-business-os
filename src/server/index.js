@@ -57,7 +57,7 @@ const server=http.createServer(async(req,res)=>{
   if(req.method==='POST'&&kind){
    operation=kind;const i=await body(req);
    if(i.business_id&&i.business_id!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
-   if(kind==='evidence'&&['provider_response','confirmed_research_input','human_research_approval','human_fact_guard_decision','policy_snapshot','policy_binding_audit'].includes(i.evidence_type))return send(res,{error:'RESERVED_EVIDENCE_TYPE'},403);
+   if(kind==='evidence'&&['provider_response','confirmed_research_input','human_research_approval','human_fact_guard_decision','human_script_revision_directive','script_processing_revision','claim_realization','human_production_approval','human_claim_realization_decision','policy_snapshot','policy_binding_audit'].includes(i.evidence_type))return send(res,{error:'RESERVED_EVIDENCE_TYPE'},403);
    const input={...i,business_id:businessId,content_job_id:id};
    let result;
    if(['research','fact-guard','pipeline'].includes(kind)){

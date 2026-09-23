@@ -198,3 +198,78 @@ Final Phase-2B technical verification: 285/285 PASS in both full runs; 237 exist
 ## Controlled V005 runtime verification — 2026-09-21
 
 Execution 68818bfb-5a58-4029-81ab-5ddcd5cfc364 completed through the normal ScriptService in one authorized live call. HTTP 200/completed; validated immutable Script and Production Package persisted; state PRODUCTION_PACKAGE_READY. Independent readback and offline reprocessing PASS. Input/output/package/response hashes and five planned-asset rows verified. Research/Fact Guard history unchanged. Publication HOLD TRUE. Human creative review remains required; literal factual validation does not certify creative quality. No further provider or production-stage call. Existing two full 285-test runs remain valid: implementation hash unchanged.
+
+## Human script revision preparation tests
+
+| REV01 multiple ordered visual beats persist through normal service and central guard | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV02 beat order must follow narration order | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV03 each narration duration must be fully covered | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV04 concrete brief cannot be missing or generic type only | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV05 beat claim links cannot introduce blocked facts | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV06 classification required and generated imagery cannot be observation | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV07 generation eligibility cannot authorize execution | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV08 rights requirement cannot be empty | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV09 disclosure requirement cannot be empty | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV10 human directive is immutable and idempotent with bound artifacts policies scope | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV11 v2 input requires tenant scoped matching directive | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV12 claim qualifiers and context-only protection retained | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV13 profile controls beat count without business hardcoding | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV14 v2 provider schema carries all required beat fields | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV15 duplicate beat ids rejected | Offline Node runner; isolated real PostgreSQL for persistence |
+| REV16 script and package v1 database immutability remains enforced | Offline Node runner; isolated real PostgreSQL for persistence |
+
+Revision preparation acceptance: 301/301 PASS twice (285 existing + 16 new), zero failures/skips; real isolated PostgreSQL, no external calls. Run 1: 233.072 seconds; Run 2: 257.137 seconds. Native syntax/build 61 modules PASS; Secret Check PASS; renderer reference hashes and all 12 Make blueprints unchanged. Immutable human directive and unchanged V005 v1 Script/Package/state verified by PostgreSQL readback. READY_FOR_SINGLE_V005_SCRIPT_V2_CALL = YES (technical readiness only; no live authorization or execution).
+
+## Offline Script processing recovery
+
+| USAGE01 provider DIRECT is not authoritative when exact qualifier is present | Offline Node runner; real isolated PostgreSQL |
+| USAGE02 required mode derives from scope even when provider says context | Offline Node runner; real isolated PostgreSQL |
+| USAGE03 missing qualifier fails despite provider QUALIFIED | Offline Node runner; real isolated PostgreSQL |
+| USAGE04 materially weakened qualifier fails | Offline Node runner; real isolated PostgreSQL |
+| USAGE05 blocked claim cannot be relabeled | Offline Node runner; real isolated PostgreSQL |
+| USAGE06 context only requires full limitation wording regardless of label | Offline Node runner; real isolated PostgreSQL |
+| USAGE07 exact fallback only normalizes harmless whitespace not arbitrary paraphrases | Offline Node runner; real isolated PostgreSQL |
+| USAGE08 optional repair is exact auditable zero call preparation requiring human review | Offline Node runner; real isolated PostgreSQL |
+| USAGE09 offline recovery persists new revision and package without changing paid attempt | Offline Node runner; real isolated PostgreSQL |
+| USAGE10 processing revision and original artifact are immutable | Offline Node runner; real isolated PostgreSQL |
+| USAGE11 recovery is idempotent under concurrency with no new execution | Offline Node runner; real isolated PostgreSQL |
+| USAGE12 recovery is tenant scoped | Offline Node runner; real isolated PostgreSQL |
+| USAGE13 central state cannot bypass processing evidence | Offline Node runner; real isolated PostgreSQL |
+| USAGE14 changed source response hash cannot be recovered | Offline Node runner; real isolated PostgreSQL |
+| USAGE15 new processing contract normal service derives canonical usage | Offline Node runner; real isolated PostgreSQL |
+
+Offline V005 recovery verified: processing revision 2c9acdcf-d0cc-45bd-a200-a4d2369b2cb1 references paid execution b39bc24d-1b3c-40e1-a230-464d1846a4bc, whose REVIEW_REQUIRED outcome remains unchanged. Script v2 6f0e9db1-ad8b-4b39-a4b6-c9b5839885bc and Package v2 8ca06398-576e-4ffb-b7a6-5100f2b6fba2 persist 149 words, 54.184 seconds and nine visual beats. C2/C7/C10 qualifiers VERBATIM; no textual repair. Processing 2.1 validation PASS; Publication HOLD TRUE. Voiceover, visual briefs, v1 artifacts, source response/execution, Research, Fact Guard and prior Evidence verified unchanged. Zero new provider calls. State PRODUCTION_PACKAGE_READY is technical readiness only; creative approval remains HUMAN_REVIEW_REQUIRED.
+
+316/316 tests PASS twice: 301 existing + 15 new, no failures/skips. Run 1 281.005s; Run 2 283.773s. Real isolated PostgreSQL and blocked external transports; 24/24 Phase 1, 25/25 Phase 2A, 36/36 Phase 2B requirements mapped. Build 65 modules PASS. Secret Check PASS. Renderer and Make unchanged. No Phase 2C.
+
+## Approved claim realization catalog
+
+| REAL01 canonical text remains accepted without a catalog | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL02 exact human-approved variant accepted and traced in draft | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL03 proposed realization rejected | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL04 retired realization rejected | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL05 approval requires explicit qualifier semantics attestation | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL06 missing qualifier references rejected despite approval flag | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL07 blocked claim cannot be approved into factual use | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL08 context restrictions and allowed mode survive alternative wording | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL09 changed text invalidates content hash | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL10 cross-tenant catalog entry rejected | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL11 altered source claim or scope cannot reuse approval | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL12 arbitrary similar paraphrase still rejected | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL13 PostgreSQL versions append immutably and retirement replaces eligibility | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL14 old processing ignores catalogs and historical scripts stay unchanged | Offline Node runner; isolated PostgreSQL where applicable |
+| REAL15 retirement after input preparation blocks state admission before provider | Offline Node runner; isolated PostgreSQL where applicable |
+
+
+Claim realization closeout: full offline acceptance suite passed twice, 331/331 each (REAL01–REAL15 included). Native JavaScript build: 68 modules PASS. Secret scan PASS. Read-only V005 baseline comparison: complete job snapshot, Script v1/v2 and ProductionPackage v1/v2 unchanged; state PRODUCTION_PACKAGE_READY. No provider call.
+
+
+| REAL16 selected four approvals preserve eight proposals and canonical source in PostgreSQL | Real isolated PostgreSQL; exact acceptance/rejection and qualifier checks |
+| REAL17 realization profile supplies explicit exact approved language without changing old prompt | Offline configuration contract test |
+
+Human realization approval closeout: 333/333 full-suite tests PASS twice, including REAL01–REAL17. Live V005 read-back confirms four APPROVED v2 and eight PROPOSED v1 records, exact validator acceptance/rejection, intact qualifier references and canonical claims, tenant isolation, unchanged Script v1/v2 and Package v1/v2. No provider calls or state transitions.
+
+
+Final human approval tests: HPA01 immutable selection and unchanged artifacts/state; HPA02 idempotency; HPA03 tenant isolation; HPA04 publication/release bypass denial; HPA05 mismatched package rejection. All use real isolated PostgreSQL.
+
+Phase-2B human freeze: 338/338 tests PASS twice, no failed/skipped tests. Real PostgreSQL suite, HPA01–HPA05, renderer reference hashes and Make originals PASS. Build: 70 JavaScript modules PASS; Secret Check PASS. Final V005 human-selected v4 readback verified; release denied and publication HOLD maintained.

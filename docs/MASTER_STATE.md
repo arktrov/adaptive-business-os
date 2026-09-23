@@ -1,3 +1,31 @@
+# Current freeze: Phase 2B human approved
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C = NOT STARTED.
+
+Final V005 Script: 713c35f1-9a6a-4f5c-8c57-16b9d57c0f97. Final ProductionPackage: d68d5a4a-9b6f-477f-82e9-7e83fa2b274e. Immutable human approval: 82558cce-1b61-4bd3-a3c5-56db678b4691. Creative quality and factual safety APPROVED; package APPROVED_FOR_NEXT_PRODUCTION_STAGE. Eleven visual beats; complete audio plan. Rights remain NOT_CLEARED. Publication HOLD TRUE; RELEASE_ALLOWED FALSE.
+
+Canonical state remains PRODUCTION_PACKAGE_READY, already reached via the central state machine. Human approval is a separate immutable selection record exposed as selectedProduction, not an artifact edit or a redundant state transition. ASSET_PLANNING is not entered; no Phase 2C work has started. All earlier Script/Package versions remain immutable.
+
+Next authorized scope must be separately requested: Voice Production; Visual Asset Planning/Production; Provider Router; official/source media; image generation; video provider boundary; optional Runway adapter; asset rights/provenance; assets ready for renderer. None is implemented in this closeout.
+
+Earlier checkpoints below are historical and superseded by this freeze.
+
+## Current V005 offline recovery — 2026-09-21
+
+Offline V005 recovery verified: processing revision 2c9acdcf-d0cc-45bd-a200-a4d2369b2cb1 references paid execution b39bc24d-1b3c-40e1-a230-464d1846a4bc, whose REVIEW_REQUIRED outcome remains unchanged. Script v2 6f0e9db1-ad8b-4b39-a4b6-c9b5839885bc and Package v2 8ca06398-576e-4ffb-b7a6-5100f2b6fba2 persist 149 words, 54.184 seconds and nine visual beats. C2/C7/C10 qualifiers VERBATIM; no textual repair. Processing 2.1 validation PASS; Publication HOLD TRUE. Voiceover, visual briefs, v1 artifacts, source response/execution, Research, Fact Guard and prior Evidence verified unchanged. Zero new provider calls. State PRODUCTION_PACKAGE_READY is technical readiness only; creative approval remains HUMAN_REVIEW_REQUIRED.
+
+316/316 tests PASS twice. Human review must still address the academic hook, methodology-before-mystery order and dense C7 explanation. No creative or publication approval is implied. READY_FOR_HUMAN_SCRIPT_V2_REVIEW = YES. No live retry, research, Fact Guard rerun, assets or Phase 2C.
+
+## Current human script revision checkpoint — 2026-09-21
+
+Revision preparation acceptance: 301/301 PASS twice (285 existing + 16 new), zero failures/skips; real isolated PostgreSQL, no external calls. Run 1: 233.072 seconds; Run 2: 257.137 seconds. Native syntax/build 61 modules PASS; Secret Check PASS; renderer reference hashes and all 12 Make blueprints unchanged. Immutable human directive and unchanged V005 v1 Script/Package/state verified by PostgreSQL readback. READY_FOR_SINGLE_V005_SCRIPT_V2_CALL = YES (technical readiness only; no live authorization or execution).
+
+FACTUAL SAFETY = APPROVED. CREATIVE SCRIPT = REVIEW_REQUIRED. PRODUCTION PACKAGE = REVIEW_REQUIRED.
+
+Immutable directive f9008e47-d516-4681-99ca-9482cdd833c5 records the owner feedback and binds v1 Script/Package, the same Fact Guard scope and Brand/Quality snapshots. V1 hashes and job/state history verified unchanged. Publication HOLD TRUE. Historical PRODUCTION_PACKAGE_READY is technical status only, not human approval.
+
+V2 preparation separates narration from ordered, duration-covered visual beats, each with a concrete brief and source/rights/disclosure/eligibility requirements. ARKTROV profile: English SHORT 45–60 seconds, preferred 135–150 words, 7–10 beats. Literal factual protection remains; unrestricted paraphrase is not certified. Human creative and visual-brief review remain required. No Script v2 run or paid call has occurred; no Phase 2C. No assets, voice, render, Make or publication work.
+
 ## Phase 2B controlled V005 result — 2026-09-21
 
 PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B ACCEPTANCE = PASS.
@@ -198,3 +226,19 @@ Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 e
 
 ## Phase 1 final closeout — 2026-09-14
 DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.
+
+
+### Offline claim realization catalog checkpoint
+
+Generic ApprovedClaimRealization and opt-in script-production-input/2.2 validation prepared. Exact approved variants require tenant, source-claim, scope, language, style, qualifier and immutable version/hash bindings; arbitrary paraphrases remain rejected. Twelve local V005 proposals (C2/C6/C7/C10) remain PROPOSED with no approval or production database mutation. Full suite 331/331 PASS twice; build and secret checks PASS. Existing scripts, packages and job state verified unchanged. No Script v3 call or Phase 2C started. Human realization approval is pending.
+
+
+### Human claim realization approvals persisted
+Four selected V005 realizations are APPROVED v2: C2-c, C6-b, C7-b, C10-b. Eight alternatives remain PROPOSED v1. Immutable decision evidence: cdf2f5c6-e704-4de2-a372-0234cd38f228. Future v3 input preparation verified with opt-in scoped-script/2.2, catalog and human directive 9a71949b-c17d-40e5-b1f4-1fa035323279 bound to current Script v2. No execution created, no provider call, no state transition. Canonical claims, qualifier references, Script v1/v2 and Package v1/v2 remain unchanged. Publication HOLD remains true. Phase 2C not started.
+
+
+### V005 offline v4 reorder
+Script 713c35f1-9a6a-4f5c-8c57-16b9d57c0f97 and ProductionPackage d68d5a4a-9b6f-477f-82e9-7e83fa2b274e persisted through the existing repository/state machine. Offline execution c04e6fe4-ac7c-44bb-92f6-bc0880c604fe records zero external calls and source v3 hashes; its artifact is explicitly offline-script-reorder/1, not a provider response. Exact approved C2/C6/C7/C10 blocks reordered with human-specified connective sentences; 135 words, 49.095 seconds, 11 beats. Stored rebuild and prior-version hash checks PASS. Human creative directive alignment PASS as a review candidate, not final human approval. Publication HOLD true; Phase 2C not started.
+
+
+Freeze verification: 338/338 tests PASS twice; native build 70 modules PASS; Secret Check PASS; renderer and Make unchanged. Branch codex/phase-2b-script-production is ready for the requested freeze push; merge requires separate review.
