@@ -14,6 +14,7 @@ async function detail(id){
  table('#history',d.stateHistory.map(t=>({...t,actor:t.actor_id||t.actor_type,timestamp:t.occurred_at||t.timestamp})),[['From','from_state'],['To','to_state'],['Actor','actor'],['Reason','reason'],['Run','run_id'],['Timestamp','timestamp']]);
  table('#evidence',d.evidence,[['Type','evidence_type'],['Source','source'],['Reference','reference'],['Created At','created_at']]);
  table('#artifacts',d.artifacts,[['Logical Name','logical_name'],['Artifact ID','artifact_id'],['Version','version'],['Content Hash','content_hash'],['Storage Reference','storage_reference'],['Created At','created_at']]);
+ renderScripts(d);
  renderRuns('#research',d.research??[]);renderRuns('#fact-guard',d.factGuard??[]);
  $('#quality').textContent=Object.entries(d.quality).map(([k,v])=>k+': '+(v??'Nicht ausgeführt')).join(' · ');
  $('#publish').textContent=Object.entries(d.publish).map(([k,v])=>k+': '+(v??'Nicht vorhanden')).join(' · ');
@@ -36,4 +37,12 @@ function renderRuns(target,runs){
   pre.textContent=JSON.stringify({run_id:run.run_id,attempt:run.attempt,provider:run.provider,model:run.model,prompt_version:run.prompt_version,policy_version:run.policy_version,started_at:run.started_at,completed_at:run.completed_at,status:run.status,error_category:run.error_category,canonical_input_hash:run.canonical_input_hash,output_hash:run.output_hash,result:run.output},null,2);
   section.append(title,pre);root.append(section);
  }
+}
+
+function renderScripts(d){
+ const scripts=$('#scripts'),packages=$('#production-packages');scripts.replaceChildren();packages.replaceChildren();
+ if(!d.scripts?.length)scripts.textContent=d.scriptExecutions?.length?'Script review required: '+JSON.stringify(d.scriptExecutions.at(-1).validation):'Nicht ausgeführt';
+ for(const s of d.scripts??[]){const section=document.createElement('section'),title=document.createElement('h4'),text=document.createElement('pre'),detail=document.createElement('details'),summary=document.createElement('summary'),data=document.createElement('pre');title.textContent=s.format+' · Version '+s.script_version+' · '+s.status;text.textContent=s.voiceover_text;summary.textContent='Claim traceability, validation and provider';data.textContent=JSON.stringify({script_id:s.script_id,hook:s.hook,estimated_duration:s.estimated_duration,claim_usage:s.claim_usage,validation:s.validation,provider:s.provider,model:s.model,prompt_version:s.prompt_version,publication_hold:s.publication_hold},null,2);detail.append(summary,data);section.append(title,text,detail);scripts.append(section)}
+ if(!d.productionPackages?.length)packages.textContent='Nicht erstellt';
+ for(const p of d.productionPackages??[]){const section=document.createElement('section'),title=document.createElement('h4'),data=document.createElement('pre');title.textContent=p.format+' · Package '+p.package_version+' · '+p.status;data.textContent=JSON.stringify({production_package_id:p.production_package_id,timeline:p.timeline_segments,audio_plan:p.audio_plan,rights_requirements:p.rights_requirements,safe_areas:p.safe_areas,publication_hold:p.publication_hold,release_allowed:p.release_allowed},null,2);section.append(title,data);packages.append(section)}
 }

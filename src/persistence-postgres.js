@@ -1,3 +1,5 @@
+import {readScripts} from './script-postgres.js';
+import {guardScriptTransition} from './script-transition.js';
 import {hash,jobIdentity,validateResearch} from './domain/research.js';
 import {readResearch} from './research-postgres.js';
 import pg from 'pg';
@@ -51,6 +53,7 @@ export class PostgresStore {
    const j=await this.requireJob(c,jobId,meta.business_id,true);
    if(!Number.isInteger(expectedVersion)||j.state_version!==expectedVersion)throw Error('STALE_STATE_VERSION');
    if(!canTransition(j.current_state,to))throw Error('INVALID_TRANSITION');
+   await guardScriptTransition(c,j,to,meta);
    if(j.current_state==='REVIEW_REQUIRED'&&to==='FACT_GUARD_PENDING'){
     const e=(await c.query("SELECT * FROM evidence_records WHERE id=$1 AND business_id=$2 AND job_id=$3 AND type='human_fact_guard_decision'",[meta.human_decision_id??null,meta.business_id,jobId])).rows[0];
     const last=(await c.query('SELECT run_id FROM job_state_transitions WHERE job_id=$1 ORDER BY sequence DESC LIMIT 1',[jobId])).rows[0];
@@ -111,7 +114,7 @@ export class PostgresStore {
    const e=await c.query('SELECT * FROM evidence_records WHERE job_id=$1 AND business_id=$2 ORDER BY created_at,id',[id,businessId]);
    const a=await c.query('SELECT * FROM artifacts WHERE content_job_id=$1 AND business_id=$2 ORDER BY logical_name,version',[id,businessId]);
    const recoveredResearch=(await c.query('SELECT * FROM research_processing_revisions WHERE business_id=$1 AND content_job_id=$2 ORDER BY created_at,id',[businessId,id])).rows;
-   return {...await readResearch(c,businessId,id),recoveredResearch,job:r.rows[0],stateHistory:h.rows,transitions:h.rows,evidence:e.rows.map(x=>this.evidenceView(x)),artifacts:a.rows,quality:{technical:null,multimodal:null,finalJudge:null,releaseGate:null},publish:{target:null,status:null,result:null}};
+   return {...await readScripts(c,businessId,id),...await readResearch(c,businessId,id),recoveredResearch,job:r.rows[0],stateHistory:h.rows,transitions:h.rows,evidence:e.rows.map(x=>this.evidenceView(x)),artifacts:a.rows,quality:{technical:null,multimodal:null,finalJudge:null,releaseGate:null},publish:{target:null,status:null,result:null}};
   });
  }
 }

@@ -102,3 +102,11 @@ Docker Compose PostgreSQL is running healthy on localhost:55432. Migration 001 e
 
 ## Phase 1 final closeout — 2026-09-14
 DATABASE_URL selects the PostgreSQL adapter; absent value selects JSON development fallback. Docker Compose command: docker compose up -d postgres. Migration: Get-Content db/migrations/001_control_plane.sql -Raw | docker exec -i adaptive-business-os-postgres psql -U abo_dev -d adaptive_business_os. App: $env:DATABASE_URL='postgres://abo_dev:abo_dev_password@localhost:55432/adaptive_business_os'; npm start. PostgreSQL clean-schema migration, adapter transaction/concurrency/idempotency/tenant checks and real app Business/Job/Detail flow passed. REVIEW_REQUIRED remains for full 24-case DB matrix and evidence/artifact API persistence before claiming final acceptance.
+
+## Phase 2B — script and production planning
+
+Domain: script-production.js; application: ScriptService; persistence boundary: ScriptRepository backed by PostgreSQL; providers: interchangeable describe/execute ports. Domain does not import persistence or test adapters. Business configuration composes SHORT/LONG/BOTH without customer-wired modules. V005 configuration is isolated in src/config/script-production.js, English 45–60 seconds per owner choice.
+
+Paid response capture precedes parsing; central state proof verifies immutable outputs. GET Script/Production endpoints and Job Detail show persisted data only. No HTTP endpoint can spend provider budget. Live execution is a separate hash-pinned one-call local runner after technical acceptance. No asset generation, rendering or release.
+
+See [Script contract](SCRIPT_CONTRACT.md), [Production Package](PRODUCTION_PACKAGE_CONTRACT.md) and [Visual intent](VISUAL_INTENT_CONTRACT.md).
