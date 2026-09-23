@@ -239,3 +239,8 @@ Human confirmation: no authoritative ARKTROV voice profile currently exists. His
 ## Optional business voice profiles
 
 See [Business voice profiles](BUSINESS_VOICE_PROFILES.md). Composition-driven zero/one/multiple voice requirements replace the mandatory-voice assumption for new plans. Business-scoped immutable profile revisions and explicit human approval are required for synthesis; historical values are candidates only. No provider defaults, credentials, live calls or historical artifact rewrites. V005 retains its narration requirement and VOICE_PROFILE_MISSING blocker.
+
+
+## One-call voice preparation
+
+Human approval for the existing ARKTROV voice is authoritative for business use; metadata/preview provenance is explicitly human-reported. See [Voice generation](VOICE_GENERATION.md). The missing Codex credential leads to a secure local one-time runner, not profile rollback. Paid binary response is durably captured before decoding; MP3 QA uses a configurable local codec boundary. Audio-plan cues that require changing the spoken text are not injected. No release/rights bypass.

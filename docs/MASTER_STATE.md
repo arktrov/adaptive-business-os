@@ -1,3 +1,13 @@
+# Current: ARKTROV voice approved; one synthesis runner ready (not executed)
+
+BusinessVoiceProfile e544249c-90bb-4e11-adb9-ebb2a2f4719c is human APPROVED at immutable revision 3 (approved_by human). Original candidate revision 1 and enriched candidate revision 2 remain immutable. Human-supplied provider verification: existing ElevenLabs / eleven_v3 voice named arktrov, generated category, English, existing preview personally reviewed. This is not a new successful Codex metadata lookup. Historical source, human metadata/preview verification, approval source hash and consent references remain separate. See [Controlled voice generation](VOICE_GENERATION.md).
+
+V005 selected Script v4 713c35f1-9a6a-4f5c-8c57-16b9d57c0f97 and Package v4 d68d5a4a-9b6f-477f-82e9-7e83fa2b274e are unchanged. State ASSETS_PENDING. Existing Manifest b01050bf-2199-4bc1-9970-ca5f6e52b11b remains ASSETS_PARTIAL. Effective voice_required TRUE. Historical VOICE_PROFILE_MISSING outcome remains immutable; current profile approval resolves the profile gate, but the VoiceAsset is still pending. Publication HOLD TRUE; RELEASE_ALLOWED FALSE.
+
+The current Codex process cannot see ELEVENLABS_API_KEY. No synthesis/provider call was executed. Preparation includes one local runner using the caller's existing process environment, exact approved script input, one-call permit, response recovery to local disk and PostgreSQL, actual MP3 QA, and immutable manifest revision only after technical success. No extra API lookup, tags/wording modifications, retry, image/video/music generation, renderer, publication or merge. User execution remains pending. 430/430 tests PASS twice (416 prior regressions plus 14 controlled voice tests), affected tests PASS, build 84 modules and Secret Check PASS. One immutable asset_voice_authorization and ignored local permit are issued and preflight-verified; no attempt has been consumed. Renderer and Make unchanged.
+
+Prior checkpoints below are historical.
+
 # Current: optional voice architecture and historical ARKTROV candidate
 
 Voice is optional per approved composition; zero/one/multiple voice requirements and business-scoped versioned profiles are implemented. Automatic selection is deterministic and rejects ambiguity, stale/retired/unapproved profiles, unavailable providers and incompatible language/style/use case/channel/format/content type. Existing narration remains a requirement only for workflows that contain it. See [Business voice profiles](BUSINESS_VOICE_PROFILES.md).

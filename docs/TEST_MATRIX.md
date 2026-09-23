@@ -369,3 +369,25 @@ Phase 2C final verification: 387/387 PASS twice (338 existing + 49 new), zero fa
 | VP29 unknown voice origin never defaults to catalogue approval | test/voice-profiles.test.js |
 
 Final optional-voice acceptance: 416/416 PASS twice, 0 failures/skips. Includes clean migration/upgrade/repeat for all eight migrations. Build 79 modules, Secret Check and Foundation PASS. Renderer reference hashes and Make originals remain unchanged. Logs are retained locally in .local/voice-profile-final-acceptance.log.
+
+
+## Controlled voice generation
+
+| Test | Coverage |
+|---|---|
+| VG01 exactly one POST preserves approved text settings and output with no extra calls | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG02 missing credential and changed input stop before any call | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG03 HTTP and network failures never retry or expose response secrets | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG04 MP3 is decoded and checked with actual format duration hash and silence metrics | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG05 corrupt wrong-format silent and implausible MP3 fail QA | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG06 recoverable response precedes decode and survives QA failure in PostgreSQL | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG07 durable local response remains available when database response persistence fails | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG08 incomplete transport is captured but cannot become a valid VoiceAsset | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG09 real MP3 application path persists asset file and immutable partial manifest without release | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG10 one-time local claim is exclusive and cannot be reused | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG11 persisted approval and original input identity are checked before call | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG12 recoverable offline MP3 processing performs no provider call | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG13 credential echoes in unexpected successful bodies and IDs are never retained | test/voice-generation.test.js; synthetic audio / isolated PostgreSQL / injected transports |
+| VG14 local disk failure still preserves the paid response in PostgreSQL before stopping | test/voice-generation.test.js; injected disk failure, real PostgreSQL |
+
+Controlled voice final acceptance: 430/430 PASS twice; 0 failures/skips. Fourteen new cases include real MP3 QA, recovery on independent storage failures, immutable manifest append, one-call exclusion, exact input and secret redaction. Local evidence: .local/voice-generation-release-acceptance.log. Build (84 modules), Secret Check and unchanged renderer/Make regression checks PASS.
