@@ -228,3 +228,9 @@ Explicit human authorization 91daf689-d8f5-49c1-aecd-44370991caf0 approves only 
 
 ### Phase 2B final human selection and state semantics
 Use immutable human_production_approval evidence to bind the selected Script/Package hashes, Fact Guard scope, realization versions, Brand/Quality snapshots, human actor and timestamp. The authoritative selection is exposed only for the latest successful script execution. Generic evidence HTTP writes cannot forge this reserved type. Approval is idempotent for the same identity and does not mutate artifacts. PRODUCTION_PACKAGE_READY already represents the completed planning stage; approval adds the human gate without inventing a state or entering ASSET_PLANNING. Publication HOLD and release denial remain independent.
+
+
+## Phase 2C asset foundation
+Generic asset contracts, registry routing and immutable PostgreSQL evidence reuse the modular application. See [Asset contract](ASSET_CONTRACT.md), [Router](PROVIDER_ROUTER.md), [Rights](ASSET_RIGHTS_PROVENANCE.md) and [Manifest](PRODUCTION_ASSET_MANIFEST.md). Native/source/generated capability paths are separated; no business/provider switch exists in the domain. Asset state transitions require stored plan/manifest proof. Publication HOLD remains independent; no renderer/publishing implementation. PCM16 WAV and PNG are the implemented byte decoders; other vendor codecs require adapters. Voice profile missing is a live-production blocker, not a reason to invent a voice.
+
+Human confirmation: no authoritative ARKTROV voice profile currently exists. Historical ElevenLabs v3 is not approved for this system; voice ID undocumented. VOICE_PROFILE_MISSING is mandatory. No voice key is requested or used, and no live voice is generated in this run.

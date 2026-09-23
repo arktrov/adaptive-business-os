@@ -75,3 +75,10 @@ No debt implementation during this freeze. These findings do not relax scope, te
 Current implementation scope: generic constrained Script generation, deterministic factual gate, immutable Production Package/visual/audio/rights planning and read-only Job Detail. No media generation, rendering, publishing or Phase 2C is authorized.
 
 Nonblocking limitation: closed-world literal realization can be verbose. A future approved phrase/translation catalogue must retain immutable claim/qualifier/policy bindings before allowing automatic paraphrase approval. Do not weaken the current validator to improve copy. Human creative review remains required. Existing TD-01/02/04/05 remain tracked; this phase does not refactor the JSON adapter or migration framework.
+
+
+## Phase 2C asset foundation
+Generic asset contracts, registry routing and immutable PostgreSQL evidence reuse the modular application. See [Asset contract](ASSET_CONTRACT.md), [Router](PROVIDER_ROUTER.md), [Rights](ASSET_RIGHTS_PROVENANCE.md) and [Manifest](PRODUCTION_ASSET_MANIFEST.md). Native/source/generated capability paths are separated; no business/provider switch exists in the domain. Asset state transitions require stored plan/manifest proof. Publication HOLD remains independent; no renderer/publishing implementation. PCM16 WAV and PNG are the implemented byte decoders; other vendor codecs require adapters. Voice profile missing is a live-production blocker, not a reason to invent a voice.
+
+
+Phase 2C technical foundation accepted; V005 runtime remains ASSETS_PARTIAL. Human review of 11 native scene specs, authoritative voice-profile approval, rights and downstream audio/timing resolution remain required before renderer readiness. No live voice provider selection is authorized by historical Make settings.

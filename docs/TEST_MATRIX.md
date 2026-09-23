@@ -273,3 +273,60 @@ Human realization approval closeout: 333/333 full-suite tests PASS twice, includ
 Final human approval tests: HPA01 immutable selection and unchanged artifacts/state; HPA02 idempotency; HPA03 tenant isolation; HPA04 publication/release bypass denial; HPA05 mismatched package rejection. All use real isolated PostgreSQL.
 
 Phase-2B human freeze: 338/338 tests PASS twice, no failed/skipped tests. Real PostgreSQL suite, HPA01–HPA05, renderer reference hashes and Make originals PASS. Build: 70 JavaScript modules PASS; Secret Check PASS. Final V005 human-selected v4 readback verified; release denied and publication HOLD maintained.
+
+
+## Phase 2C tests
+
+| P2C01 approved ProductionPackage becomes immutable AssetPlan | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C02 every beat has a unique resolved requirement | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C03 router is business agnostic and capability based | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C04 native visual route produces validated scene layers | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C05 observed media routes to source rights verification | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C06 illustrative still routes to image boundary | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C07 illustrative video and image to video route explicitly | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C08 replaceable video interface accepts a Runway compatible adapter | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C09 no forced video provider for native content | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C10 factual classification overrides generative visual choice | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C11 blocked claims cannot enter an asset plan | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C12 classification cannot change on an artifact | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C13 disclosure must survive asset normalization | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C14 rights statuses preserve explicit evidence gates | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C15 public URL alone is not a rights clearance | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C16 voice abstraction has no fixed vendor | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C17 missing voice profile fails before call | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C18 missing voice credential fails before call | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C19 TTS request uses exact approved script text and hash | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C20 voice artifact persists in PostgreSQL after response capture | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C21 WAV QA rejects corrupt silent clipped and implausible audio | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C22 failed validation retains recoverable paid response without raw secrets | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C23 immutable attempts prevent automatic or repeated paid calls | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C24 offline reprocessing changes neither attempts nor provider count | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C25 image boundary rejects mismatched provider capabilities | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C26 unknown provider cost remains unknown with attempt dimensions | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C27 native repeated production reuses immutable artifact identity | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C28 visual asset validation rejects wrong dimensions and nonexistent beat | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C29 content hash detects artifact or version tampering | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C30 manifest preserves all immutable input identities | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C31 missing voice music and timing keep manifest partial | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C32 ready requires cleared visuals and validated voice with no other required inputs | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C33 assets survive store restart | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C34 PostgreSQL plan is idempotent and centrally enters assets pending | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C35 asset reads and writes enforce tenant scope | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C36 Job Detail contains persisted asset fields and UI uses textContent | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C37 publication HOLD survives manifest construction | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C38 no release or assets ready bypass | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C39 renderer reference hashes unchanged | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2C40 Make remains untouched by asset production | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX01 real PNG decode validates dimensions and rejects corrupt bytes | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX02 source and generated adapters recover actual PNG output offline | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX03 unsupported video decoder cannot produce accepted asset | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX04 provided transcript mismatch fails voice QA without rewriting history | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX05 actual Assets API UI and reserved evidence gate | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX06 observed classification cannot be routed to invented native imagery | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX07 forged successful voice QA cannot admit corrupted audio | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+| P2CX08 cost ceiling does not treat unknown cost as zero | Offline domain/QA or isolated real PostgreSQL; no paid calls |
+
+| P2CX09 automatic voice routing reports missing authoritative profile before registry selection | Offline negative gate; zero provider calls |
+
+
+Phase 2C final verification: 387/387 PASS twice (338 existing + 49 new), zero failures/skips; 40/40 required Phase-2C names mapped to actual tests. Controlled V005 readback validated 11 native assets, manifest reconstruction, zero provider attempts, retained v1–v4 artifacts and ASSETS_PENDING. Voice deliberately blocked by VOICE_PROFILE_MISSING; native rights, music/SFX and subtitle timing remain unresolved.

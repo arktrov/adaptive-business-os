@@ -110,3 +110,7 @@ Domain: script-production.js; application: ScriptService; persistence boundary: 
 Paid response capture precedes parsing; central state proof verifies immutable outputs. GET Script/Production endpoints and Job Detail show persisted data only. No HTTP endpoint can spend provider budget. Live execution is a separate hash-pinned one-call local runner after technical acceptance. No asset generation, rendering or release.
 
 See [Script contract](SCRIPT_CONTRACT.md), [Production Package](PRODUCTION_PACKAGE_CONTRACT.md) and [Visual intent](VISUAL_INTENT_CONTRACT.md).
+
+
+## Phase 2C asset foundation
+Generic asset contracts, registry routing and immutable PostgreSQL evidence reuse the modular application. See [Asset contract](ASSET_CONTRACT.md), [Router](PROVIDER_ROUTER.md), [Rights](ASSET_RIGHTS_PROVENANCE.md) and [Manifest](PRODUCTION_ASSET_MANIFEST.md). Native/source/generated capability paths are separated; no business/provider switch exists in the domain. Asset state transitions require stored plan/manifest proof. Publication HOLD remains independent; no renderer/publishing implementation. PCM16 WAV and PNG are the implemented byte decoders; other vendor codecs require adapters. Voice profile missing is a live-production blocker, not a reason to invent a voice.

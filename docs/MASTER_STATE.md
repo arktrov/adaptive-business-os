@@ -1,3 +1,29 @@
+# Phase 2C technical acceptance and controlled native production
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C TECHNICAL ACCEPTANCE = PASS. Real asset completion remains PARTIAL.
+
+387/387 tests PASS twice: 338 existing regressions + 49 Phase-2C tests, including all 40 required coverage entries. PostgreSQL, restart, tenant isolation, native routing, byte QA, recoverable response, no-retry, API/UI and release denial verified. Build/Secret Check PASS; renderer and Make unchanged.
+
+V005 AssetPlan: ae964313-fbee-4c9c-a9c0-6dbf24ea8a21. All 11 beats route to NATIVE_SCENE; 11 immutable native-scene/1 specifications persisted and exported locally for review. No source download, voice, image, video or Runway call occurred. Scene specs preserve the package briefs, classifications, source links and disclosures.
+
+Manifest: b01050bf-2199-4bc1-9970-ca5f6e52b11b; ASSETS_PARTIAL. Current canonical state ASSETS_PENDING, reached through central plan-verified transitions. Voice: VOICE_PROFILE_MISSING, explicitly confirmed by human; no historical ElevenLabs value adopted and no voice key requested or used. All 11 scene rights require review. Music/SFX and subtitle timing remain unresolved. Publication HOLD TRUE; RELEASE_ALLOWED FALSE.
+
+READY_FOR_HUMAN_ASSET_REVIEW = YES for the native scene specifications only; voice is absent. READY_FOR_RENDERER_PHASE = NO. No rendering, final Video QA or publishing. Phase 2D not started. Script/Package v1–v4 and Research/Fact Guard are unchanged.
+
+The initial local review export encountered a Date serialization error after successful persistence. Read-only readback and deterministic manifest reconstruction verified all stored records; no production retry occurred.
+
+Previous checkpoints below are historical.
+
+# Phase 2C implementation checkpoint
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C = IN PROGRESS on codex/phase-2c-assets-providers.
+
+Generic asset domain, routing, immutable attempts/recovery, native scene specifications, rights/provenance, byte QA, partial/ready manifests and Job Detail Assets are implemented. Technical acceptance and controlled V005 production are being verified before commit. No renderer or Make changes.
+
+Human-confirmed VOICE_PROFILE_MISSING: no authoritative current ARKTROV voice profile exists; historical ElevenLabs v3 is not authorized. No voice credentials requested or used. No live voice generation. V005 visuals are all native/noneligible, so no image/video/Runway calls are planned. Publication HOLD remains TRUE and RELEASE_ALLOWED FALSE.
+
+Prior freeze/checkpoints below are historical.
+
 # Current freeze: Phase 2B human approved
 
 PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C = NOT STARTED.
