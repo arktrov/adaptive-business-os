@@ -198,3 +198,8 @@ Composite tenant/job FKs, positive versions, unique job revisions and format ver
 
 ## Phase 2C asset foundation
 Generic asset contracts, registry routing and immutable PostgreSQL evidence reuse the modular application. See [Asset contract](ASSET_CONTRACT.md), [Router](PROVIDER_ROUTER.md), [Rights](ASSET_RIGHTS_PROVENANCE.md) and [Manifest](PRODUCTION_ASSET_MANIFEST.md). Native/source/generated capability paths are separated; no business/provider switch exists in the domain. Asset state transitions require stored plan/manifest proof. Publication HOLD remains independent; no renderer/publishing implementation. PCM16 WAV and PNG are the implemented byte decoders; other vendor codecs require adapters. Voice profile missing is a live-production blocker, not a reason to invent a voice.
+
+
+## Optional business voice profiles
+
+See [Business voice profiles](BUSINESS_VOICE_PROFILES.md). Composition-driven zero/one/multiple voice requirements replace the mandatory-voice assumption for new plans. Business-scoped immutable profile revisions and explicit human approval are required for synthesis; historical values are candidates only. No provider defaults, credentials, live calls or historical artifact rewrites. V005 retains its narration requirement and VOICE_PROFILE_MISSING blocker.

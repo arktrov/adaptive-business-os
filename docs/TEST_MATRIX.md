@@ -330,3 +330,42 @@ Phase-2B human freeze: 338/338 tests PASS twice, no failed/skipped tests. Real P
 
 
 Phase 2C final verification: 387/387 PASS twice (338 existing + 49 new), zero failures/skips; 40/40 required Phase-2C names mapped to actual tests. Controlled V005 readback validated 11 native assets, manifest reconstruction, zero provider attempts, retained v1–v4 artifacts and ASSETS_PENDING. Voice deliberately blocked by VOICE_PROFILE_MISSING; native rights, music/SFX and subtitle timing remain unresolved.
+
+
+## Optional voice/profile regression coverage
+
+29 new tests; all use deterministic local fixtures, with real isolated PostgreSQL for persistence, immutable revisions, tenant scoping, restart and concurrent approval. No external calls.
+
+| Test | Coverage |
+|---|---|
+| VP01 voiceless manifest proceeds without any VoiceAsset | test/voice-profiles.test.js |
+| VP02 voiceless workflow requires neither profile credential nor provider | test/voice-profiles.test.js |
+| VP03 required voice rejects candidate and absent profile before synthesis | test/voice-profiles.test.js |
+| VP04 approved compatible business profile becomes usable | test/voice-profiles.test.js |
+| VP05 multiple provider-independent profiles per business persist | test/voice-profiles.test.js |
+| VP06 historical source creates only an inactive candidate | test/voice-profiles.test.js |
+| VP07 retired or superseded profiles cannot fall back to old approval | test/voice-profiles.test.js |
+| VP08 missing exact voice reference cannot be approved | test/voice-profiles.test.js |
+| VP09 ambiguous approved matches require configuration no random default | test/voice-profiles.test.js |
+| VP10 language style use case channel format and content type constrain selection | test/voice-profiles.test.js |
+| VP11 unavailable providers excluded from automatic profile selection | test/voice-profiles.test.js |
+| VP12 domain and PostgreSQL enforce business scoping | test/voice-profiles.test.js |
+| VP13 credentials cannot be persisted in any profile field or nested settings | test/voice-profiles.test.js |
+| VP14 profile reference changes create immutable candidate versions | test/voice-profiles.test.js |
+| VP15 historical ARKTROV profile remains scoped and unapproved | test/voice-profiles.test.js |
+| VP16 readiness never clears publication hold or enables release | test/voice-profiles.test.js |
+| VP17 human approval records are versioned and require exact candidate hash | test/voice-profiles.test.js |
+| VP18 imported custom and cloned approval require explicit provider authorization and consent | test/voice-profiles.test.js |
+| VP19 multiple voice slots retain independent text language and requirements | test/voice-profiles.test.js |
+| VP20 original legacy narration remains required without rewriting plan | test/voice-profiles.test.js |
+| VP21 concurrent approvals append only one valid revision | test/voice-profiles.test.js |
+| VP22 restart retains exact immutable business profiles | test/voice-profiles.test.js |
+| VP23 tampering and cross-business profile selection fail | test/voice-profiles.test.js |
+| VP24 composition configuration overrides narration presence without global brand defaults | test/voice-profiles.test.js |
+| VP25 selected profile must be persisted and current before provider dispatch | test/voice-profiles.test.js |
+| VP26 explicit workflow profile cannot be bypassed by a different approved profile | test/voice-profiles.test.js |
+| VP27 retired profile preserves human retirement audit and prior approval | test/voice-profiles.test.js |
+| VP28 profile foreign key and immutable delete protect business configuration | test/voice-profiles.test.js |
+| VP29 unknown voice origin never defaults to catalogue approval | test/voice-profiles.test.js |
+
+Final optional-voice acceptance: 416/416 PASS twice, 0 failures/skips. Includes clean migration/upgrade/repeat for all eight migrations. Build 79 modules, Secret Check and Foundation PASS. Renderer reference hashes and Make originals remain unchanged. Logs are retained locally in .local/voice-profile-final-acceptance.log.

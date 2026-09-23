@@ -9,3 +9,8 @@ Registry capabilities: VoiceGenerationProvider, ImageGenerationProvider, VideoGe
 AssetService routeAndProduce selects an adapter from the registry. Voice profile provider must match the selected adapter. One immutable initial attempt per plan/requirement; no automatic retries. Persist the attempt and call permit before dispatch, recoverable sanitized response before normalization/QA, and independent outcome afterwards. Reprocessing is offline and returns a candidate; it does not rewrite a failed outcome or invent a provider call.
 
 V005 v4 has 11 noneligible native/controlled beats; no image/video provider is needed. Generic source/image/video ports are verified with offline adapters; that does not certify an unconfigured live vendor.
+
+
+## Optional business voice profiles
+
+See [Business voice profiles](BUSINESS_VOICE_PROFILES.md). Composition-driven zero/one/multiple voice requirements replace the mandatory-voice assumption for new plans. Business-scoped immutable profile revisions and explicit human approval are required for synthesis; historical values are candidates only. No provider defaults, credentials, live calls or historical artifact rewrites. V005 retains its narration requirement and VOICE_PROFILE_MISSING blocker.

@@ -1,3 +1,15 @@
+# Current: optional voice architecture and historical ARKTROV candidate
+
+Voice is optional per approved composition; zero/one/multiple voice requirements and business-scoped versioned profiles are implemented. Automatic selection is deterministic and rejects ambiguity, stale/retired/unapproved profiles, unavailable providers and incompatible language/style/use case/channel/format/content type. Existing narration remains a requirement only for workflows that contain it. See [Business voice profiles](BUSINESS_VOICE_PROFILES.md).
+
+Historical ARKTROV candidate e544249c-90bb-4e11-adb9-ebb2a2f4719c, version 1, is persisted in PostgreSQL as CANDIDATE (CANDIDATE_FOR_HUMAN_APPROVAL), never activated. ElevenLabs / eleven_v3 / exact reference and generation/output settings were read from archived module 10. Name, language and voice origin are NOT STORED/UNKNOWN. V004 execution binding is NOT VERIFIED; no V004 content job is present in local PostgreSQL. Approval requires human-confirmed language support and voice origin; non-catalogue voices additionally require provider authorization and human consent references. No API keys were requested/read or provider calls made.
+
+V005: effective voice_required TRUE from its immutable narrated package/plan; VOICE_PROFILE_MISSING persists. State ASSETS_PENDING, Publication HOLD TRUE, RELEASE_ALLOWED FALSE. Before/after PostgreSQL snapshot hashes match: job, selected artifacts, plans, manifests and prior evidence unchanged. Candidate is business configuration and did not rewrite the AssetPlan or Manifest.
+
+Validation: 416/416 PASS twice (387 regression tests + 29 voice/profile tests); build (79 modules), Secret Check and Foundation (12 blueprints / 81 modules) PASS. No renderer or Make changes. No voice/media generation, rendering, publishing or Phase-2C merge.
+
+Prior checkpoints below are historical.
+
 # Phase 2C technical acceptance and controlled native production
 
 PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C TECHNICAL ACCEPTANCE = PASS. Real asset completion remains PARTIAL.

@@ -7,3 +7,8 @@ PostgreSQL append-only evidence stores plan, attempt, sanitized recoverable resp
 Voice metadata binds exact script text/hash/version, language, profile, settings, request, format, sample rate, duration and byte SHA256. PCM16 WAV QA decodes RIFF chunks, checks plausibility, clipping and prolonged silence. Supplied transcript must equal approved text; absent alignment remains NOT_AVAILABLE. PNG checks CRC, dimensions, decompression and row filters. Other codecs require an explicit trusted decoder; metadata-only success is rejected. Technical QA does not replace perceptual human/video QA.
 
 No current authoritative ARKTROV voice ID/model/profile is configured. Historical Make ElevenLabs settings are not adopted. Live voice must report VOICE_PROFILE_MISSING; missing credentials with a valid profile report VOICE_PROVIDER_CREDENTIAL_NOT_AVAILABLE.
+
+
+## Optional business voice profiles
+
+See [Business voice profiles](BUSINESS_VOICE_PROFILES.md). Composition-driven zero/one/multiple voice requirements replace the mandatory-voice assumption for new plans. Business-scoped immutable profile revisions and explicit human approval are required for synthesis; historical values are candidates only. No provider defaults, credentials, live calls or historical artifact rewrites. V005 retains its narration requirement and VOICE_PROFILE_MISSING blocker.

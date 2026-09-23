@@ -7,3 +7,8 @@ ASSETS_PARTIAL means at least one required input is absent or not cleared. ASSET
 Central transitions: PRODUCTION_PACKAGE_READY -> ASSET_PLANNING -> ASSETS_PENDING; ASSETS_READY requires a persisted manifest re-derived from persisted artifacts. Generic HTTP evidence writes cannot forge asset records. Human review remains required even when technically ready; publication HOLD stays true, release_allowed false.
 
 This is the application-side Phase-2D boundary. native-scene/1 must be compiled/adapted by a future renderer integration; no existing Remotion code is changed or executed.
+
+
+## Optional business voice profiles
+
+See [Business voice profiles](BUSINESS_VOICE_PROFILES.md). Composition-driven zero/one/multiple voice requirements replace the mandatory-voice assumption for new plans. Business-scoped immutable profile revisions and explicit human approval are required for synthesis; historical values are candidates only. No provider defaults, credentials, live calls or historical artifact rewrites. V005 retains its narration requirement and VOICE_PROFILE_MISSING blocker.

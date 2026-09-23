@@ -82,3 +82,6 @@ Generic asset contracts, registry routing and immutable PostgreSQL evidence reus
 
 
 Phase 2C technical foundation accepted; V005 runtime remains ASSETS_PARTIAL. Human review of 11 native scene specs, authoritative voice-profile approval, rights and downstream audio/timing resolution remain required before renderer readiness. No live voice provider selection is authorized by historical Make settings.
+
+
+Business voice profiles: optional/multiple voice requirements, tenant-scoped versioned configuration and deterministic selection implemented. Future catalogue/custom/clone/preview UX must use provider-authorized consent and separate call approvals; no live adapter or cloning action in this task. Historical ARKTROV candidate requires human-supplied language compatibility and explicit approval.
