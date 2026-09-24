@@ -1,6 +1,6 @@
 import {verifyVoiceProfile,compatibleVoiceProfile,voiceRequirements,voiceRequirement,voiceContext} from '../domain/voice-profiles.js';
 import {need} from '../domain/assets.js';
-export const providerCapabilities=['VoiceGenerationProvider','ImageGenerationProvider','VideoGenerationProvider','SourceMediaProvider'];
+export const providerCapabilities=['VoiceGenerationProvider','ImageGenerationProvider','VideoGenerationProvider','SourceMediaProvider','MusicSourceProvider'];
 export function verifyProvider(p,capability){need(providerCapabilities.includes(capability)&&p?.describe&&p?.request,'INVALID_ASSET_PROVIDER');need(p.describe().capabilities.includes(capability),'PROVIDER_CAPABILITY_MISMATCH');return p}
 export function voiceInput(plan,profile,credentialPresent,requirement='VOICE'){
  if(voiceRequirements(plan).length===0)return null;

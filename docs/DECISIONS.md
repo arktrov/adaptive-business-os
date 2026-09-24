@@ -244,3 +244,23 @@ See [Business voice profiles](BUSINESS_VOICE_PROFILES.md). Composition-driven ze
 ## One-call voice preparation
 
 Human approval for the existing ARKTROV voice is authoritative for business use; metadata/preview provenance is explicitly human-reported. See [Voice generation](VOICE_GENERATION.md). The missing Codex credential leads to a secure local one-time runner, not profile rollback. Paid binary response is durably captured before decoding; MP3 QA uses a configurable local codec boundary. Audio-plan cues that require changing the spoken text are not injected. No release/rights bypass.
+
+## Separate voice synthesis availability from rights clearance
+
+The post-voice consistency check found a valid persisted audio attachment reported as missing because makeManifest used the rights-cleared subset to resolve voice synthesis. Generic correction: resolve synthesis using an independently validated audio attachment; record uncleared rights as VOICE_RIGHTS:<slot> plus the exact asset/status. All uncleared statuses still block ASSETS_READY; no automatic rights approval or perceptual approval. Existing immutable manifests retain their historical meaning and hashes; reconciliation appends a new revision through the normal repository. No provider calls or visual production are part of this correction.
+
+## Human voice approval and timing-only package lineage
+
+Use the existing immutable production_packages table for a timing-only derivative, with an asset_package_timing pointer and separate asset_human_voice_approval evidence; no migration or new canonical state. Keep original creative selection/AssetPlan stable, and bind effective package timing explicitly in new manifests. New manifests rederive and verify timing, and old scene durations cannot imply readiness. This preserves existing VoiceAsset/package hashes and source history. See [Voice timing](VOICE_TIMING.md).
+
+Measured edge silence becomes non-destructive application metadata, never an MP3 rewrite. No current local forced-alignment contract exists; sample-grid proportional allocations are explicitly approximate and subtitles remain blocked pending real alignment. Any duration profile conflict is recorded, not bypassed. Renderer handling of trim remains future integration work.
+
+## Optional tenant-scoped music library and rights-bound selection
+
+Music uses independent composition requirements plus immutable business track/preferences revisions (migration 009). Catalog assets receive tenant-local license records; uploads and generated origins require provenance and cannot self-clear rights. A dedicated MusicSourceProvider boundary prepares future sources without enabling acquisition. Local selection binds actual decoded audio and the effective production timing package; current rights/status/expiry must be checked again for every new readiness decision.
+
+Recommendations never invent a preferred track where compatible defaults/favorites do not resolve ambiguity. Mix presence is not audibility; final perceptual QA remains mandatory, and no final dB/LUFS targets are invented. License changes invalidate stale clearance. Existing plans remain immutable when music preferences change. See [Business music](BUSINESS_MUSIC.md). No renderer, live acquisition, generation or publication work.
+
+## Detailed native scene specifications bound to effective timing
+
+Extend the existing NATIVE_SCENE_SPEC asset with native-scene/2, using immutable asset_artifact and asset_native_scene_batch evidence rather than replacing the AssetPlan or adding a parallel asset store. Current-package admission follows voice-timing validation, so old native-scene/1 assets cannot silently satisfy retimed beats. Original specification authorship can clear only the specification itself; declared third-party dependencies retain REVIEW_REQUIRED. Provider calls, rendering, publication and automatic human approval are excluded. See [Native scene specifications](NATIVE_SCENE_SPECS.md).

@@ -391,3 +391,117 @@ Final optional-voice acceptance: 416/416 PASS twice, 0 failures/skips. Includes 
 | VG14 local disk failure still preserves the paid response in PostgreSQL before stopping | test/voice-generation.test.js; injected disk failure, real PostgreSQL |
 
 Controlled voice final acceptance: 430/430 PASS twice; 0 failures/skips. Fourteen new cases include real MP3 QA, recovery on independent storage failures, immutable manifest append, one-call exclusion, exact input and secret redaction. Local evidence: .local/voice-generation-release-acceptance.log. Build (84 modules), Secret Check and unchanged renderer/Make regression checks PASS.
+
+## Offline voice manifest consistency
+
+| Test | Evidence |
+|---|---|
+| VM01 technically valid voice resolves synthesis while every uncleared rights status blocks readiness | test/assets.test.js; actual synthetic WAV byte QA |
+| VM02 cleared voice readiness still requires explicit rights evidence and human review | test/assets.test.js; actual synthetic WAV byte QA |
+| VM03 absent failed mismatched or corrupt voice cannot resolve synthesis | test/assets.test.js; actual synthetic WAV byte QA |
+| VM04 multiple voice slots separate missing audio from pending rights | test/assets.test.js; actual synthetic WAV byte QA |
+| VM05 cleared matching voice is selected consistently before a pending alternative | test/assets.test.js; actual synthetic WAV byte QA |
+| VM06 legacy voice plan resolves audio without rewriting original plan or rights | test/assets.test.js; actual synthetic WAV byte QA |
+
+VG09 also verifies that the real-codec/injected-transport PostgreSQL path attaches the VoiceAsset, removes VOICE, preserves explicit pending rights and retains the old manifest hash. VP01/VP19 cover optional and multiple voice slots.
+
+Offline consistency acceptance: 436/436 PASS twice; 0 failures/skips. Six new VM regression cases plus strengthened VG09; 98/98 targeted tests PASS. Evidence: .local/voice-manifest-acceptance.log.
+
+## Human voice approval and offline timing
+
+| Test | Evidence |
+|---|---|
+| VT01 decoded duration replaces estimate with non-destructive sample-accurate trim | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT02 source voice script and creative package remain byte-identical | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT03 all eleven beats and seven narration segments cover the exact effective timeline | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT04 factual links classifications briefs rights disclosures routing and motion remain identical | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT05 subtitles keep exact text but approximate boundaries cannot be final | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT06 hard profile conflict stays explicit and never speeds up audio | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT07 manifest resolves voice independently from rights and invalidates old visual timing readiness | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT08 approval binds exact asset bytes profile script package request and human decision | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT09 invalid trim altered script foreign voice and mismatched approval fail closed | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT10 PostgreSQL atomically persists approval package timing and new manifest with zero provider attempts | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT11 duplicate and concurrent human commands reuse the same immutable result | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT12 restart and future manifest snapshots retain the authoritative timing revision | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT13 immutable database history rejects overwrites and deletion of voice approval and timing package | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+| VT14 foreign asset and failed transaction never leave a partial approval | test/voice-timing.test.js; synthetic audio, isolated PostgreSQL where applicable |
+
+Voice timing acceptance: 450/450 PASS twice, 0 failures/skips. Fourteen new VT cases cover actual-duration timing, trims, eleven-beat preservation, approximate subtitles, hard profile conflicts, immutable approvals, transactional rollback, concurrent idempotency and restart. Local evidence: .local/voice-timing-acceptance.log.
+
+## Optional business music
+
+| Test | Evidence |
+|---|---|
+| MU01 explicit optional music overrides descriptive intent without changing legacy plans | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU02 neither music nor voice is a valid ready configuration | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU03 voice-only workflow does not require music | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU04 required music stays unresolved without an actual selected track | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU05 music-only and voice-plus-music selections resolve only the music requirement | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU06 royalty-free label never substitutes for license evidence or approval | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU07 commercial social platform territory and expiry restrictions are enforced | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU08 user selection is explicit and cannot select an incompatible or foreign track | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU09 ambiguous recommendations never select a random fallback | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU10 business default and unique favorite resolve compatible choices without bypassing rights | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU11 all suitability dimensions and narration presence constrain recommendation | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU12 owned upload requires usage authorization and never gains automatic clearance | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU13 generic and generated provider provenance stays independent of provider name | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU14 mix plan retains audibility ducking fade hook SFX and pending final QA without invented loudness | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU15 latest retired/restricted track versions cannot fall back to historical approvals | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU16 manifest rejects forged foreign stale or missing music selection bindings | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU17 automatic recommendation can be disabled independently of required music | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU18 PostgreSQL upload persists bytes provenance and license evidence as immutable revisions | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU19 multiple business tracks playlists defaults favorites persist across restart without tenant leaks | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU20 uploaded audio validation secret handling and fake clearance fail closed | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU21 actual selected music and mix persist and resolve MUSIC while other blockers remain | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU22 retirement after attachment makes future manifests unresolved without changing history | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU23 business foreign keys and tenant restrictions reject forged library operations | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU24 real HTTP music UI preview preferences and cross-tenant protection work offline | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU25 business music settings apply to new plans without mutating an existing plan | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU26 voice-only and silent AudioMixPlans require no fabricated music or loudness | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+| MU27 changed license terms invalidate previous clearance until renewed explicit human approval | test/music.test.js; synthetic WAV, isolated PostgreSQL and local browser as applicable |
+
+Music acceptance: 477/477 PASS twice on the final unchanged source, 0 failures/skips; 27 music cases plus 450 prior regressions. The recorded final-source passes are music-final-acceptance RUN 2 and the subsequent music-release-acceptance RUN 2, with identical code hash verification. Coverage includes real isolated PostgreSQL upgrade/immutability/restart/tenant constraints, actual synthetic audio decoding, local HTTP/browser controls, changed license clearance invalidation and later voice-binding mix review. Build: 94 modules PASS; Secret Check, renderer reference hashes and Make checks PASS. Migration 009 applied to development; V005 before/after getJob hashes match, no music tracks/selections/mix plans added, MUSIC remains unresolved. Local evidence: .local/music-release-acceptance.log, .local/music-release-run-2.tap, .local/music-final-acceptance.log and .local/v005-music-status.json. No live providers or renderer were executed.
+
+
+## Native scene specifications
+
+| Test | Evidence |
+|---|---|
+| NS01 detailed immutable native scene creation | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS02 all eleven beats resolve against their exact current package | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS03 stale production package cannot be admitted | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS04 voice timed bounds and audio identity are preserved | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS05 exact claims evidence and full narration are retained | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS06 blocked and context-only claims cannot enter native scenes | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS07 factual classification cannot be relabeled | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS08 disclosure cannot be dropped or rewritten | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS09 native provenance excludes acquired media | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS10 original scene rights are scoped to specification only | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS11 third party dependencies remain rights review required | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS12 scene composition is mandatory | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS13 concrete motion and animation are mandatory | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS14 exact supported text persists and new factual text is rejected | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS15 mobile safe areas and subtitle exclusion enforced | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS16 diagram semantics are required | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS17 schematic positions cannot become measured coordinates | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS18 candidate count cannot imply complete census | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS19 minimum count cannot silently become exact six | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS20 physical explanation never generalizes to all sources | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS21 conceptual scenes cannot claim to be real observations | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS22 native authoring leaves provider routing unchanged | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS23 native authoring uses zero provider calls | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS24 manifest maps every beat to its new immutable asset | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS25 MUSIC remains unresolved after visual specs | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS26 SFX remains unresolved after visual specs | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS27 SUBTITLE_TIMING remains unresolved after visual specs | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS28 publication HOLD remains true | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS29 renderer and release readiness remain blocked | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS30 foreign business asset cannot be admitted | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS31 PostgreSQL native assets survive restart with complete immutable bindings | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS32 renderer reference hashes remain unchanged | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS33 Make originals remain unchanged | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS34 duplicate concurrent batch reuses artifacts and one manifest | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS35 failed batch rolls back and prior history cannot be overwritten | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+| NS36 PostgreSQL scenes bind to the voice timing revision and reject the old package | test/native-scenes.test.js; synthetic fixtures, real isolated PostgreSQL where applicable |
+
+Native scene acceptance: 513/513 PASS twice (477 existing regressions + NS01–NS36); 0 failures/skips. Real PostgreSQL and synthetic offline fixtures; runtime V005 persisted 11/11 and reconstructed the exact new manifest in a fresh process. Historical evidence/core/voice unchanged. Build 100 modules, Secret Check, renderer hashes and Make checks PASS. Evidence: .local/native-acceptance.log, .local/v005-native-verification.json. Human visual approval remains pending.

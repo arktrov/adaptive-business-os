@@ -1,4 +1,74 @@
-# Current: ARKTROV voice approved; one synthesis runner ready (not executed)
+# Current: V005 eleven native scene specifications persisted; human visual review pending
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C = IN PROGRESS.
+
+11/11 new immutable native-scene/2 assets bind selected Script v4 and timing Package v5 e7522105-b435-49af-abaa-f97f5256b5a7. The exact 0–59.9209977324263 second voice timeline, claims C2/C6/C7/C10, policy snapshots and typed evidence references are retained. Existing native-scene/1 assets, original AssetPlan, historical manifests, Research/Fact Guard/Script/Package artifacts, voice approval and audio are unchanged.
+
+| Beat | NativeSceneSpec asset ID |
+|---|---|
+| V4-B1 | e39dfe32-ed95-4f8e-99d7-da72bdc421e7 |
+| V4-B2 | 9d152238-3324-4f94-acbe-ac987691ac23 |
+| V4-B3 | 66740980-b7f7-41dc-bcf0-c3d8c98edec8 |
+| V4-B4 | 2ff39739-84fb-4ef8-8e82-14dbb224191b |
+| V4-B5 | 0cff7268-ef41-4eac-8caa-c7dfd79f94cb |
+| V4-B6 | 9c8181d9-6ad4-4edd-ba53-b89f38739488 |
+| V4-B7 | 4d5ccbd7-f6bf-41ef-815e-8d9c9981756f |
+| V4-B8 | 3eef0e05-13e3-4d06-9f30-59d40035e24d |
+| V4-B9 | b589335a-8306-4a7f-9616-c604149cee7f |
+| V4-B10 | f4acab7f-d7f7-4588-9392-a0adfbd797f1 |
+| V4-B11 | ead7af31-441d-40c0-8854-be6d97cd0364 |
+
+Manifest v5 ab4d1ed2-bb06-4717-9567-b2d543002c76 = ASSETS_PARTIAL. All eleven visual requirements resolve to current specs; renderer specification completeness 11/11. Remaining unresolved: VOICE_RIGHTS:VOICE, MUSIC, SFX, SUBTITLE_TIMING. Voice APPROVED/RESOLVED, voice rights REVIEW_REQUIRED; no music selected; subtitle timing APPROXIMATE_NOT_FINAL. Canonical state ASSETS_PENDING, Publication HOLD TRUE, RELEASE_ALLOWED FALSE. Human visual approval is pending; READY_FOR_RENDERER_PHASE = NO.
+
+Original native authorship clears specification rights only, with no embedded or acquired third-party dependencies. Future fonts/media, renderer adaptation and final output QA require independent verification. No external provider, music acquisition, new voice, renderer or publishing was executed.
+
+Validation: 477 prior regressions + 36 new scene tests = 513/513 PASS twice, no skips/failures; real PostgreSQL persistence/restart/concurrency/rollback and timing bindings. Build 100 modules PASS; Secret Check PASS; renderer reference hashes and Make unchanged. Runtime readback verifies every historical evidence row and unchanged core data; fresh-process manifest reconstruction matches exactly. Human review: ignored .local/v005-native-visual-review.html and .md; persisted asset export .local/v005-native-result.json. Local verification: .local/v005-native-verification.json and .local/native-acceptance.log. See [Native scene specifications](NATIVE_SCENE_SPECS.md).
+
+Prior checkpoints below are historical.
+
+# Historical: optional business music integrated; V005 music remains unresolved
+
+PHASE 1 = COMPLETE. PHASE 2A = COMPLETE. PHASE 2B = COMPLETE. PHASE 2C = IN PROGRESS; production asset completion remains PARTIAL.
+
+Optional, provider-independent music is implemented for voice-only, music-only, both and neither. Immutable business libraries/preferences, explicit license evidence and human approval, contextual recommendations, local upload/preview, retirement, rights-checked selection and AudioMixPlan persistence are available. Advanced preferences support favorites/playlists; external catalog/provider acquisition remains unconnected. See [Business music](BUSINESS_MUSIC.md).
+
+Migration 009_business_music.sql was applied through the normal migrator after isolated PostgreSQL tests. V005's complete getJob snapshot hash is identical before and after migration. No track, selection or AudioMixPlan was added to V005. Music assets 0; MUSIC UNRESOLVED. Current Manifest v4 1b9c5348-144e-4adf-97d9-dac73c85b899 remains ASSETS_PARTIAL; effective timing Package v5 e7522105-b435-49af-abaa-f97f5256b5a7 and approved voice remain unchanged. Canonical state ASSETS_PENDING, Publication HOLD TRUE, RELEASE_ALLOWED FALSE. Rights, visuals, SFX and final subtitle timing remain separate gates.
+
+Final unchanged-source validation: 477/477 tests PASS twice, including 27 music cases, isolated PostgreSQL migrations/restart/tenant isolation and local browser/API tests. Build: 94 modules PASS. Secret Check PASS; renderer reference hashes and Make checks PASS. Local evidence: .local/music-release-acceptance.log, .local/music-final-acceptance.log, .local/v005-music-status.json. The final-source repeated runs exclude an earlier pass that overlapped the last code edit.
+
+No provider calls, music acquisition/generation, new voice, images/video, rendering or publishing. V005 requires a separately supplied, human-approved and rights-compatible track before MUSIC can resolve. Phase 2C is not complete.
+
+Prior checkpoints below are historical.
+
+# Historical: V005 human voice approved; offline production timing synchronized
+
+Human Voice Approval f1edbae7-b63c-4377-af70-c6a772d23e0f is persisted, immutable and readback-verified: APPROVED_FOR_PRODUCTION, quality/pronunciation/brand fit/pacing APPROVED, regeneration_required FALSE. It binds the selected Script v4, creative Package v4, approved VoiceProfile revision, exact VoiceAsset/audio hash, provider request, technical QA and source decision hash. VoiceAsset 7afd2d8ebd44cdb37b0d8471d0440046073e99012990e6ad426c9b275832cedf is unchanged.
+
+New timing-only ProductionPackage v5 e7522105-b435-49af-abaa-f97f5256b5a7 derives from human-approved creative v4 d68d5a4a-9b6f-477f-82e9-7e83fa2b274e; original creative selection remains unchanged. Raw audio duration 60.08269841269841 seconds; non-destructive trim in 0.03564625850340136, out 59.956643990929706, playback_rate 1. Effective planned runtime 59.9209977324263 seconds covers all 11 visual beats, preserving their order, facts, classifications, briefs, motion, disclosures and routing. This fits mobile-short's 60-second maximum; raw untrimmed audio would exceed it. Trim metadata is planned, not applied by a renderer. Original MP3 unchanged.
+
+Narration/beat allocation is APPROXIMATE_PROPORTIONAL on the decoded sample grid, not a measured speech alignment. Pauses/emphasis and exact script text remain preserved. Subtitle timing is UNRESOLVED / APPROXIMATE_NOT_FINAL until verified local or human alignment. No word timestamps were invented.
+
+New immutable Manifest v4 1b9c5348-144e-4adf-97d9-dac73c85b899: ASSETS_PARTIAL. VOICE resolved; voice rights REVIEW_REQUIRED remains as VOICE_RIGHTS:VOICE. V4-B1 through V4-B11 require timing/asset review; MUSIC, SFX and SUBTITLE_TIMING remain unresolved. Manifest points to the effective timing package, while retaining base creative plan/package identity. Subsequent snapshots verify and preserve that timing authority. State remains ASSETS_PENDING. Publication HOLD TRUE; RELEASE_ALLOWED FALSE.
+
+Historical database rows and source audio hashes are unchanged: only one new production_packages row plus approval, timing reference and manifest evidence were added. No provider calls, image/video generation, research, script rewrite, renderer or publishing. READY_TO_START_VISUAL_ASSET_PRODUCTION = YES for the next separately authorized task using the effective package; no visual generation performed here. See [Voice timing](VOICE_TIMING.md) for alignment/trim limits and future adaptation requirements.
+
+Validation: 450/450 tests PASS twice, 14 focused timing tests PASS; isolated PostgreSQL, restart, duplicate/concurrent request, immutability and rollback coverage. Build/Secret Check PASS; renderer reference hashes and Make regression checks PASS. Local evidence: .local/v005-voice-timing-result.json and .local/voice-timing-acceptance.log.
+
+Prior checkpoints below are historical.
+
+# Historical: V005 voice verified offline; human listening review pending
+
+The user's one-time ElevenLabs voice execution is VERIFIED from PostgreSQL, the local runner receipt, recoverable response spool and exact MP3 bytes. Exactly one historical provider call, HTTP 200 / SUCCEEDED. No provider call in this consistency task. The persisted voice binds the exact selected Script v4 text/hash; prior Script/Package versions, Research, Fact Guard, approval, profiles, attempts, artifacts and Manifest v1/v2 remain unchanged.
+
+VoiceAsset 7afd2d8ebd44cdb37b0d8471d0440046073e99012990e6ad426c9b275832cedf; recoverable response evidence ef9fb3ea-485c-4e92-82ef-26a0b0a6e7a6. Technical QA PASS: MP3 44.1 kHz / 128 kbit/s mono, 962186 bytes, duration 60.08269841269841 seconds, leading silence 0.03564625850340136 seconds, trailing silence 0.1260544217687075 seconds, clipping fraction 0. Audio and PostgreSQL byte hash agree. Exact sent Script v4 is preserved; transcript alignment is NOT_AVAILABLE, and listening approval has NOT been granted. Actual monetary cost is NOT_AVAILABLE; recorded usage is 916 input and 504 billed characters.
+
+Manifest v2 incorrectly retained VOICE because synthesis resolution filtered for CLEARED rights. Generic offline fix separates verified audio availability from rights approval. New immutable Manifest v3 f92e650a-f09a-4b7c-a3a2-c6ca3fc5d44b is persisted/readback-verified: ASSETS_PARTIAL; VOICE removed, VOICE_RIGHTS:VOICE retains REVIEW_REQUIRED. V4-B1 through V4-B11, MUSIC, SFX and SUBTITLE_TIMING remain unresolved. Existing visual scene specifications have not been changed or generated again; their review/readiness gates remain open. State ASSETS_PENDING; Publication HOLD TRUE; RELEASE_ALLOWED FALSE; renderer_ready FALSE. Human perceptual approval is required before proceeding.
+
+Validation: 436/436 tests PASS twice (98 affected tests PASS), including real PostgreSQL and local audio decoding with injected test transports. Evidence: ignored .local/v005-voice-consistency-result.json and .local/voice-manifest-acceptance.log. No visual generation, rendering, publishing, provider retry or additional pipeline work.
+
+Prior checkpoints below are historical.
+
+# Historical: ARKTROV voice approved; one synthesis runner ready (not executed)
 
 BusinessVoiceProfile e544249c-90bb-4e11-adb9-ebb2a2f4719c is human APPROVED at immutable revision 3 (approved_by human). Original candidate revision 1 and enriched candidate revision 2 remain immutable. Human-supplied provider verification: existing ElevenLabs / eleven_v3 voice named arktrov, generated category, English, existing preview personally reviewed. This is not a new successful Codex metadata lookup. Historical source, human metadata/preview verification, approval source hash and consent references remain separate. See [Controlled voice generation](VOICE_GENERATION.md).
 

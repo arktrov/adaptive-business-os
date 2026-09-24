@@ -1,3 +1,8 @@
+import {BusinessMusicRepository} from '../music-postgres.js';
+import {latestMusic} from '../domain/music.js';
+import {AssetRepository} from '../assets-postgres.js';
+import {ScriptRepository} from '../script-postgres.js';
+import {MusicSelectionService} from '../application/music-selection.js';
 import {ResearchRepository} from '../research-postgres.js';
 import {ResearchService} from '../application/research-service.js';
 import {LocalResearchProvider,LocalFactGuardProvider} from '../providers/local.js';
@@ -28,7 +33,7 @@ async function detail(id){
  const h=store.data.transitions.filter(x=>x.job_id===id);
  return {job:j,stateHistory:h,transitions:h,evidence:store.data.evidence.filter(x=>x.content_job_id===id&&x.business_id===businessId),artifacts:store.data.artifacts.filter(x=>x.content_job_id===id&&x.business_id===businessId),quality:{technical:null,multimodal:null,finalJudge:null,releaseGate:null},publish:{target:null,status:null,result:null}};
 }
-async function body(req){let b='';for await(const c of req){b+=c;if(b.length>1048576)throw Error('BODY_TOO_LARGE')}return JSON.parse(b||'{}')}
+async function body(req){let b='';for await(const c of req){b+=c;if(b.length>(req.url==='/api/music/import'?12*1024*1024:1048576))throw Error('BODY_TOO_LARGE')}return JSON.parse(b||'{}')}
 const send=(res,x,status=200)=>{res.writeHead(status,{'content-type':'application/json'});res.end(JSON.stringify(x))};
 const server=http.createServer(async(req,res)=>{
  const started=Date.now();let operation='read';
@@ -40,6 +45,19 @@ const server=http.createServer(async(req,res)=>{
   if(!req.headers['content-type']?.startsWith('application/json'))return send(res,{error:'JSON_REQUIRED'},415);
  }
  if(url.pathname.startsWith('/api/')&&req.headers['x-business-id']&&req.headers['x-business-id']!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
+ if(url.pathname.startsWith('/api/music')){
+  if(!usePg)return send(res,{error:'POSTGRES_REQUIRED'},409);
+  const library=new BusinessMusicRepository(store),preview=url.pathname.match(/^\/api\/music\/([a-f0-9-]+)\/preview$/);
+  if(req.method==='GET'&&preview){const a=await library.preview(businessId,preview[1]);res.writeHead(200,{'content-type':a.format==='wav'?'audio/wav':'audio/mpeg','content-length':a.bytes.length,'cache-control':'no-store','x-content-type-options':'nosniff'});return res.end(a.bytes)}
+  if(req.method==='GET'&&url.pathname==='/api/music'){const assets=latestMusic(await library.list(businessId)).map(a=>{const {data,...metadata}=a;return metadata});return send(res,{assets,preferences:await library.preferences(businessId),providers:[],live_acquisition_enabled:false})}
+  if(req.method!=='POST')return send(res,{error:'METHOD_NOT_ALLOWED'},405);
+  const i=await body(req);if(i.business_id&&i.business_id!==businessId)return send(res,{error:'TENANT_FORBIDDEN'},403);
+  if(url.pathname==='/api/music/preferences')return send(res,await library.savePreferences(businessId,i),201);
+  if(url.pathname==='/api/music/import'){operation='musicCandidateImport';const a=await library.importCandidate(businessId,{...i,provenance:{origin:'UPLOAD',provided_by:'human',source_reference:i.source_reference??'local-user-upload'}});const {data,...metadata}=a;return send(res,metadata,201)}
+  if(url.pathname==='/api/music/decision'){operation='musicHumanDecision';const a=await library.decision(businessId,i.music_asset_id,{...i,actor:'human'});const {data,...metadata}=a;return send(res,metadata,201)}
+  if(url.pathname==='/api/music/select'){operation='musicSelection';const d=await detail(i.content_job_id);if(!d)return send(res,{error:'NOT_FOUND'},404);const plan=d.assetProduction?.plans.at(-1);if(!plan)return send(res,{error:'ASSET_PLAN_REQUIRED'},409);return send(res,await new MusicSelectionService(new AssetRepository(new ScriptRepository(store))).select({plan,context:i.context??{},selected_id:i.selected_id??null,actor:'human'}),201)}
+  return send(res,{error:'NOT_FOUND'},404);
+ }
  if(req.method==='GET'&&url.pathname==='/api/businesses')return send(res,usePg?await store.businesses(businessId):store.data.businesses.filter(b=>b.id===businessId));
  if(req.method==='GET'&&url.pathname==='/api/jobs')return send(res,usePg?await store.jobs(businessId):store.data.jobs.filter(j=>j.business_id===businessId));
  if(req.method==='POST'&&url.pathname==='/api/jobs'){

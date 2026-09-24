@@ -66,3 +66,34 @@ test('P2CX07 forged successful voice QA cannot admit corrupted audio',()=>{const
 test('P2CX08 cost ceiling does not treat unknown cost as zero',()=>{assert.throws(()=>chooseProvider({provider_class:'ImageGenerationProvider'},[{id:'x',available:true,quality:1,capabilities:['ImageGenerationProvider']}],{allowed_providers:['x'],min_quality:1,max_cost:1}),/PROVIDER_NOT_AVAILABLE/)});
 
 test('P2CX09 automatic voice routing reports missing authoritative profile before registry selection',async()=>{await assert.rejects(new AssetService(null).routeAndProduce({plan:plan(),requirement:'VOICE',registry:[],policy:{allowed_providers:[]},credentialPresent:false}),/VOICE_PROFILE_MISSING/)});
+
+
+function voiceOnlyPlan(){return reseal({...plan(),requirements:[],music:{required:false},sfx:{required:false},subtitles:{required:false}})}
+function voiceAsset(p,status='REVIEW_REQUIRED',slot='VOICE',id='voice'){
+ const v=p.voice_requirements.find(v=>v.requirement_id===slot),data={format:'wav',bytes_base64:wav().toString('base64')};
+ return seal({asset_id:id,type:'VOICE',business_id:p.business_id,content_job_id:p.content_job_id,plan_hash:p.content_hash,production_package_hash:p.production_package_hash,script_hash:p.script_hash,text_hash:v.text_hash,voice_requirement_id:slot,data,data_hash:hash(data),qa:wavQA(wav(),v.expected_duration),rights:rights(status,status==='CLEARED'?evidence:null),provenance:{origin:'synthetic',created_at:now}});
+}
+const voiceManifest=(p,assets)=>makeManifest({id:'m',plan:p,assets,attempts:[],created_at:now});
+test('VM01 technically valid voice resolves synthesis while every uncleared rights status blocks readiness',()=>{
+ const p=voiceOnlyPlan();for(const status of ['UNKNOWN','REVIEW_REQUIRED','RESTRICTED','NOT_ALLOWED']){
+ const a=voiceAsset(p,status),snapshot=JSON.stringify(a),m=voiceManifest(p,[a]);assert.equal(m.voice_asset_id,a.asset_id);assert.equal(m.voice_assets[0].asset_id,a.asset_id);assert.deepEqual(m.unresolved,['VOICE_RIGHTS:VOICE']);assert.equal(m.voice_rights[0].rights_status,status);assert.equal(m.status,'ASSETS_PARTIAL');assert.equal(m.renderer_ready,false);assert.equal(m.publication_hold,true);assert.equal(m.release_allowed,false);assert.equal(m.human_review_required,true);assert.equal(JSON.stringify(a),snapshot);
+ }});
+test('VM02 cleared voice readiness still requires explicit rights evidence and human review',()=>{
+ const p=voiceOnlyPlan(),a=voiceAsset(p,'CLEARED'),m=voiceManifest(p,[a]);assert.deepEqual(m.unresolved,[]);assert.equal(m.status,'ASSETS_READY');assert.equal(m.human_review_required,true);assert.equal(m.release_allowed,false);assert.throws(()=>voiceManifest(p,[reseal({...a,rights:{status:'CLEARED',evidence:null}})]),/RIGHTS_EVIDENCE_REQUIRED/);
+});
+test('VM03 absent failed mismatched or corrupt voice cannot resolve synthesis',()=>{
+ const p=voiceOnlyPlan(),a=voiceAsset(p);assert.deepEqual(voiceManifest(p,[]).unresolved,['VOICE']);
+ for(const [change,error] of [[{qa:{...a.qa,status:'FAIL'}},/VOICE_NOT_VALIDATED/],[{text_hash:'wrong'},/VOICE_NOT_VALIDATED/],[{business_id:'other'},/ASSET_TENANT_MISMATCH/],[{qa:{...a.qa,file_sha256:'wrong'}},/VOICE_QA_MISMATCH/]])assert.throws(()=>voiceManifest(p,[reseal({...a,...change})]),error);
+ const data={format:'wav',bytes_base64:'AAAA'};assert.throws(()=>voiceManifest(p,[reseal({...a,data,data_hash:hash(data)})]));
+});
+test('VM04 multiple voice slots separate missing audio from pending rights',()=>{
+ const base=voiceOnlyPlan(),v=base.voice_requirements[0],p=reseal({...base,voice_requirements:[{...v,requirement_id:'speaker-a'},{...v,requirement_id:'speaker-b'}]}),a=voiceAsset(p,'REVIEW_REQUIRED','speaker-a');
+ const m=voiceManifest(p,[a]);assert.deepEqual(m.unresolved,['speaker-b','VOICE_RIGHTS:speaker-a']);assert.deepEqual(m.voice_assets,[{requirement_id:'speaker-a',asset_id:'voice'},{requirement_id:'speaker-b',asset_id:null}]);
+ const complete=voiceManifest(p,[a,voiceAsset(p,'CLEARED','speaker-b','b')]);assert.deepEqual(complete.unresolved,['VOICE_RIGHTS:speaker-a']);assert.equal(complete.renderer_ready,false);
+});
+test('VM05 cleared matching voice is selected consistently before a pending alternative',()=>{
+ const p=voiceOnlyPlan(),pending=voiceAsset(p),cleared=voiceAsset(p,'CLEARED','VOICE','cleared');for(const assets of [[pending,cleared],[cleared,pending]]){const m=voiceManifest(p,assets);assert.equal(m.voice_asset_id,'cleared');assert.equal(m.voice_assets[0].asset_id,'cleared');assert.deepEqual(m.unresolved,[])}
+});
+test('VM06 legacy voice plan resolves audio without rewriting original plan or rights',()=>{
+ const current=voiceOnlyPlan(),{voice_requirements,voice_required,content_hash,...body}=current,p=seal(body),a=reseal({...voiceAsset(current),plan_hash:p.content_hash}),snapshot=JSON.stringify(p),m=voiceManifest(p,[a]);assert.equal(m.voice_asset_id,a.asset_id);assert.deepEqual(m.unresolved,['VOICE_RIGHTS:VOICE']);assert.equal(m.voice_rights[0].asset_id,a.asset_id);assert.equal(JSON.stringify(p),snapshot);assert.equal(a.rights.status,'REVIEW_REQUIRED');
+});
